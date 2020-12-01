@@ -303,6 +303,7 @@ p.sbmincart-empty-text {
 }
 .product-men {
     padding-left: 0;
+	margin-bottom: 10px;
 }
 /*-- Model-Slider --*/
 /*-- effect on products --*/
@@ -443,6 +444,7 @@ ul.stars li a:hover {
 	color:#fb383b;
 }
 .product-shoe-info {
+	height: 100%;
     padding: 15px;
     border: 1px solid #e4e4e4;
 }
@@ -1132,6 +1134,7 @@ input.button.add {
        margin: 1em 0 0;
 	}
 	.product-shoe-info {
+		height: 100%;
 		padding: 15px;
 		width: 47%;
 		margin: 0.5em;
