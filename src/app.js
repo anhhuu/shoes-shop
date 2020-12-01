@@ -9,6 +9,28 @@ const usersRouter = require('./routes/users');
 const shopRouter = require('./routes/shop');
 const app = express();
 
+var mongoose = require('mongoose');
+
+
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb+srv://anhhuu:ajhdcYDK8OwmsKpg@shoes-db-dev.u3qsy.mongodb.net/shoes_shop_dev_v1?w=majority&retryWrites=true',
+{useNewUrlParser:true,
+        useCreateIndex:true,
+        useFindAndModify:false,
+        useUnifiedTopology:true
+    }
+ 
+).then(
+  ()=>{
+    console.log("connect successfull");
+  }
+  
+
+).catch(err =>{
+  console.log("Connect Fail!!: ${err}");
+})
+
+
 // view engine setup
 console.log(path.join(__dirname, 'views'))
 app.set('views', path.join(__dirname, 'views'));

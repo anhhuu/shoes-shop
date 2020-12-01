@@ -1,5 +1,5 @@
 const data = require('../../data.json');
-console.log(data);
+// console.log(data);
 
 exports.getIndex = (req, res, next) => {
 
