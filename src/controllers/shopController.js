@@ -1,12 +1,14 @@
 exports.getProducts = (req, res, next) => {
 
 }
-
+const data = require('../../data.json');
 
 exports.getShopHomePage = (req, res) => {
     res.render('shop', {
         shopName: "SHOES SHOP",
-        title: 'SHOW PRODUCTS'
+        title: 'SHOW PRODUCTS',
+        products: data
+
     });
 };
 

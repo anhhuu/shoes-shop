@@ -48,7 +48,6 @@
     <div class="slider">
       <div class="callbacks_container">
         <ul class="rslides callbacks callbacks1" id="slider4">
-
           <li>
             <div class="banner-top2">
               <div class="banner-info-wthree">
@@ -74,9 +73,7 @@
               <div class="banner-info-wthree">
                 <h3>Sneakers</h3>
                 <p>See how good they feel.</p>
-
               </div>
-
             </div>
           </li>
           <li>
@@ -84,9 +81,7 @@
               <div class="banner-info-wthree">
                 <h3>Adidas</h3>
                 <p>For All Walks of Life.</p>
-
               </div>
-
             </div>
           </li>
         </ul>
@@ -287,7 +282,7 @@
     $("#slider4").responsiveSlides({
       auto: true,
       pager: true,
-      nav: true,
+      nav: false,
       speed: 1000,
       namespace: "callbacks",
       before: function () {
@@ -299,5 +294,5 @@
     });
   });
 </script>
-<script src="js/responsiveslides.min.js"></script>
+<script src="/js/responsiveslides.min.js"></script>
 <%-include('includes/indexFooter')%>

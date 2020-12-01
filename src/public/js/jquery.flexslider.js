@@ -9,7 +9,7 @@
   //FlexSlider: Object Instance
   $.flexslider = function(el, options) {
     var slider = $(el);
-
+    console.log('Run');
     // making variables public
     slider.vars = $.extend({}, $.flexslider.defaults, options);
 
