@@ -13,6 +13,8 @@ exports.getShopHomePage = (req, res) => {
 };
 
 exports.getSingleProduct = (req, res) => {
+    const id = req.params.id;
+
     res.render('shop/single', {
         title: 'Single Page',
         shopName: 'TITLE'
