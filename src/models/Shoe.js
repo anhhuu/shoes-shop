@@ -1,5 +1,7 @@
 var mongoose = require("mongoose");
+var mongoosePagination = require("mongoose-paginate");
 var Schema = mongoose.Schema;
+
 
 var ShoeSchema = new Schema({
     name: {
@@ -32,5 +34,5 @@ var ShoeSchema = new Schema({
         type: String
     }
 });
-
+ShoeSchema.plugin(mongoosePagination);
 module.exports = mongoose.model("product", ShoeSchema);
