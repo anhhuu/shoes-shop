@@ -12,10 +12,11 @@
             </div>
 
             <%- include('includes/indexDrawer') %>
-
+            <!-- Hamburgar button-->
             <div class="mobile-nav-button">
                 <button id="trigger-overlay" type="button"><i class="fa fa-bars" aria-hidden="true"></i></button>
             </div>
+
             <!-- cart details -->
             <div class="top_nav_right">
                 <div class="shoecart shoecart2 cart cart box_1">
@@ -26,6 +27,10 @@
                                     class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
                     </form>
                 </div>
+            </div>
+            <div class="user-avatar">
+                <img src="/images/3.jpeg"
+                     alt="">
             </div>
         </div>
     </div>
@@ -282,7 +287,7 @@
                         <div class="col-md-4 product-men">
                             <div class="product-shoe-info shoe">
                                 <div class="men-pro-item">
-                                    <h1><%=        %></h1>
+                                    <h1><%=          %></h1>
                                     <div class="men-thumb-item">
                                         <img src="<%= product.image.length > 0 ? product.image[0] : '/images/s1.jpg' %>"
                                              alt="">
@@ -347,21 +352,25 @@
 
                 </div>
 
-<!--                Pagination-->
+                <!--                Pagination-->
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item disabled">
                             <a class="page-link" href="#" tabindex="-1">Previous</a>
                         </li>
-                        <li class="page-item"><a class="page-link" href="<%=category%>?page=<%=firstPage%>&"><%=firstPage%></a></li>
-                        <li class="page-item"><a class="page-link" href="<%=category%>?page=<%=secondPage%>&"><%=secondPage%></a></li>
-                        <li class="page-item"><a class="page-link" href="<%=category%>?page=<%=thirdPage%>&"><%=thirdPage%></a></li>
+                        <li class="page-item"><a class="page-link"
+                                                 href="<%= category %>?page=<%= firstPage %>&"><%= firstPage %></a></li>
+                        <li class="page-item"><a class="page-link"
+                                                 href="<%= category %>?page=<%= secondPage %>&"><%= secondPage %></a>
+                        </li>
+                        <li class="page-item"><a class="page-link"
+                                                 href="<%= category %>?page=<%= thirdPage %>&"><%= thirdPage %></a></li>
                         <li class="page-item">
                             <a class="page-link" href="#">Next</a>
                         </li>
                     </ul>
                 </nav>
-<!--                //Pagination-->
+                <!--                //Pagination-->
                 <!-- //product-sec1 -->
                 <div class="col-md-6 shop_left shp">
                     <img src="images/banner4.jpg" alt="">

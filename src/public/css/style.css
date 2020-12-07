@@ -149,6 +149,23 @@ ul.top_icons li a:hover {
     background: rgba(27, 25, 25, 0.27);
 }
 
+.user-avatar{
+	position: fixed;
+	margin: 47px 0 0 0;
+	right: 5%;
+	top: 0;
+	z-index: 9999;
+	cursor: pointer;
+	width: 36px;
+	height: 36px;
+}
+
+.user-avatar>img{
+	width:90%;
+	height:90%;
+	border-radius: 50%;
+}
+
 .mobile-menu ul li {
     list-style: none;
     margin-bottom: 2em;
