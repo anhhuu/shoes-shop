@@ -4,8 +4,9 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const app = express();
+const debugHttp = require('debug')('shoes-shop:http')
 
-debugHttp = require('debug')('shoes-shop:http')
+const expressLayouts = require('express-ejs-layouts');
 
 const db = require('./config/db');
 
@@ -14,9 +15,10 @@ const route = require('./routes/index')
 db.connect();
 
 // view engine setup
-console.log(path.join(__dirname, 'views'))
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(expressLayouts);
+app.set('layout', 'layouts/main');
 
 app.use(logger('dev', { stream: { write: msg => debugHttp(msg.trimEnd()) } }));
 app.use(express.json());

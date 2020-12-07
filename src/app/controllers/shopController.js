@@ -2,7 +2,7 @@ exports.getProducts = (req, res, next) => {
 
     }
     // const data = require('../../data.json');
-const Shoe = require("../models/Shoe.js");
+    //const Shoe = require("../models/Shoe.js");
 
 exports.getShopHomePage = async(req, res) => {
     try {

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>HDH Shoes</title>
+    <%- include('../partials/head.ejs') %>
+</head>
+
+<body>
+    <!-- banner -->
+    <div class="banner_top innerpage" id="home">
+        <div class="wrapper_top_w3layouts">
+            <div class="header_agileits">
+                <div class="logo inner_page_log">
+                    <h1><a class="navbar-brand" href="/"><span>Downy</span> <i>Shoes</i></a></h1>
+                </div>
+                <%- include('../partials/navBar.ejs') %>
+                    <%- include('../partials/cartDetail.ejs') %>
+            </div>
+        </div>
+        <%- include('../partials/searchBar.ejs') %>
+
+            <div class="clearfix"></div>
+            <!-- /banner_inner -->
+            <div class="services-breadcrumb_w3ls_agileinfo">
+                <div class="inner_breadcrumb_agileits_w3">
+
+                    <ul class="short">
+                        <li><a href="/">Home</a><i>|</i></li>
+                        <li>Shop</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- //banner_inner -->
+    </div>
+
+    <!-- //banner -->
+    <%- body %>
+        <%- include('../partials/footer.ejs') %>
+            <%- include('../partials/footerScript.ejs') %>
+</body>
+
+</html>
