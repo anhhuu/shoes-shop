@@ -38,7 +38,7 @@
             </ul>
         </div>
         <div id="cd-search" class="cd-search">
-            <form action="#" method="post">
+            <form action="shop/search" method="post">
                 <input name="Search" type="search" placeholder="Click enter after typing...">
             </form>
         </div>
@@ -73,6 +73,18 @@
                     <input type="search" placeholder="Product name..." name="search" required="">
                     <input type="submit" value=" ">
                 </form>
+            </div>
+            <div class="dropdown text-justify">
+                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">Choose Category
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="?category=Adidas&">Adidas</a></li>
+                    <li><a href="#">Sneaker</a></li>
+                    <li><a href="#">Reebok</a></li>
+                    <li><a href="#">Converse</a></li>
+                    <li><a href="#">Puma</a></li>
+                    <li><a href="#">Vans</a></li>
+                </ul>
             </div>
             <!-- price range -->
             <div class="range">
@@ -341,9 +353,9 @@
                         <li class="page-item disabled">
                             <a class="page-link" href="#" tabindex="-1">Previous</a>
                         </li>
-                        <li class="page-item"><a class="page-link" href="shop?page=<%=firstPage%>"><%=firstPage%></a></li>
-                        <li class="page-item"><a class="page-link" href="shop?page=<%=secondPage%>"><%=secondPage%></a></li>
-                        <li class="page-item"><a class="page-link" href="shop?page=<%=thirdPage%>"><%=thirdPage%></a></li>
+                        <li class="page-item"><a class="page-link" href="<%=category%>?page=<%=firstPage%>&"><%=firstPage%></a></li>
+                        <li class="page-item"><a class="page-link" href="<%=category%>?page=<%=secondPage%>&"><%=secondPage%></a></li>
+                        <li class="page-item"><a class="page-link" href="<%=category%>?page=<%=thirdPage%>&"><%=thirdPage%></a></li>
                         <li class="page-item">
                             <a class="page-link" href="#">Next</a>
                         </li>

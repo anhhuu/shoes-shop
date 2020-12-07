@@ -1,5 +1,11 @@
 /*-- Shopping-Cart-PopUp --*/
-
+#myInput {
+	padding: 20px;
+	margin-top: -6px;
+	border: 0;
+	border-radius: 0;
+	background: #f1f1f1;
+}
 div#my-cart-modal {
 	background-color: rgba(0,0,0,0.50);
 }
@@ -969,7 +975,7 @@ color: #000;
 	margin:2em 0 0;
     color: #545454;
     font-size: 0.9em;
-    line-height:2sem;
+    line-height:2em;
 }
 .bootstrap-tab-text-grid:nth-child(2){
 	margin:3em 0 0;
