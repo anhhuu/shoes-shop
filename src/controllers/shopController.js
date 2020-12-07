@@ -6,24 +6,29 @@ const Shoe = require("../models/Shoe.js");
 var Search = {};
 exports.getShopHomePage = async(req, res) => {
     const Query = req.query;
-
     var page=Query.page;
     var category = Query.category;
+
+    if (typeof page == 'undefined')
+        page = '1';
+    const option = {
+        page: parseInt(page.page,10),
+        limit: 6,
+    };
     console.log(page);
     console.log(category);
-
-    if (typeof page =='undefined' && typeof category=='undefined'){
+    if (typeof category== 'undefined'){
         try {
-            console.log('hello')
-            const dataAll =  await Shoe.find();
+            const dataAll = await Shoe.paginate({},option);
+            console.log(dataAll);
             res.render('shop', {
                 shopName: "SHOES SHOP",
                 title: 'SHOW PRODUCTS',
-                firstPage: 1,
-                secondPage: 2,
-                thirdPage: 3,
+                firstPage: (page - 1) || 1,
+                secondPage: page>1? page:2,
+                thirdPage: +page + 1>3? +page + 1:3,
                 category:'',
-                products: dataAll
+                products: dataAll.docs
 
             });
         } catch (error) {
@@ -31,29 +36,23 @@ exports.getShopHomePage = async(req, res) => {
             console.log(error);
         }
     }
-    else
-    try{
+    else {
 
-        const option = {
-            page: parseInt(page.page,10),
-            limit: 6,
-        };
-        const  data = await Shoe.paginate({},option);
-
+        const  data = await Shoe.paginate({category: {$regex: new RegExp(category)}},option);
+        console.log(data)
         res.render('shop', {
             shopName: "SHOES SHOP",
             title: 'SHOW PRODUCTS',
-            firstPage: (page.page - 1) || 1,
-            secondPage: page.page>1?page.page:2,
-            thirdPage: +page.page + 1>3? +page.page + 1:3,
+            firstPage: (page - 1) || 1,
+            secondPage: page>1?page:2,
+            thirdPage: +page + 1>3? +page + 1:3,
             category: typeof category == 'undefined'?'':"?category=" +category+'&',
             products: data.docs
 
         });
-    } catch (error){
-        res.handle('error',{title: '404'});
-        console.log(error);
     }
+
+
    
 };
 exports.getSearch = async (req,res)=>{
