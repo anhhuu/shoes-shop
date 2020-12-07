@@ -1,0 +1,47 @@
+<%-include('../includes/indexHeader')%>
+<%-include('../includes/indexScrollToTopScript')%>
+<!-- //custom-theme -->
+<link rel="stylesheet" href="/css/mystyle.css" />
+<%-include('../includes/indexLoadTheme')%>
+
+<div class="frame">
+    <div class="center">
+        <div class="title">
+            <h1>Drop file to upload</h1>
+        </div>
+
+        <div class="dropzone">
+            <img src="http://100dayscss.com/codepen/upload.svg" class="upload-icon" />
+            <input type="file" class="upload-input" />
+        </div>
+
+        <button type="button" class="btn" name="uploadbutton">Upload file</button>
+
+    </div>
+</div>
+
+<%-include('../includes/indexFooterScript')%>
+
+<!--Code for preview image before upload-->
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#img-preview').attr('src', e.target.result);
+
+
+            }
+            reader.readAsDataURL(input.files[0]); // convert to base64 string
+        }
+    }
+
+    $("#img-input").change(function() {
+        readURL(this);
+    });
+
+
+</script>
+
+<%-include('../includes/indexFooter')%>

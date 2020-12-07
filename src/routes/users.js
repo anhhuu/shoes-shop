@@ -1,9 +1,9 @@
 const express = require('express');
-const router = express.Router();
+const router = new express.Router();
+const userController = require('../controllers/userController');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/dashboard', userController.getDashboard);
 
+router.post('/uploadAvatar',userController.postUploadImage);
 module.exports = router;
