@@ -5,9 +5,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const app = express();
 const debugHttp = require('debug')('shoes-shop:http')
+const debugError = require('debug')('shoes-shop:error')
 
 const expressLayouts = require('express-ejs-layouts');
-
 const db = require('./config/db');
 
 const route = require('./routes/index')
@@ -41,8 +41,10 @@ app.use(function(err, req, res, next) {
 
     // render the error page
     res.status(err.status || 500);
-    res.render('error', {
-        title: '404'
+    debugError(err);
+    res.render('site/404', {
+        title: '404',
+        pageName: '404'
     });
 });
 

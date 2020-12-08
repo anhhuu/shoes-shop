@@ -1,0 +1,25 @@
+<a href="/products?page=1">&laquo;</a>
+<% for (let j = 0; j < numOfPage; j++) { %>
+<% if ( j + 1 == currentPage) { %>
+<% if(brandChecked) { %>
+<a href="/products?page=<%= j+1 %>&brand=<%= brandChecked %>" class="active">
+    <%= j+1 %>
+</a>
+<% } else { %>
+<a href="/products?page=<%= j+1 %>" class="active">
+    <%= j+1 %>
+</a>
+<% } %>
+<% } else { %>
+<% if(brandChecked) {%>
+<a href="/products?page=<%= j+1 %>&brand=<%= brandChecked %>">
+    <%= j+1 %>
+</a>
+<% } else { %>
+<a href="/products?page=<%= j+1 %>">
+    <%= j+1 %>
+</a>
+<% } %>
+<% } %>
+<a href="/products?page=<%= numOfPage %>">&raquo;</a>
+</div>

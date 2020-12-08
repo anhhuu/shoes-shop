@@ -4,10 +4,9 @@ const debug = require('debug')('shoes-shop:db')
 async function connect() {
     try {
         await mongoose.connect(
-            'mongodb://127.0.0.1:27017/shoes-shop-dev-v1',
+            //'mongodb://127.0.0.1:27017/shoes-shop-dev-v1',
             //'mmongodb+srv://anhhuu:QntiC4albYUOsYHz@shoes-shop-cluster.cdqes.mongodb.net/shoes-shop-dev-v1?retryWrites=true&w=majority',
-            //process.env.DB_URI, 
-            {
+            process.env.DB_URI, {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
                 useFindAndModify: false,
