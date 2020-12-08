@@ -1,5 +1,5 @@
 const brandMongooseModel = require('./mongooseModels/brandMongooseModel');
-const { mongooseToObject } = require('../../utils/mongooseToObject')
+const { mongooseToObject, multipleMongooseToObject } = require('../../utils/mongooseToObject')
 
 module.exports.getByID = async(id) => {
     try {
@@ -9,6 +9,32 @@ module.exports.getByID = async(id) => {
         }
 
         return brand;
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports.getByURL = async(url) => {
+    try {
+        let brand = await brandMongooseModel.findOne({ brand_url: url });
+        if (brand) {
+            brand = mongooseToObject(brand);
+        }
+
+        return brand;
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports.getList = async() => {
+    try {
+        let brands = await brandMongooseModel.find();
+        if (brands) {
+            brands = multipleMongooseToObject(brands);
+        }
+
+        return brands;
     } catch (error) {
         throw error;
     }
