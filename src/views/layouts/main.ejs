@@ -2,7 +2,9 @@
 <html lang="en">
 
 <head>
-    <title>HDH Shoes</title>
+    <title>
+        <%=title%>
+    </title>
     <%- include('../partials/head.ejs') %>
 </head>
 
@@ -12,32 +14,46 @@
         <div class="wrapper_top_w3layouts">
             <div class="header_agileits">
                 <div class="logo inner_page_log">
-                    <h1><a class="navbar-brand" href="/"><span>Downy</span> <i>Shoes</i></a></h1>
+                    <h1><a class="navbar-brand" href="/"><span>HDH</span> <i>Shoes</i></a></h1>
                 </div>
+                <!-- nav bar -->
                 <%- include('../partials/navBar.ejs') %>
-                    <%- include('../partials/cartDetail.ejs') %>
+                <!-- //nav bar -->
+
+                <!-- cart details -->
+                <%- include('../partials/cartDetail.ejs') %>
+                <!-- //cart details -->
             </div>
         </div>
+
+        <!-- search -->
         <%- include('../partials/searchBar.ejs') %>
+        <!-- //search -->
 
-            <div class="clearfix"></div>
-            <!-- /banner_inner -->
-            <div class="services-breadcrumb_w3ls_agileinfo">
-                <div class="inner_breadcrumb_agileits_w3">
-
-                    <ul class="short">
-                        <li><a href="/">Home</a><i>|</i></li>
-                        <li>Shop</li>
-                    </ul>
-                </div>
+        <div class="clearfix"></div>
+        <!-- banner_inner -->
+        <div class="services-breadcrumb_w3ls_agileinfo">
+            <div class="inner_breadcrumb_agileits_w3">
+                <ul class="short">
+                    <li><a href="/">Home</a><i>|</i></li>
+                    <li>
+                        <%=pageName%>
+                    </li>
+                </ul>
             </div>
-            <!-- //banner_inner -->
+        </div>
+        <!-- //banner_inner -->
     </div>
-
     <!-- //banner -->
+
     <%- body %>
-        <%- include('../partials/footer.ejs') %>
-            <%- include('../partials/footerScript.ejs') %>
+
+    <!-- footer -->
+    <%- include('../partials/footer.ejs') %>
+    <!-- //footer -->
+    <a href="#home" id="toTop" class="scroll" style="display: block;"> <span id="toTopHover" style="opacity: 1;">
+        </span></a>
+    <%- include('../partials/footerScript.ejs') %>
 </body>
 
 </html>

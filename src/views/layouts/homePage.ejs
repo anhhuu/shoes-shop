@@ -12,12 +12,21 @@
         <div class="wrapper_top_w3layouts">
             <div class="header_agileits">
                 <div class="logo">
-                    <h1><a class="navbar-brand" href="/"><span>Downy</span> <i>Shoes</i></a></h1>
+                    <h1><a class="navbar-brand" href="/"><span>HDH</span> <i>Shoes</i></a></h1>
                 </div>
+                <!-- nav bar -->
                 <%- include('../partials/navBar.ejs') %>
-                    <%- include('../partials/cartDetail.ejs') %>
-                        <%- include('../partials/searchBar.ejs') %>
-                            <div class="clearfix"></div>
+                <!-- //nav bar -->
+
+                <!-- cart details -->
+                <%- include('../partials/cartDetail.ejs') %>
+                <!-- //cart details -->
+
+                <!-- search -->
+                <%- include('../partials/searchBar.ejs') %>
+                <!-- //search -->
+
+                <div class="clearfix"></div>
             </div>
             <!-- /slider -->
             <div class="slider">
@@ -28,9 +37,7 @@
                                 <div class="banner-info-wthree">
                                     <h3>Nike</h3>
                                     <p>See how good they feel.</p>
-
                                 </div>
-
                             </div>
                         </li>
                         <li>
@@ -38,7 +45,6 @@
                                 <div class="banner-info-wthree">
                                     <h3>Heels</h3>
                                     <p>For All Walks of Life.</p>
-
                                 </div>
                             </div>
                         </li>
@@ -68,16 +74,15 @@
                 <li><a href="#"><span class="fa fa-twitter" aria-hidden="true"></span></a></li>
                 <li><a href="#"><span class="fa fa-linkedin" aria-hidden="true"></span></a></li>
                 <li><a href="#"><span class="fa fa-google-plus" aria-hidden="true"></span></a></li>
-
             </ul>
         </div>
     </div>
     <!-- //banner -->
     <%- body %>
-        <%- include('../partials/footer.ejs') %>
-            <%- include('../partials/footerScript.ejs') %>
-
-
+    <%- include('../partials/footer.ejs') %>
+    <a href="#home" id="toTop" class="scroll" style="display: block;"> <span id="toTopHover" style="opacity: 1;">
+        </span></a>
+    <%- include('../partials/footerScript.ejs') %>
 </body>
 
 </html>
