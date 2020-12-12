@@ -780,7 +780,7 @@ span.item_price {
 }
 
 .product-sec1.product-sec2 {
-	background: url(../images/bg1.jpg)no-repeat 0px 0px;
+	background: url(../images/bg1.jpg) no-repeat 0px 0px;
 	background-attachment: fixed;
 	background-size: cover;
 	-webkit-background-size: cover;
@@ -971,7 +971,7 @@ color: #000;
 	margin:2em 0 0;
     color: #545454;
     font-size: 0.9em;
-    line-height:2sem;
+    line-height:2rem;
 }
 .bootstrap-tab-text-grid:nth-child(2){
 	margin:3em 0 0;
