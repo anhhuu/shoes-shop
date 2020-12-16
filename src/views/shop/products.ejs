@@ -28,9 +28,9 @@
             <div class="left-side">
                 <h3 class="agileits-sear-head">Brand</h3>
                 <ul>
-                    <% for(let i = 0; i < brands.length; i++) { %>
+                    <% for(let i=0; i < brands.length; i++) { %>
                     <li>
-                        <% if(brandChecked == brands[i].brand_url) { %>
+                        <% if(options.brandChecked==brands[i].brand_url) { %>
                         <input type="radio" name="brand-check" class="checked" value="checked"
                             onclick="location.href='products?brand=<%= brands[i].brand_url %>'" checked>
                         <% } else { %>
@@ -38,7 +38,9 @@
                             onclick="location.href='products?brand=<%= brands[i].brand_url %>'">
                         <% } %>
                         <a href="products?brand=<%= brands[i].brand_url %>">
-                            <span class="span"><%= brands[i].name %></span>
+                            <span class="span">
+                                <%= brands[i].name %>
+                            </span>
                         </a>
                     </li>
                     <% } %>
@@ -201,44 +203,54 @@
         <!-- //product left -->
         <!-- product right -->
         <div class="left-ads-display col-md-9">
+            <% if(options.numOfPage > 1) {%>
             <div class="row">
                 <div class="pagination">
-                    <% if(brandChecked) { %>
-                    <a href="/products?page=1&brand=<%= brandChecked %>">&laquo;</a>
-                    <%  } else { %>
-                    <a href="/products?page=1&brand=<%= brandChecked %>">&laquo;</a>
+                    <% if(options.brandChecked) { %>
+                    <a href="/products?page=1&brand=<%= options.brandChecked %>">&laquo;</a>
+                    <% } else { %>
+                    <a href="/products?page=1&brand=<%= options.brandChecked %>">&laquo;</a>
                     <% } %>
-
-                    <%for (let j = 0; j < numOfPage; j++) {%>
-                    <%if(j+1 == currentPage) {%>
-                    <% if(brandChecked) { %>
-                    <a href="/products?page=<%= j+1 %>&brand=<%= brandChecked %> " class="active">
-                        <%= j+1 %>
+                    <% if(parseInt(options.currentPage) - 3 > 1) { %>
+                    <a href="#" class="disabled">...</a>
+                    <% } %>
+                    <%for (let j = parseInt(options.currentPage) - 3; j <= parseInt(options.currentPage) + 3; j++) {%>
+                    <% if (j < 1) { %>
+                    <% continue;} %>
+                    <% if (j > options.numOfPage) { %>
+                    <% continue;} %>
+                    <%if(j==options.currentPage) {%>
+                    <% if(options.brandChecked) { %>
+                    <a href="/products?page=<%= j %>&brand=<%= options.brandChecked %> " class="active">
+                        <%= j %>
                     </a>
-                    <%  } else { %>
-                    <a href="/products?page=<%= j+1 %>" class="active">
-                        <%= j+1 %>
+                    <% } else { %>
+                    <a href="/products?page=<%= j %>" class="active">
+                        <%= j %>
                     </a>
                     <% } } else {%>
-                    <% if(brandChecked) { %>
-                    <a href="/products?page=<%= j+1 %>&brand=<%= brandChecked %>">
-                        <%= j+1 %>
+                    <% if(options.brandChecked) { %>
+                    <a href="/products?page=<%= j %>&brand=<%= options.brandChecked %>">
+                        <%= j %>
                     </a>
-                    <%  } else { %>
-                    <a href="/products?page=<%= j+1 %>">
-                        <%= j+1 %>
+                    <% } else { %>
+                    <a href="/products?page=<%= j %>">
+                        <%= j %>
                     </a>
                     <% } %>
                     <% } %>
                     <% } %>
-
-                    <% if(brandChecked) { %>
-                    <a href="/products?page=<%= numOfPage %>&brand=<%= brandChecked %>">&raquo;</a>
-                    <%  } else { %>
-                    <a href="/products?page=<%= numOfPage %>&brand=<%= brandChecked %>">&raquo;</a>
+                    <% if(parseInt(options.currentPage) + 3 < options.numOfPage) { %>
+                    <a href="#" class="disabled">...</a>
+                    <% } %>
+                    <% if(options.brandChecked) { %>
+                    <a href="/products?page=<%= options.numOfPage %>&brand=<%= options.brandChecked %>">&raquo;</a>
+                    <% } else { %>
+                    <a href="/products?page=<%= options.numOfPage %>&brand=<%= options.brandChecked %>">&raquo;</a>
                     <% } %>
                 </div>
             </div>
+            <% } %>
             <div class="wrapper_top_shop">
                 <!-- <div class="col-md-6 shop_left">
                     <img src="images/banner3.jpg" alt="">
@@ -251,7 +263,7 @@
                 <div class="clearfix"></div> -->
                 <!-- product-sec1 -->
                 <div class="product-sec1 row-custom">
-                    <% for(let i = 0; i < products.length; i++) { %>
+                    <% for(let i=0; i < products.length; i++) { %>
                     <div class="col-md-3 product-men">
                         <div class="product-shoe-info shoe">
                             <div class="men-pro-item">
@@ -277,7 +289,9 @@
                                         <div class="grid_meta">
                                             <div class="product_price">
                                                 <div class="grid-price ">
-                                                    <span class="money "><%= products[i].price.string_price %></span>
+                                                    <span class="money ">
+                                                        <%= products[i].price.string_price %>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>

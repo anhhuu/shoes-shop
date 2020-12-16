@@ -1184,6 +1184,10 @@ input.button.add {
 	border: 1px solid #448fff;
   }
 
+  .pagination a.disabled {
+    pointer-events: none;
+    color: rgb(7, 7, 7);
+}
   
 .pagination a:hover:not(.active) {background-color: #ddd;}
 
