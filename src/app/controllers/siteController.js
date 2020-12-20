@@ -3,6 +3,7 @@ const debug = require('debug')('HomePage');
 module.exports.index = async (req, res, next) => {
 
     try {
+        debug('Home');
         const galleryProducts = await productModel.getList(3, 12);
         res.render('index', {
             layout: 'layouts/homePage',

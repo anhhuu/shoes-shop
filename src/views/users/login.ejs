@@ -1,0 +1,21 @@
+<link href="/css/mystyle.css" rel="stylesheet" type="text/css" media="all"/>
+<div class="row">
+    <div class="col-lg-5 col-5"></div>
+    <div class="form-container col-lg-7 col-7">
+        <form class="form" id="form" method="post" action="/users/login">
+            <h2>Login</h2>
+            <div class="form--control">
+                <label for="username">Email</label>
+                <input name="username" type="text" id="username" placeholder="Enter email">
+                <small>Error message</small>
+            </div>
+            <div class="form--control">
+                <label for="password">Password</label>
+                <input name="password" type="password" id="password" placeholder="Enter password">
+                <small>Error message</small>
+            </div>
+
+            <button class="disabled" id="btn-submit">Submit</button>
+        </form>
+    </div>
+</div>
