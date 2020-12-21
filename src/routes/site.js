@@ -15,4 +15,6 @@ router.get('/contact', siteController.getContactPage);
 //[GET] /search
 router.get('/search', siteController.search);
 
+
+
 module.exports = router;

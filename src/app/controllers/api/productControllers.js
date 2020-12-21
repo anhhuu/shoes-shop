@@ -1,7 +1,7 @@
-const productModel = require('../models/productModel')
-const brandModel = require('../models/brandModel')
+const productModel = require('../../models/productModel')
+const brandModel = require('../../models/brandModel')
 
-module.exports.showProducts = async(req, res, next) => {
+module.exports.getProducts = async(req, res, next) => {
     let limit = 24;
     let page = req.query.page;
 
@@ -28,9 +28,7 @@ module.exports.showProducts = async(req, res, next) => {
             currentPage: currentPage,
             brandChecked: brandChecked
         }
-        res.render('shop/products', {
-            title: 'HDH Shoes',
-            pageName: 'Shop',
+        res.json({
             products: products,
             brands: brands,
             options: options
@@ -45,12 +43,21 @@ module.exports.showProducts = async(req, res, next) => {
             currentPage: currentPage,
             brandChecked: brandChecked
         }
-        res.render('shop/products', {
-            title: 'HDH Shoes',
-            pageName: 'Shop',
+        res.json({
             products: products,
             brands: brands,
             options: options
-        })
+        });
+
     }
+}
+
+module.exports.showProduct = async(req, res, next) => {
+    product_url = req.params.url;
+    let product = await productModel.getByURL(product_url);
+    res.render('shop/productDetail', {
+        title: 'HDH Shoes',
+        pageName: 'Product',
+        product: product
+    })
 }

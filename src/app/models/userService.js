@@ -34,3 +34,7 @@ module.exports.signup = async (user)=>{
 module.exports.validPassword = (user,password)=>{
     return bcrypt.compare(password, user.password);
 }
+
+module.exports.getUserProfile = (id)=>{
+    return User.findOne({_id: id}).lean();
+}
