@@ -455,6 +455,11 @@ img.pp-img {
 	width: 65%;
 }
 
+img.pp-img-1{
+	width: 20%;
+	height: 20%;
+}
+
 .tab-grid p {
 	color: #8B8B8B;
 	font-size: 0.95em;
