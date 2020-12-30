@@ -7,5 +7,7 @@ router.get('/', productController.showProducts);
 
 //[GET] /products/:url
 router.get('/:url', productController.showProduct);
+router.get('/:ID')
+
 
 module.exports = router;

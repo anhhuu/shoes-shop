@@ -28,21 +28,21 @@
             <div class="left-side">
                 <h3 class="agileits-sear-head">Brand</h3>
                 <ul>
-                    <% for(let i=0; i < brands.length; i++) { %>
-                    <li>
-                        <% if(options.brandChecked==brands[i].brand_url) { %>
-                        <input type="radio" name="brand-check" class="checked" value="checked"
-                            onclick="location.href='products?brand=<%= brands[i].brand_url %>'" checked>
-                        <% } else { %>
-                        <input type="radio" name="brand-check" class="checked" value="checked"
-                            onclick="location.href='products?brand=<%= brands[i].brand_url %>'">
-                        <% } %>
-                        <a href="products?brand=<%= brands[i].brand_url %>">
+                    <% for(let i = 0; i < brands.length; i++) { %>
+                        <li>
+                            <% if(options.brandChecked == brands[i].brand_url) { %>
+                                <input type="radio" name="brand-check" class="checked" value="checked"
+                                       onclick="location.href='products?brand=<%= brands[i].brand_url %>'" checked>
+                            <% } else { %>
+                                <input type="radio" name="brand-check" class="checked" value="checked"
+                                       onclick="location.href='products?brand=<%= brands[i].brand_url %>'">
+                            <% } %>
+                            <a href="products?brand=<%= brands[i].brand_url %>">
                             <span class="span">
                                 <%= brands[i].name %>
                             </span>
-                        </a>
-                    </li>
+                            </a>
+                        </li>
                     <% } %>
                 </ul>
             </div>
@@ -203,53 +203,53 @@
         <!-- //product left -->
         <!-- product right -->
         <div class="left-ads-display col-md-9">
-            <% if(options.numOfPage > 1) {%>
-            <div class="row">
-                <div class="pagination">
-                    <% if(options.brandChecked) { %>
-                    <a href="/products?page=1&brand=<%= options.brandChecked %>">&laquo;</a>
-                    <% } else { %>
-                    <a href="/products?page=1&brand=<%= options.brandChecked %>">&laquo;</a>
-                    <% } %>
-                    <% if(parseInt(options.currentPage) - 3 > 1) { %>
-                    <a href="#" class="disabled">...</a>
-                    <% } %>
-                    <%for (let j = parseInt(options.currentPage) - 3; j <= parseInt(options.currentPage) + 3; j++) {%>
-                    <% if (j < 1) { %>
-                    <% continue;} %>
-                    <% if (j > options.numOfPage) { %>
-                    <% continue;} %>
-                    <%if(j==options.currentPage) {%>
-                    <% if(options.brandChecked) { %>
-                    <a href="/products?page=<%= j %>&brand=<%= options.brandChecked %> " class="active">
-                        <%= j %>
-                    </a>
-                    <% } else { %>
-                    <a href="/products?page=<%= j %>" class="active">
-                        <%= j %>
-                    </a>
-                    <% } } else {%>
-                    <% if(options.brandChecked) { %>
-                    <a href="/products?page=<%= j %>&brand=<%= options.brandChecked %>">
-                        <%= j %>
-                    </a>
-                    <% } else { %>
-                    <a href="/products?page=<%= j %>">
-                        <%= j %>
-                    </a>
-                    <% } %>
-                    <% } %>
-                    <% } %>
-                    <% if(parseInt(options.currentPage) + 3 < options.numOfPage) { %>
-                    <a href="#" class="disabled">...</a>
-                    <% } %>
-                    <% if(options.brandChecked) { %>
-                    <a href="/products?page=<%= options.numOfPage %>&brand=<%= options.brandChecked %>">&raquo;</a>
-                    <% } else { %>
-                    <a href="/products?page=<%= options.numOfPage %>&brand=<%= options.brandChecked %>">&raquo;</a>
-                    <% } %>
+            <% if(options.numOfPage > 1) { %>
+                <div class="row">
+                    <div class="pagination">
+                        <% if(options.brandChecked) { %>
+                            <a href="/products?page=1&brand=<%= options.brandChecked %>">&laquo;</a>
+                        <% } else { %>
+                            <a href="/products?page=1&brand=<%= options.brandChecked %>">&laquo;</a>
+                        <% } %>
+                        <% if(parseInt(options.currentPage) - 3 > 1) { %>
+                            <a href="#" class="disabled">...</a>
+                        <% } %>
+                        <% for (let j = parseInt(options.currentPage) - 3; j <= parseInt(options.currentPage) + 3; j++) { %>
+                            <% if (j < 1) { %>
+                            <% continue;} %>
+                            <% if (j > options.numOfPage) { %>
+                            <% continue;} %>
+                            <% if(j == options.currentPage) { %>
+                                <% if(options.brandChecked) { %>
+                                    <a href="/products?page=<%= j %>&brand=<%= options.brandChecked %> " class="active">
+                                        <%= j %>
+                                    </a>
+                                <% } else { %>
+                                    <a href="/products?page=<%= j %>" class="active">
+                                        <%= j %>
+                                    </a>
+                            <% } } else { %>
+                                <% if(options.brandChecked) { %>
+                                    <a href="/products?page=<%= j %>&brand=<%= options.brandChecked %>">
+                                        <%= j %>
+                                    </a>
+                                <% } else { %>
+                                    <a href="/products?page=<%= j %>">
+                                        <%= j %>
+                                    </a>
+                                <% } %>
+                            <% } %>
+                        <% } %>
+                        <% if(parseInt(options.currentPage) + 3 < options.numOfPage) { %>
+                            <a href="#" class="disabled">...</a>
+                        <% } %>
+                        <% if(options.brandChecked) { %>
+                            <a href="/products?page=<%= options.numOfPage %>&brand=<%= options.brandChecked %>">&raquo;</a>
+                        <% } else { %>
+                            <a href="/products?page=<%= options.numOfPage %>&brand=<%= options.brandChecked %>">&raquo;</a>
+                        <% } %>
+                    </div>
                 </div>
-            </div>
             <% } %>
             <div class="wrapper_top_shop">
                 <!-- <div class="col-md-6 shop_left">
@@ -263,44 +263,62 @@
                 <div class="clearfix"></div> -->
                 <!-- product-sec1 -->
                 <div class="product-sec1 row-custom">
-                    <% for(let i=0; i < products.length; i++) { %>
-                    <div class="col-md-3 product-men">
-                        <div class="product-shoe-info shoe">
-                            <div class="men-pro-item">
-                                <div class="men-thumb-item">
-                                    <img src="<%= products[i].image_show_url %>" alt="">
-                                    <div class="men-cart-pro">
-                                        <div class="inner-men-cart-pro">
-                                            <a href="products/<%= products[i].product_url %>"
-                                                class="link-product-add-cart">Quick
-                                                View</a>
+                    <% for(let i = 0; i < products.length; i++) { %>
+                        <div class="col-md-3 product-men">
+                            <div class="product-shoe-info shoe">
+                                <div class="men-pro-item">
+                                    <div class="men-thumb-item">
+                                        <img src="<%= products[i].image_show_url %>" alt="">
+                                        <div class="men-cart-pro">
+                                            <div class="inner-men-cart-pro">
+                                                <a href="products/<%= products[i].product_url %>"
+                                                   class="link-product-add-cart">Quick
+                                                    View</a>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                </div>
-                                <div class="item-info-product">
-                                    <h5>
-                                        <br>
-                                        <a href="products/<%= products[i].product_url %>">
-                                            <%= products[i].name %>
-                                        </a>
-                                    </h5>
-                                    <div class="info-product-price">
-                                        <div class="grid_meta">
-                                            <div class="product_price">
-                                                <div class="grid-price ">
+                                    </div>
+                                    <div class="item-info-product">
+                                        <h5>
+                                            <br>
+                                            <a href="products/<%= products[i].product_url %>">
+                                                <%= products[i].name %>
+                                            </a>
+                                        </h5>
+                                        <div class="info-product-price">
+                                            <div class="grid_meta">
+                                                <div class="product_price">
+                                                    <div class="grid-price ">
                                                     <span class="money ">
                                                         <%= products[i].price.string_price %>
                                                     </span>
+                                                    </div>
+
                                                 </div>
+
                                             </div>
+                                            <div class="shoe single-item ">
+                                                <form  method="post" >
+                                                    <input type="hidden" name="cmd-<%=products[i]._id%>" value="_cart">
+                                                    <input type="hidden" name="add-<%=products[i]._id%>" value="1">
+                                                    <input type="hidden" name="shoe_img_url-<%=products[i]._id%>" value="<%=products[i].image_show_url%>">
+                                                    <input type="hidden" name="shoe_id-<%=products[i]._id%>" value="<%=products[i]._id%>">
+                                                    <input type="hidden" name="shoe_url-<%=products[i]._id%>" value="<%=products[i].product_url%>">
+                                                    <input type="hidden" name="shoe_item-<%=products[i]._id%>" value="<%=products[i].name%>">
+                                                    <input type="hidden" name="amount-<%=products[i]._id%>" value= "<%=products[i].price.price_value>0?products[i].price.price_value:products[i].price.number_price%>">
+
+<!--                                                    <a href="#" data-toggle="modal" data-target="#myModal1"></a>-->
+                                                </form>
+                                            <button type="button" class="shoe-cart" id="<%=products[i]._id%>" onclick="addButton(this.id)"><i class="fa fa-cart-plus"   aria-hidden="true"></i></button>
+
+                                            </div>
+
                                         </div>
+                                        <div class="clearfix"></div>
                                     </div>
-                                    <div class="clearfix"></div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <% } %>
                 </div>
                 <div class="clearfix"></div>
@@ -317,5 +335,5 @@
 <!-- //products highlight -->
 
 <!-- /newsletter-->
-<%-include('../partials/letterSignup.ejs')%>
+<%- include('../partials/letterSignup.ejs') %>
 <!-- //newsletter-->

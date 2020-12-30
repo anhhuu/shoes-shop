@@ -2,7 +2,7 @@
 
 const result = require('dotenv').config({ path: 'src/.env' })
 if (result.error) {
-    throw result.error
+    console.log( result.error);
 }
 
 /**

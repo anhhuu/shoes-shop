@@ -28,6 +28,7 @@ module.exports.showProducts = async(req, res, next) => {
             currentPage: currentPage,
             brandChecked: brandChecked
         }
+
         res.render('shop/products', {
             title: 'HDH Shoes',
             pageName: 'Shop',
@@ -40,6 +41,7 @@ module.exports.showProducts = async(req, res, next) => {
         count = await productModel.count();
         numOfPage = Math.round(count / limit);
         products = await productModel.getList(page, limit);
+
         let options = {
             numOfPage: numOfPage,
             currentPage: currentPage,
@@ -63,4 +65,17 @@ module.exports.showProduct = async(req, res, next) => {
         pageName: 'Product',
         product: product
     })
+}
+
+module.exports.getProductController = async (req,res)=>{
+    let productID = req.params.ID;
+    let product = await productModel.getByID(productID)
+    res(product);
+}
+
+module.exports.showCheckout = async (req, res,next)=>{
+    const request = req.body;
+
+    console.log(request);
+
 }

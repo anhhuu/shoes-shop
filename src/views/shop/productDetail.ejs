@@ -66,14 +66,17 @@
                     <form action="#" method="post">
                         <input type="hidden" name="cmd" value="_cart">
                         <input type="hidden" name="add" value="1">
-                        <input type="hidden" name="shoe_item" value="Chikku Loafers">
-                        <input type="hidden" name="amount" value="405.00">
+                        <input type="hidden" name="shoe_img_url" value="<%=product.image_show_url%>">
+                        <input type="hidden" name="shoe_id" value="<%=product._id%>">
+                        <input type="hidden" name="shoe_url" value="<%=product.product_url%>">
+                        <input type="hidden" name="shoe_item" value="<%=product.name%>">
+                        <input type="hidden" name="amount" value= "<%=product.price.price_value>0?product.price.price_value:product.price.number_price%>">
                         <input type="submit" name="submit" value="Add to cart" class="button add">
 
                         <a href="#" data-toggle="modal" data-target="#myModal1"></a>
                     </form>
-
                 </div>
+
 
             </div>
             <ul class="social-nav model-3d-0 footer-social social single_page">

@@ -1,6 +1,8 @@
 const productModel = require('../models/productModel');
 
 module.exports.index = async(req, res, next) => {
+    let request = req.body;
+    console.log(request);
     res.render('index', {
         layout: 'layouts/homePage',
         title: 'Home'
