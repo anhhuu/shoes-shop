@@ -92,7 +92,8 @@ a:focus {
     border:1px solid #fff;
     text-transform: uppercase;
     font-weight: 300;
-    display: block;
+    display: flex;
+	align-content: center;
     padding: 0;
     height: 46px;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.31);
