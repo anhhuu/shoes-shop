@@ -1,7 +1,5 @@
 const BASE_URL = '/api/products';
-let userOptions = {
-
-};
+let userOptions = {};
 
 function getQueryString(object) {
     const query = Object.keys(object).map(key => {
@@ -89,7 +87,7 @@ function getProducts(page, userOptions) {
 
             if (j < 1) continue;
             if (j > options.numOfPage) continue;
-            html += `<a href = "${BASE_URL}${getQueryString({page: j, ...userOptions})}"  class = "${j === options.currentPage?'active': ''}" >${j}</a>`;
+            html += `<a href = "${BASE_URL}${getQueryString({page: j, ...userOptions})}"  class = "${j === options.currentPage ? 'active' : ''}" >${j}</a>`;
 
         }
         if (+options.currentPage + 3 < options.numOfPage) {
@@ -152,32 +150,90 @@ function getUserOptions() {
 
 $(window).load(function () {
     //Load page 1 when the browser have fully loaded
+
+    const BROWSER_URL = window.location.href;
+    $('#cd-search').off('submit');
+
+
+    $(function() {
+        $( "#slider-range" ).slider({
+            range: true,
+            min: 1000000,
+            max: 20000000,
+            step: 10000,
+            values: [ 1000000, 20000000 ],
+            slide: function( event, ui ) {
+                userOptions = {
+                    ...userOptions,
+                    range: ui.values
+                }
+                console.log(userOptions)
+                const [start,end] = ui.values;
+                $('#amount2').val(start+' VNĐ '+'    '+ end+' VNĐ')
+            }
+        });
+
+        $('#amount2').val(1000000+' VNĐ '+'    '+ 20000000+' VNĐ')
+    });
+
+    $('#cd-search').submit(function (e) {
+        console.log('RUN')
+        e.preventDefault();
+        userOptions = {
+            ...userOptions,
+            keyword: $(this).find('input').val()
+        }
+        getProducts(1,userOptions);
+
+    });
+
+
+    if (BROWSER_URL.includes('?')) {
+        const keyword = BROWSER_URL.split('?')[1].split('=')[1];
+        userOptions = {
+            ...userOptions,
+            keyword
+        }
+        getProducts(1, userOptions)
+    } else {
+        getProducts(1);
+    }
     renderBrands();
-    getProducts(1);
 
     const searchForm = $("#local-search");
     searchForm.submit(function (e) {
         e.preventDefault();
-        const userOptions = getUserOptions();
+        userOptions = {
+            ...userOptions,
+            ...getUserOptions()
+        }
 
         getProducts(1, userOptions);
     })
 
-    $("#brand-checks ").change(function(){
-        userOptions = getUserOptions();
-        getProducts(1,userOptions);
+    $("#brand-checks ").change(function () {
+        userOptions = {
+            ...userOptions,
+            ...getUserOptions()
+        }
+        getProducts(1, userOptions);
     })
 
-    $('#discount-options').change(function (){
-       userOptions = getUserOptions();
-       getProducts(1,userOptions);
-    });
+    $('#discount-options').change(function () {
+        userOptions = {
+            ...userOptions,
+            ...getUserOptions()
+        }
 
+        getProducts(1, userOptions);
+    });
     setUpAutoCallRequestAfterAnInterval(500);
+
+
 
 })
 
-function setUpAutoCallRequestAfterAnInterval(interval){
+function setUpAutoCallRequestAfterAnInterval(interval) {
     //setup before functions
     let typingTimer;                //timer identifier
     const doneTypingInterval = interval;  //time in ms, 5 second for example
@@ -195,7 +251,7 @@ function setUpAutoCallRequestAfterAnInterval(interval){
 
 
 //user is "finished typing," do something
-    function doneTyping () {
+    function doneTyping() {
         userOptions = getUserOptions();
         console.log(userOptions);
 

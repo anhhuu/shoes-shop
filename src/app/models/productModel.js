@@ -149,7 +149,7 @@ module.exports.save = async (productObject) => {
     }
 }
 
-module.exports.queryByFilter = async (page, limit, brandURL, discount, keyword) => {
+module.exports.queryByFilter = async (page, limit, brandURL, discount, keyword, range) => {
 
     try {
 
@@ -163,26 +163,50 @@ module.exports.queryByFilter = async (page, limit, brandURL, discount, keyword) 
         const discountConditions = discount.map(discountVal => ({discount: {$gte: +discountVal}}));
 
         let brandID;
-        try{
-            brandID =  (await brandService.getByURL(brandURL))._id;
-        }catch (e){
+        try {
+            brandID = (await brandService.getByURL(brandURL))._id;
+        } catch (e) {
 
         }
-        console.log(brandID);
 
-        const count = await productMongooseModel.find(keyword ? {$text: {$search: keyword}} : {})
-                                                .find(brandID ? {brand_id: brandID}:{})
-                                            .find(discountConditions.length > 0 ? {$or: discountConditions} : {})
-                                                .countDocuments();
-        const products = await productMongooseModel
-                                .find(keyword ? {$text: {$search: keyword}} : {})
-                                .find(brandID ? {brand_id: brandID}:{})
-                                .find(discountConditions.length > 0 ? {$or: discountConditions} : {})
-                                .skip(+page * +limit - +limit)
-                                .limit(+limit);
+        const [start, end] = range.length === 2 ? range : [null, null];
+        let countQuery = productMongooseModel.find(keyword ? {$text: {$search: keyword}} : {})
+            .find(brandID ? {brand_id: brandID} : {})
+            .find(discountConditions.length > 0 ? {$or: discountConditions} : {})
+
+        let productsQuery = productMongooseModel
+            .find(keyword ? {$text: {$search: keyword}} : {})
+            .find(brandID ? {brand_id: brandID} : {})
+            .find(discountConditions.length > 0 ? {$or: discountConditions} : {});
+
+
+        if (start && end) {
+
+            const priceCondition = {
+                $and: [
+                    {
+                        'price.price_value': {
+                            $gte: start
+                        }
+                    },
+                    {
+                        'price.price_value': {
+                            $lte: end
+                        }
+                    },
+                ]
+            };
+            countQuery = countQuery.find(priceCondition)
+            productsQuery = productsQuery.find(priceCondition);
+        }
+
+        const count = await countQuery.countDocuments();
+        const products = await productsQuery
+            .skip(+page * +limit - +limit)
+            .limit(+limit);
 
         return {
-            count , products
+            count, products
         };
 
     } catch
