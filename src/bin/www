@@ -1,8 +1,9 @@
 #!/usr/bin/env node
+const path = require('path');
 
-const result = require('dotenv').config({ path: 'src/.env' })
+const result = require('dotenv').config({ path: path.join(__dirname,'..','.env') })
 if (result.error) {
-    throw result.error
+    console.log( result.error);
 }
 
 /**

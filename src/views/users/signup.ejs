@@ -1,0 +1,158 @@
+<link href="/css/mystyle.css" rel="stylesheet" type="text/css" media="all"/>
+<div class="row">
+    <div class="col-lg-5 col-5"></div>
+    <div class="form-container col-lg-7 col-7">
+        <form class="form" id="form" method="post" action="/users/signup">
+            <% if(!user){ %>
+                <h2>Register with us</h2>
+            <% } %>
+
+            <div class="form--control">
+                <label for="first_name">First name</label>
+                <input name="first_name" type="text" id="first_name" placeholder="Enter your firstname">
+                <small>Error message</small>
+            </div>
+
+            <div class="form--control">
+                <label for="last_name">Lastname</label>
+                <input name="last_name" type="text" id="last_name" placeholder="Lastname">
+                <small>Error message</small>
+            </div>
+
+            <div class="form--control">
+                <label for="email">Email</label>
+                <input name="email" type="text" id="email" placeholder="Enter email">
+                <small>Error message</small>
+            </div>
+
+            <div class="form--control">
+                <label for="password">Password</label>
+                <input name="password" type="password" id="password" placeholder="Enter password">
+                <small>Error message</small>
+            </div>
+
+            <div class="form--control">
+                <label for="password2">Confirm Password</label>
+                <input type="password" id="password2" placeholder="Enter password again">
+                <small>Error message</small>
+            </div>
+
+            <div class="form--control">
+                <label for="phone_number">Phone number</label>
+                <input name="phone_number" type="text" id="phone_number" placeholder="Enter phone number">
+                <small>Error message</small>
+            </div>
+
+            <div class="form--control">
+                <label for="address">Phone number</label>
+                <input name="address" type="text" id="address" placeholder="Enter your address">
+                <small>Error message</small>
+            </div>
+            <button class="disabled" id="btn-submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+
+    const form = document.getElementById('form');
+    const first_name = document.getElementById('first_name');
+    const last_name = document.getElementById('last_name');
+    const phone_number = document.getElementById('phone_number');
+    const address = document.getElementById('address');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const password2 = document.getElementById('password2');
+
+    function isValidEmail(email) {
+        return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)
+
+
+    }
+
+    function showError(input, message) {
+        const formControl = input.parentElement;
+        formControl.className = 'form--control error';
+
+        const small = formControl.querySelector('small');
+        small.innerText = message
+    }
+
+    function showSuccess(input) {
+        const formControl = input.parentElement;
+        formControl.className = 'form--control success'
+    }
+
+    function checkRequired(needLog, ...inputs) {
+
+        let flag = true;
+        inputs.forEach(input => {
+
+            if (input.value.trim() === '') {
+                if (needLog) {
+                    showError(input, getFieldName(input) + ' is required');
+                }
+                flag = false;
+            } else {
+                if (needLog) {
+                    showSuccess(input)
+                }
+            }
+
+        });
+
+        return flag;
+    }
+
+    function getFieldName(input) {
+        return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+    }
+
+    form.addEventListener('onkeypress', () => {
+        if (checkRequired(false, first_name, last_name, email, password, password2, address, phone_number)) {
+            return document.querySelector('.form button').className = '';
+        }
+        document.querySelector('.form button').className = 'disabled';
+
+    });
+
+    form.addEventListener('submit', function (e) {
+
+        e.preventDefault();
+
+        checkRequired(true, first_name, last_name, email, password, password2, address, phone_number);
+        checkLength(first_name, 1, 15);
+        checkLength(last_name, 1, 15);
+        checkLength(password, 1, 25);
+        checkPasswordMatch(password, password2);
+
+        this.submit();
+
+
+    })
+
+    //Check input length
+    function checkLength(input, min, max) {
+
+        if (input.value.length < min) {
+            showError(input, `${getFieldName(input)} must be at least ${min} charaters`);
+        } else if (input.value.length > max) {
+            showError(input, `${getFieldName(input)} must be less than ${max} charaters`)
+        }
+
+        return min <= input.value.length && input.value.length <= max;
+    }
+
+
+    function checkPasswordMatch(input1, input2) {
+
+        if (input1.value !== input2.value) {
+            showError(input1, `${getFieldName(input1)} does not match`);
+            showError(input2, `${getFieldName(input1)} does not match`);
+            return false;
+        }
+
+        return true;
+    }
+</script>

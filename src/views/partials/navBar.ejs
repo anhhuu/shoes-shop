@@ -10,7 +10,49 @@
         </ul>
     </nav>
 </div>
-<div class="mobile-nav-button">
-    <button id="trigger-overlay" type="button"><i class="fa fa-bars" aria-hidden="true"></i></button>
+<div class="logo">
+    <h1><a class="navbar-brand" href="/">
+            <span>HDH</span> <i>Shoes</i></a></h1>
 </div>
+<div class="nav-menu d-flex" >
+
+    <div class="spacer"></div>
+    <div class="nav-controller-buttons">
+        <%- include('./cartButton.ejs') %>
+        <div class="mobile-nav-button">
+            <button id="trigger-overlay" type="button"><i class="fa fa-bars" aria-hidden="true"></i></button>
+        </div>
+        <%- include('./searchBar.ejs') %>
+        <% if(user){ %>
+            <div
+                    class="dropdown mobile-nav-button user-avatar d-flex justify-content-center align-items-center"
+
+            >
+                <a class="dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <span style="color: white"><i class="fa fa-user" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="/users/profile">Profile</a></li>
+                    <li><a class="dropdown-item" href="/users/logout">Logout</a></li>
+                </ul>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+                    integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+                    crossorigin="anonymous"></script>
+        <% } else{ %>
+            <div id="user-avatar" >
+                <a href="#" ><i class="fa fa-sign-in" aria-hidden="true"></i></a>
+            </div>
+        <% } %>
+    </div>
+
+
+</div>
+
+<script>
+    $('#user-avatar').click(function(e){
+       window.location.replace('/users/login')
+    })
+</script>
 <!-- //nav bar -->

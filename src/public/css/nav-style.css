@@ -151,3 +151,48 @@ body {
 		line-height: 2em;
 	}
 }
+#user-avatar{
+	z-index: 9999;
+	width: 36px;
+	height: 36px;
+	background: rgba(27, 25, 25, 0.27);
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.nav-menu{
+	display: flex;
+	flex-wrap: wrap;
+	width: 100vw;
+	position: absolute;
+	top: 5%;
+	align-items: center;
+	justify-content: space-around;
+	z-index: 9999;
+	gap: 5px;
+}
+
+.nav-controller-buttons{
+	display:flex;
+	gap: 5px;
+}
+.logo{
+	position: absolute;
+	top: 5%;
+	left: 2%;
+	z-index: 9999;
+}
+@media (max-width: 600px) {
+	.logo {
+		left: 5%;
+		top: 5%;
+	}
+	.nav-controller-buttons{
+		margin-right: 10px;
+	}
+}
+.dropdown{
+	background-color:rgba(27, 25, 25, 0.27);;
+}
