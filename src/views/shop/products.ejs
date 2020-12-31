@@ -1,15 +1,12 @@
 <!-- top Products -->
 <div class="ads-grid_shop">
     <div class="shop_inner_inf">
-        <!-- tittle heading -->
-
-        <!-- //tittle heading -->
-        <!-- product left -->
+        <!--        SIDE BAR-->
         <div class="side-bar col-md-3">
             <div class="search-hotel">
                 <h3 class="agileits-sear-head">Search Here..</h3>
-                <form action="/search" method="get">
-                    <input type="search" placeholder="Product name..." name="keyword" required="">
+                <form action="/search" method="get" id="local-search">
+                    <input type="search" placeholder="Product name..." name="keyword">
                     <input type="submit" value=" ">
                 </form>
             </div>
@@ -23,68 +20,49 @@
                     </li>
                 </ul>
             </div> -->
-            <!-- //price range -->
-            <!--preference -->
+<!--            Brand-->
             <div class="left-side">
-                <h3 class="agileits-sear-head">Brand</h3>
-                <ul>
-                    <% for(let i = 0; i < brands.length; i++) { %>
-                        <li>
-                            <% if(options.brandChecked == brands[i].brand_url) { %>
-                                <input type="radio" name="brand-check" class="checked" value="checked"
-                                       onclick="location.href='products?brand=<%= brands[i].brand_url %>'" checked>
-                            <% } else { %>
-                                <input type="radio" name="brand-check" class="checked" value="checked"
-                                       onclick="location.href='products?brand=<%= brands[i].brand_url %>'">
-                            <% } %>
-                            <a href="products?brand=<%= brands[i].brand_url %>">
-                            <span class="span">
-                                <%= brands[i].name %>
-                            </span>
-                            </a>
-                        </li>
-                    <% } %>
-                </ul>
+                <h3 class="agileits-sear-head" >Brand</h3>
+<!--                BRANDS-->
+                <ul id="brand-checks"></ul>
             </div>
             <!-- // preference -->
-
             <!-- discounts -->
-
-            <!-- <div class="left-side">
+            <div class="left-side">
                 <h3 class="agileits-sear-head">Discount</h3>
-                <ul>
+                <ul id="discount-options">
                     <li>
-                        <input type="checkbox" class="checked">
+                        <input type="checkbox" name="discount" value="0.05" class="checked">
                         <span class="span">5% or More</span>
                     </li>
                     <li>
-                        <input type="checkbox" class="checked">
+                        <input type="checkbox" name="discount" value="0.1" class="checked">
                         <span class="span">10% or More</span>
                     </li>
                     <li>
-                        <input type="checkbox" class="checked">
+                        <input type="checkbox" name="discount" value="0.2" class="checked">
                         <span class="span">20% or More</span>
                     </li>
                     <li>
-                        <input type="checkbox" class="checked">
+                        <input type="checkbox" name="discount" value="0.3" class="checked">
                         <span class="span">30% or More</span>
                     </li>
                     <li>
-                        <input type="checkbox" class="checked">
+                        <input type="checkbox" name="discount" value="0.5" class="checked">
                         <span class="span">50% or More</span>
                     </li>
                     <li>
-                        <input type="checkbox" class="checked">
+                        <input type="checkbox" name="discount" value="0.6" class="checked">
                         <span class="span">60% or More</span>
                     </li>
                 </ul>
-            </div> -->
+            </div>
 
             <!-- //discounts -->
 
             <!-- reviews -->
 
-            <!-- <div class="customer-rev left-side">
+            <div class="customer-rev left-side">
                 <h3 class="agileits-sear-head">Customer Review</h3>
                 <ul>
                     <li>
@@ -138,12 +116,12 @@
                         </a>
                     </li>
                 </ul>
-            </div> -->
+            </div>
 
             <!-- //reviews -->
             <!-- deals -->
 
-            <!-- <div class="deal-leftmk left-side">
+            <div class="deal-leftmk left-side">
                 <h3 class="agileits-sear-head">Special Deals</h3>
                 <div class="special-sec1">
                     <div class="col-xs-4 img-deals">
@@ -195,23 +173,23 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
-            </div> -->
+            </div>
 
-            <!-- //deals -->
 
         </div>
-        <!-- //product left -->
-        <!-- product right -->
+
+        <!--        PRODUCT BODY-->
         <div class="left-ads-display col-md-9">
             <% if(options.numOfPage > 1) { %>
                 <div class="row">
-                    <div id="pagination" class="pagination">
-
-                    </div>
+                    <div id="pagination" class="pagination"></div>
                 </div>
             <% } %>
+
             <div class="wrapper_top_shop">
-                <!-- <div class="col-md-6 shop_left">
+
+<!--                ADVERTISING-->
+                <div class="col-md-6 shop_left">
                     <img src="images/banner3.jpg" alt="">
                     <h6>40% off</h6>
                 </div>
@@ -219,9 +197,12 @@
                     <img src="images/banner2.jpg" alt="">
                     <h6>50% off</h6>
                 </div>
-                <div class="clearfix"></div> -->
+                <div class="clearfix"></div>
+<!--                END ADVERTISING-->
+
                 <!-- product-sec1 -->
                 <div class="product-sec1 row-custom">
+
                 </div>
                 <div class="clearfix"></div>
 
