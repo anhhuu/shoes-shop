@@ -5,7 +5,11 @@ const Product = new Schema({
     SKU: { type: String },
     name: { type: String },
     product_url: { type: String },
-    price: { type: Object },
+    price: {
+        string_price: { type: String },
+        price_value: { type: Number },
+        price_currency: { type: String },
+    },
     flash_sell: { type: Boolean },
     discount: { type: Number },
     images_detail_url: { type: Array },
