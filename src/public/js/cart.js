@@ -53,7 +53,11 @@ class UI {
         cartContent.appendChild(div);
     }
     showCart() {
+        (window.localStorage.getItem("cart")?JSON.parse(window.localStorage.getItem("cart")):window.localStorage.setItem("cart",JSON.stringify([])));
+        const cart=JSON.parse(window.localStorage.getItem("cart"));
+
         cartContent.classList.add("cart-show");
+        convertHTML(cart)
         console.log("Show");
     }
 
@@ -120,8 +124,9 @@ const showCartFake = function (id){
     cartContentFake.classList.add("cart-show");
     console.log("ShowFake");
 }
+
 let btnCart = document.getElementById("btn-cart");
-btnCart.addEventListener("click",()=>{
+    btnCart.addEventListener("click",()=>{
     console.log("Hello")
     const ui = new UI();
     return ui.showCart();
@@ -133,24 +138,3 @@ btnCont.addEventListener("click",()=>{
     ui.hideCart();
 })
 
-const addButton = function (form){
-
-    console.log(form)
-    axios.get('/products', {
-        params: {
-            ID: form
-        }
-    })
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .then(function () {
-            // always executed
-        });
-
-
-
-}

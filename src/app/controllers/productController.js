@@ -1,6 +1,7 @@
 const productModel = require('../models/productModel')
 const brandModel = require('../models/brandModel')
-
+const categoryModel =  require('../models/categoryModel')
+const sizeModel = require('../models/sizeModel');
 module.exports.showProducts = async(req, res, next) => {
     let limit = 24;
     let page = req.query.page;
@@ -60,10 +61,29 @@ module.exports.showProducts = async(req, res, next) => {
 module.exports.showProduct = async(req, res, next) => {
     product_url = req.params.url;
     let product = await productModel.getByURL(product_url);
+    let brand = await brandModel.getByID(product.brand_id);
+    let category = await categoryModel.getByID(product.category_id)
+    let color = product.color.split('/');
+    let result = [];
+
+    for(let size of  product.product_detail){
+        let sizeClass = sizeModel.getByID(size.size_id)
+        result.push(sizeClass);
+
+    }
+
+    result = await Promise.all(result)
+
+
+
     res.render('shop/productDetail', {
         title: 'HDH Shoes',
         pageName: 'Product',
-        product: product
+        product: product,
+        brand: brand,
+        category: category,
+        color:color,
+        size: result,
     })
 }
 

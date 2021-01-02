@@ -1,5 +1,6 @@
 const productModel = require('../../models/productModel')
 const brandModel = require('../../models/brandModel')
+const sizeModel =  require('../../models/sizeModel')
 
 module.exports.getProducts = async(req, res, next) => {
     let limit = 24;
@@ -60,4 +61,21 @@ module.exports.showProduct = async(req, res, next) => {
         pageName: 'Product',
         product: product
     })
+}
+
+module.exports.getProduct =  async (req, res)=>{
+    let productid = req.params.ID;
+    let sizeID = req.query.size;
+
+    let product = await productModel.getByID(productid);
+    let size = await sizeModel.getByID(sizeID);
+    console.log(product);
+    console.log(size);
+    res.json({
+        title: 'HDH Shoes',
+        pageName: product.name,
+        product: product,
+        size: size
+    })
+
 }
