@@ -35,12 +35,14 @@ passport.serializeUser(function (user, done) {
     done(null, user._id);
 });
 
-passport.deserializeUser(function (id, done) {
-    User.findById(id)
-        .then(function(user) {
-            done(null, user);
-        })
-        .catch(e=>done(e));
+passport.deserializeUser(async function (id, done) {
+
+    try{
+        const user = await User.findById(id).select('-password');
+        done(null, user);
+    }catch (e){
+        done(e);
+    }
 });
 
 module.exports = passport;

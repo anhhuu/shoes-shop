@@ -1,0 +1,84 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+      crossorigin="anonymous"/>
+<link rel="stylesheet" href="/css/profile.css">
+<link rel="stylesheet" href="/crop/croppie.css" />
+<script src="/js/crop.js"></script>
+<div id="root-layout-container">
+    <div class="row">
+        <!--    User profile Dash board-->
+        <div class="col-md-9  py-5">
+            <div class="card ml-auto" style="width:95%">
+                <!--                //Card header-->
+                <div class="d-flex justify-content-between m-3">
+                    <h4 class="card-title ml-4 font-weight-bold mt-3">My Account</h4>
+                    <span><i class="fas fa-tools fa-2x"></i></span>
+                </div>
+                <!--                User information section-->
+                <div class="px-5" style="background-color: rgb(250,250,250);">
+                    <h4 class="ml-3 mt-5 text-center">USER INFORMATION</h4>
+                    <div class="row my-5 mx-3">
+                        <div class="col">
+                            <label class="font-weight-normal my-3" for="firstname">First Name</label>
+                            <input id="firstname" type="text" readonly class="form-control form-control-alternative">
+                            <label class="font-weight-normal mt-5 mb-3" for="firstname">Last Name</label>
+                            <input id="lastname" type="text" readonly class="form-control form-control-alternative">
+                        </div>
+                        <div class="col">
+                            <label class="font-weight-normal my-3" for="email-address">Email Address</label>
+                            <input id="email-address" type="text" readonly class="form-control form-control-alternative">
+                            <label class="font-weight-normal mt-5 mb-3" for="phone-number">Phone Number</label>
+                            <input id="phone-number" type="text" readonly class="form-control form-control-alternative">
+                        </div>
+                    </div>
+                </div>
+                <!--            Contact information-->
+                <div class="px-5"><hr></div>
+                <div class="px-5 pb-5" style="background-color: rgb(250,250,250);">
+                    <h4 class="text-center">CONTACT INFORMATION</h4>
+                    <div class="row mx-4">
+                        <input id="contact-information" readonly type="text" class="form-control form-control-alternative">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--    User address and avatar section-->
+        <div class="col py-5">
+            <div class="card">
+                <div class="d-flex justify-content-center" id="user-avatar-container">
+                    <img id="img-user-avt" src="<%=user && user.avatar_image_url !== '' ? user.avatar_image_url: '/images/avatar.png'%>" alt="user-avt">
+                </div>
+
+                <div id="demo-image" style="width: 100%; height: 500px">
+                </div>
+
+                <form id="upload-image-form" action="/api/users/upload" method="post" enctype="multipart/form-data">
+                    <div class="frame">
+                        <div class="center">
+                            <div class="title">
+                                <h1>Drop file to upload</h1>
+                            </div>
+
+                            <div class="dropzone">
+                                <img src="http://100dayscss.com/codepen/upload.svg" class="upload-icon" />
+                                <input type="file" name="avatar" class="upload-input" id="upload-input" />
+                            </div>
+
+                            <button type=submit class="btn" name="uploadbutton">Upload file</button>
+                            <span class="text-danger" id="upload-message"></span>
+
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var basic = $('#demo-image').croppie({
+        url: '/images/banner1.jpg'
+    });
+</script>
+<script src="/js/profile.js"></script>
+

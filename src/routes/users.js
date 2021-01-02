@@ -19,10 +19,11 @@ router.post('/signup', usersController.signup);
 
 //[POST] /users/login
 router.post('/login',
-    passport.authenticate('local', { successRedirect: '/',
+    passport.authenticate('local', { successRedirect: '/users/profile',
         failureRedirect: '/users/login' }));
 
 //[GET] /users/logout
 router.get('/logout',usersController.logout);
+
 
 module.exports = router;

@@ -16,8 +16,16 @@ module.exports.getSignUpPage = (req, res) => {
     })
 }
 
-module.exports.getProfile = (req, res) => {
+module.exports.getProfile = (req, res,next) => {
 
+    // if(!req.user){
+    //     return next();
+    // }
+
+    res.render('users/profile', {
+        title: 'User profile',
+        pageName: 'Profile',
+    })
 }
 
 module.exports.logout = (req, res) => {

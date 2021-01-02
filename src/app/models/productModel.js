@@ -165,6 +165,7 @@ module.exports.queryByFilter = async (page, limit, brandURL, discount, keyword, 
         let brandID;
         try {
             brandID = (await brandService.getByURL(brandURL))._id;
+            console.log(brandID);
         } catch (e) {
 
         }
