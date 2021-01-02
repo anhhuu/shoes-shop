@@ -1,56 +1,43 @@
 const productModel = require('../../models/productModel')
 const brandModel = require('../../models/brandModel')
-const sizeModel =  require('../../models/sizeModel')
+const sizeModel = require('../../models/sizeModel')
+/**
+ *
+ * @param req => req.query = {
+ *      discount: discountOptions,
+        brand,
+        keyword,
+        page: 1
+ }
+ * @param res
+ * @param next
+ * @returns {Promise<void>}
+ */
+module.exports.getProducts = async (req, res, next) => {
+    let limit = 12;
+    let page = req.query.page?+req.query.page:1 ;
+    const discount = req.query.discount ? JSON.parse(req.query.discount) : [];
+    let brandURL = req.query.brand;
+    const keyword = req.query.keyword;
+    const range = req.query.range?JSON.parse(req.query.range):[];
 
-module.exports.getProducts = async(req, res, next) => {
-    let limit = 24;
-    let page = req.query.page;
-
-    let brandChecked = req.query.brand;
-
-    if (!page) {
-        page = 1;
+    if(req.query){
+        console.log("hi")
     }
-    let products;
-    let count;
     let numOfPage;
     let currentPage = page;
-    let brands = await brandModel.getList();
+    const {products,count} = await productModel.queryByFilter(page, limit, brandURL, discount,keyword,range);
 
-    console.log(brands)
+    numOfPage = Math.round(count / limit);
 
-    if (brandChecked) {
-        let brand = await brandModel.getByURL(brandChecked);
-        count = await productModel.countByBrandID(brand._id);
-        numOfPage = Math.round(count / limit);
-        products = await productModel.getListByBrandID(page, limit, brand._id);
-        let options = {
-            numOfPage: numOfPage,
-            currentPage: currentPage,
-            brandChecked: brandChecked
-        }
-        res.json({
-            products: products,
-            brands: brands,
-            options: options
-        })
-    } else {
-
-        count = await productModel.count();
-        numOfPage = Math.round(count / limit);
-        products = await productModel.getList(page, limit);
-        let options = {
-            numOfPage: numOfPage,
-            currentPage: currentPage,
-            brandChecked: brandChecked
-        }
-        res.json({
-            products: products,
-            brands: brands,
-            options: options
-        });
-
+    let options = {
+        numOfPage: numOfPage,
+        currentPage: currentPage,
     }
+    res.json({
+        products,
+        options: options,
+    });
 }
 
 module.exports.showProduct = async(req, res, next) => {
@@ -76,6 +63,10 @@ module.exports.getProduct =  async (req, res)=>{
         pageName: product.name,
         product: product,
         size: size
-    })
+    })} 
+
+module.exports.getBrands = async (req, res) => {
+    const brands = await brandModel.getList();
+    res.json(brands);
 
 }

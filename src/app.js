@@ -3,7 +3,10 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const cors = require('cors');
 const app = express();
+app.use(cors());
+
 const debugHttp = require('debug')('shoes-shop:http')
 const debugError = require('debug')('shoes-shop:error')
 const passport = require("./passport/passportConfig");

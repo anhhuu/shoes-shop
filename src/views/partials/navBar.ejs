@@ -10,64 +10,49 @@
         </ul>
     </nav>
 </div>
+<div class="logo">
+    <h1><a class="navbar-brand" href="/">
+            <span>HDH</span> <i>Shoes</i></a></h1>
+</div>
+<div class="nav-menu d-flex" >
 
-<div class="nav-menu"
->
+    <div class="spacer"></div>
+    <div class="nav-controller-buttons">
+        <%- include('./cartButton.ejs') %>
+        <div class="mobile-nav-button">
+            <button id="trigger-overlay" type="button"><i class="fa fa-bars" aria-hidden="true"></i></button>
+        </div>
+        <%- include('./searchBar.ejs') %>
+        <% if(user){ %>
+            <div
+                    class="dropdown mobile-nav-button user-avatar d-flex justify-content-center align-items-center"
 
-    <div class="mobile-nav-button">
-        <button id="trigger-overlay" type="button"><i class="fa fa-bars" aria-hidden="true"></i></button>
+            >
+                <a class="dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <span style="color: white"><i class="fa fa-user" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="/users/profile">Profile</a></li>
+                    <li><a class="dropdown-item" href="/users/logout">Logout</a></li>
+                </ul>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+                    integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+                    crossorigin="anonymous"></script>
+        <% } else{ %>
+            <div id="user-avatar" >
+                <a href="#" ><i class="fa fa-sign-in" aria-hidden="true"></i></a>
+            </div>
+        <% } %>
     </div>
 
-    <% if(user){ %>
-        <div
-                class="dropdown"
-                style="position: fixed;
-     z-index: 9999;
-     margin: 47px 0 0 0;
-    right: 5%;
-    top: 0;
-    width: 36px;
-    height: 36px;
-    background: rgba(27, 25, 25, 0.27);
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;"
-        >
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                <span><i class="fa fa-user" aria-hidden="true"></i></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="/users/profile">Profile</a></li>
-                <li><a class="dropdown-item" href="/users/logout">Logout</a></li>
-            </ul>
-        </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-                crossorigin="anonymous"></script>
-    <% } else{ %>
-        <div
-
-                style="position: fixed;
-     z-index: 9999;
-     margin: 47px 0 0 0;
-    right: 5%;
-    top: 0;
-    width: 36px;
-    height: 36px;
-    background: rgba(27, 25, 25, 0.27);
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;"
-        >
-            <a href="/users/login" ><i class="fa fa-sign-in" aria-hidden="true"></i></a>
-        </div>
-    <% } %>
-    <!-- search -->
-    <%- include('./searchBar.ejs') %>
-    <!-- //search -->
 
 </div>
+
+<script>
+    $('#user-avatar').click(function(e){
+       window.location.replace('/users/login')
+    })
+</script>
 <!-- //nav bar -->

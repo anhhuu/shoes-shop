@@ -7,5 +7,6 @@ const productControllerAPI = require("../../app/controllers/api/productControlle
 router.get('/', productController.getProducts);
 router.get('/:ID', productControllerAPI.getProduct);
 
+router.get('/brands', productController.getBrands);
 
 module.exports = router;
