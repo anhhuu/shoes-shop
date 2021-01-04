@@ -9,9 +9,8 @@ $(document).ready(function () {
     $('#setting-button').click(function () {
         console.log('RUn');
         $('input[readonly]:not(input[id="email-address"])').prop('readOnly', !readOnly);
-        readOnly = !readOnly;
 
-        if (!readOnly) {
+        if (readOnly) {
             $('#update-button-container').append(`
                       <div class="w-100">
                        <div class="form-group d-block w-100">
@@ -40,7 +39,11 @@ $(document).ready(function () {
         } else {
             $('#update-button-container button').off('click');
             $('#update-button-container button').remove();
+            $('#update-button-container').html('');
         }
+        readOnly = !readOnly;
+
+
     });
 });
 

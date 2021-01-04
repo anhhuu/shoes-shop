@@ -5,11 +5,17 @@ const {sendMail} = require("../../mailjet");
 const userService = require("../models/userService");
 
 module.exports.getLoginPage = (req, res) => {
+    if(req.user){
+        return res.redirect('/');
+    }
 
+    const message = req.query.message;
     res.render('users/login', {
         title: 'Login',
         pageName: 'Login',
-    })
+        options:{ message }
+    });
+
 }
 
 module.exports.getSignUpPage = (req, res) => {
@@ -26,10 +32,6 @@ module.exports.getSignUpPage = (req, res) => {
 
 module.exports.getProfile = (req, res) => {
 
-    // if(!req.user){
-    //     return next();
-    // }
-
     res.render('users/profile', {
         title: 'User profile',
         pageName: 'Profile',
@@ -41,19 +43,13 @@ module.exports.logout = (req, res) => {
     res.redirect('/');
 }
 
-// module.exports.login = (req, res, next) => {
-//     // console.log(req.user);
-//     // next();
-//     // res.redirect('/');
-// }
 
 module.exports.signup = async (req, res, next) => {
-    const {first_name, last_name, password, email, phone_number, address} = req.body;
-
 
     try {
+        const {first_name, last_name, password, email, phone_number, address} = req.body;
         const user = await createUser({
-            first_name, last_name, password, email, phone_number, address, avatar_image_url: ''
+            first_name, last_name, password, email, phone_number, address, avatar_image_url: '',role_name: 'CUSTOMER'
         });
 
         if (user) {
@@ -67,6 +63,7 @@ module.exports.signup = async (req, res, next) => {
         } else {
             res.redirect('/users/signup?message=error');
         }
+
     } catch (e) {
         res.redirect('/users/signup');
         console.log(e);
@@ -75,15 +72,14 @@ module.exports.signup = async (req, res, next) => {
 
 module.exports.verification = async (req, res, next) => {
 
-    const token = req.params.token;
-
     try {
 
+        const token = req.params.token;
         const decodedID = await jwt.verify(token, process.env.JWT_SECRET);
         const user= await userService.activateUser(decodedID.email);
 
         if (user) {
-            res.redirect('/users/login');
+            res.redirect('/users/login?message=success');
         } else {
             next();
         }

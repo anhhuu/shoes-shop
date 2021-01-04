@@ -1,8 +1,6 @@
 import {uploadFile} from '/js/helper_function.js';
 
-const avatarImageOverlay = `<div id="overlay" class="d-flex justify-content-center align-items-center">
-
-</div> `
+const avatarImageOverlay = `<div id="overlay" class="d-flex align-items-center justify-content-center"></div> `
 
 const cropImageModal = `
 <div style="z-index: 9999; margin: 0 auto">
@@ -19,15 +17,12 @@ function renderOverlay(data) {
 
     $('#overlay').append($.parseHTML(cropImageModal));
 
-    $('resizer-demo').off('click');
-
     const el = document.getElementById('resizer-demo');
     const resize = new Croppie(el, {
         viewport: {width: 100, height: 100, type: 'circle'},
         enableResize: true,
         enableOrientation: true,
         mouseWheelZoom: 'ctrl',
-
     });
 
     resize.bind({
@@ -37,13 +32,11 @@ function renderOverlay(data) {
     $('#crop-image').click(function () {
         resize.result('blob').then(function (blob) {
             // do something with cropped blob
-            console.log(blob);
             const reader = new FileReader();
             reader.readAsDataURL(blob);
 
             reader.onloadend = function () {
                 const base64data = reader.result;
-                console.log(base64data)
                 $('#img-user-avt').prop('src', base64data);
             }
 
@@ -65,6 +58,9 @@ export default $(document).ready(function () {
             let img = $('#img-user-avt').detach();
             img.addClass('avatar-animated');
             $('#overlay').append(img);
+            $('#overlay').attr('class','');
+
+            isShowOverlay = true;
             $('#overlay') && $('#overlay').click(function () {
                 img = $('#img-user-avt').detach();
                 img.removeClass('avatar-animated')
@@ -73,7 +69,6 @@ export default $(document).ready(function () {
                 $('#user-avatar-container').append(img);
                 isShowOverlay = false;
             });
-            isShowOverlay = true;
         }
     })
 

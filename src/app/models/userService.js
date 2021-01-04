@@ -1,5 +1,6 @@
 const User = require('./mongooseModels/userMongooseModel');
 const bcrypt = require('bcryptjs');
+const Role = require('./mongooseModels/roleMongooseModel');
 
 /**
  *
@@ -13,8 +14,9 @@ module.exports.createUser = async (user)=>{
         if(userObj){
             return false;
         }
-
-        const userResult = await User.create(user);
+        const roleID = (await Role.findOne({name: user.role_name}))._id
+        delete user.role_name;
+        const userResult = await User.create({...user, role_id: roleID});
 
         if(userResult){
             return userResult

@@ -262,13 +262,9 @@ u + .em_body .em_full_wrap { width:100% !important; width:100vw !important;}
         })
     request
         .then((result) => {
-            console.log(result);
-
             console.log(result.body)
         })
         .catch((err) => {
-            console.log(err);
-
             console.log(err.statusCode)
         })
 
