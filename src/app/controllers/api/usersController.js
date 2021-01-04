@@ -30,6 +30,8 @@ module.exports.uploadAvatar = async (req,res,next) =>{
     }
     try{
         const {secure_url} = await uploadFromBuffer(req.file.buffer);
+
+        await userService.updateUserImageUrl(req.user.email,secure_url);
         res.json(secure_url);
 
     }catch (e){
@@ -56,4 +58,13 @@ module.exports.updateProfile = async (req,res)=>{
         res.status(500).send(e);
     }
 
+}
+
+module.exports.updateUserAvatar = async (req,res)=>{
+    const email = req.user.email;
+    const imageURL = req.body;
+
+    const updateUserImageUrl  = await userService.updateUserImageUrl(email,imageURL);
+
+    res.send(updateUserImageUrl);
 }

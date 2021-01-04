@@ -17,11 +17,11 @@ module.exports.createUser = async (user)=>{
         const userResult = await User.create(user);
 
         if(userResult){
-            return true
+            return userResult
         }
-        return false;
+        return undefined;
     }catch (e){
-        return false;
+        return undefined;
     }
 
 }
@@ -55,8 +55,15 @@ module.exports.updateUserProfile = async (lastName,firstName,email,phoneNumber,p
     });
 }
 
-module.exports.activateUser = (id)=>{
-    return User.findByIdAndUpdate(id,{
+module.exports.activateUser = (email)=>{
+    return User.findOneAndUpdate({email},{
         active: true
     });
+}
+
+module.exports.updateUserImageUrl = (userEmail,imageUrl)=>{
+    return User.findOneAndUpdate({email: userEmail},{
+        avatar_image_url: imageUrl
+    });
+
 }

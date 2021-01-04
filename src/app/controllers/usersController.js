@@ -1,8 +1,8 @@
-const {sendMailTest} = require("../../mailgun");
 const {createUser} = require("../models/userService");
 const debug = require('debug')('user-controllers');
 const jwt = require('jsonwebtoken');
-const {activateUser} = require("../models/userService");
+const {sendMail} = require("../../mailjet");
+const userService = require("../models/userService");
 
 module.exports.getLoginPage = (req, res) => {
 
@@ -15,13 +15,12 @@ module.exports.getLoginPage = (req, res) => {
 module.exports.getSignUpPage = (req, res) => {
 
     const queryEmail = req.query.email;
-
-
+    const message = req.query.message;
 
     res.render('users/signup', {
         title: 'Sign Up',
         pageName: 'Sign Up',
-        options: {email: queryEmail}
+        options: {email: queryEmail, message}
     })
 }
 
@@ -56,44 +55,40 @@ module.exports.signup = async (req, res, next) => {
         const user = await createUser({
             first_name, last_name, password, email, phone_number, address, avatar_image_url: ''
         });
+
         if (user) {
+            const userEmail= user.email;
 
-            jwt.sign(user._id.toString, process.env.JWT_SECRET, {algorithm: 'RS256'}, (error, token) => {
-                if (error) return next();
-                const link = `${process.env.WEB_URL}/users/verification/${token}`
-                sendMailTest(link,email)
-                res.redirect(`/users/signup?email=${email}`);
-            })
-
+            const token = await jwt.sign({ email: userEmail}, process.env.JWT_SECRET, {expiresIn: '1h'}, );
+            const link = `${process.env.WEB_URL}/users/verification/${token}`
+            sendMail(link,userEmail,'Activate your account','Verify account');
+            res.redirect(`/users/signup?email=${email}`);
 
         } else {
-            res.redirect('/users/signup?message=');
-
+            res.redirect('/users/signup?message=error');
         }
     } catch (e) {
         res.redirect('/users/signup');
         console.log(e);
-
     }
-
 }
 
-module.exports.verification = async (req, res,next) => {
+module.exports.verification = async (req, res, next) => {
 
     const token = req.params.token;
 
-    try{
+    try {
 
-        const decodedID = await jwt.verify(token,process.env.JWT_SECRET);
-        const activateUser = await activateUser(decodedID);
+        const decodedID = await jwt.verify(token, process.env.JWT_SECRET);
+        const user= await userService.activateUser(decodedID.email);
 
-        if(activateUser){
+        if (user) {
             res.redirect('/users/login');
-        }else{
+        } else {
             next();
         }
 
-    }catch (e){
+    } catch (e) {
         next();
     }
 

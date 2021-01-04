@@ -3,7 +3,12 @@
     <div class="row">
         An email has been sent to you email <%=options.email%> please check it to verify you account
     </div>
-<% }else{ %>    <div class="row">
+<% }else if(options && options.message){ %>
+    <div class="text-center h-100">
+        An error occur
+    </div>
+<% } else{ %>
+    <div class="row">
         <div class="col-lg-5 col-5"></div>
         <div class="form-container col-lg-7 col-7">
             <form class="form" id="form" method="post" action="/users/signup">
@@ -55,8 +60,7 @@
             </form>
         </div>
     </div>
-
-<% } %>
+<%} %>
 
 <script>
 

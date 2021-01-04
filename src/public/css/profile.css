@@ -1,4 +1,3 @@
-
 #img-user-avt{
     border-radius: 50%;
     position: relative;
@@ -92,11 +91,6 @@
     text-align: center;
 }
 
-h1 {
-    font-size: 16px;
-    font-weight: 300;
-    color: #666;
-}
 
 .dropzone {
     width: 100px;
