@@ -1,5 +1,5 @@
-const categoryMongooseModel = require('./mongooseModels/categoryMongooseModel');
-const { mongooseToObject } = require('../../utils/mongooseToObject')
+const categoryMongooseModel = require('../mongooseModels/categoryMongooseModel');
+const { mongooseToObject } = require('../../../utils/mongooseToObject')
 
 module.exports.getByID = async(id) => {
     try {

@@ -5,6 +5,7 @@
 <script src="/js/modernizr-2.6.2.min.js"></script>
 <script src="/js/classie.js"></script>
 <script src="/js/demo1.js"></script>
+
 <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css'>
 <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
@@ -67,10 +68,13 @@
 <!-- start-smoth-scrolling -->
 <script type="text/javascript" src="/js/move-top.js"></script>
 <script type="text/javascript" src="/js/easing.js"></script>
-<script type="text/javascript" src="/js/cart.js"></script>
+<script type="text/javascript" src="/js/cart-handle.js"></script>
+<script type="text/javascript" src="/js/checkout-handle.js"></script>
+<script type="text/javascript" src="/js/product_detail.js"></script>
+
 <script type="text/javascript">
     jQuery(document).ready(function ($) {
-        $(".scroll").click(function (event) {
+        $("#toTop").click(function (event) {
             event.preventDefault();
             $('html,body').animate({
                 scrollTop: $(this.hash).offset().top
@@ -78,5 +82,7 @@
         });
     });
 </script>
-<!-- //end-smoth-scrolling -->
+ //end-smoth-scrolling
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js" ></script>
+<!--<script src="/js/bootstrap.min.js"></script>-->

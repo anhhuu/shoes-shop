@@ -1,7 +1,7 @@
 const { Schema } = require('mongoose');
 
-const sizeMongooseModel = require('./mongooseModels/sizeMongooseModel');
-const { mongooseToObject } = require('../../utils/mongooseToObject')
+const sizeMongooseModel = require('../mongooseModels/sizeMongooseModel');
+const { mongooseToObject } = require('../../../utils/mongooseToObject')
 
 module.exports.getByID = async(id) => {
     try {

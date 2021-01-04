@@ -1,6 +1,6 @@
-const User = require('./mongooseModels/userMongooseModel');
+const User = require('../mongooseModels/userMongooseModel');
 const bcrypt = require('bcryptjs');
-const Role = require('./mongooseModels/roleMongooseModel');
+const Role = require('../mongooseModels/roleMongooseModel');
 
 /**
  *

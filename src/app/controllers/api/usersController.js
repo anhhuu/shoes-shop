@@ -1,5 +1,5 @@
-const userService = require('../../models/userService');
-const {updateUserProfile} = require("../../models/userService");
+const userService = require('../../models/services/userService');
+const {updateUserProfile} = require("../../models/services/userService");
 const {uploadFromBuffer} = require("../../../cloudinaryConfig");
 
 

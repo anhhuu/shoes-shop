@@ -1,8 +1,8 @@
-const {createUser} = require("../models/userService");
+const {createUser} = require("../models/services/userService");
 const debug = require('debug')('user-controllers');
 const jwt = require('jsonwebtoken');
 const {sendMail} = require("../../mailjet");
-const userService = require("../models/userService");
+const userService = require("../models/services/userService");
 
 module.exports.getLoginPage = (req, res) => {
     if(req.user){
@@ -88,4 +88,13 @@ module.exports.verification = async (req, res, next) => {
         next();
     }
 
+}
+
+module.exports.checkAuthentication =  async (req,res, next)=>{
+    if (req.isAuthenticated()){
+        next();
+    }
+    else{
+        res.redirect("/users/login");
+    }
 }

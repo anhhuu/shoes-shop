@@ -1,5 +1,5 @@
-const brandMongooseModel = require('./mongooseModels/brandMongooseModel');
-const { mongooseToObject, multipleMongooseToObject } = require('../../utils/mongooseToObject')
+const brandMongooseModel = require('../mongooseModels/brandMongooseModel');
+const { mongooseToObject, multipleMongooseToObject } = require('../../../utils/mongooseToObject')
 
 module.exports.getByID = async(id) => {
     try {
