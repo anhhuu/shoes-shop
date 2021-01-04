@@ -108,7 +108,7 @@ function getProducts(page, userOptions) {
 
 function renderBrands() {
     const brandChecks = $('#brand-checks');
-    console.log(BASE_URL)
+
     $.get(`${BASE_URL}/brands`, function (data) {
         let count = 0;
 

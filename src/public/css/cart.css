@@ -94,54 +94,39 @@ table  { border-collapse: collapse; width: 100%; }
 th, td { padding: 8px 16px; }
 th     { background:#eee; }
 
+.rating {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    justify-content: left;
+}
 
-/*.category_block li:hover {*/
-/*    background-color: #007bff;*/
-/*}*/
-/*.category_block li:hover a {*/
-/*    color: #ffffff;*/
-/*}*/
-/*.category_block li a {*/
-/*    color: #343a40;*/
-/*}*/
-/*.add_to_cart_block .price {*/
-/*    color: #c01508;*/
-/*    text-align: center;*/
-/*    font-weight: bold;*/
-/*    font-size: 200%;*/
-/*    margin-bottom: 0;*/
-/*}*/
-/*.add_to_cart_block .price_discounted {*/
-/*    color: #343a40;*/
-/*    text-align: center;*/
-/*    text-decoration: line-through;*/
-/*    font-size: 140%;*/
-/*}*/
-/*.product_rassurance {*/
-/*    padding: 10px;*/
-/*    margin-top: 15px;*/
-/*    background: #ffffff;*/
-/*    border: 1px solid #6c757d;*/
-/*    color: #6c757d;*/
-/*}*/
-/*.product_rassurance .list-inline {*/
-/*    margin-bottom: 0;*/
-/*    text-transform: uppercase;*/
-/*    text-align: center;*/
-/*}*/
-/*.product_rassurance .list-inline li:hover {*/
-/*    color: #343a40;*/
-/*}*/
-/*.reviews_product .fa-star {*/
-/*    color: gold;*/
-/*}*/
-/*.pagination {*/
-/*    margin-top: 20px;*/
-/*}*/
-/*footer {*/
-/*    background: #343a40;*/
-/*    padding: 40px;*/
-/*}*/
-/*footer a {*/
-/*    color: #f8f9fa!important*/
-/*}*/
+.rating>input {
+    display: none
+}
+
+.rating>label {
+    position: relative;
+    width: 1em;
+    font-size: 2vw;
+    color: #FFD600;
+    cursor: pointer
+}
+
+.rating>label::before {
+    content: "\2605";
+    position: absolute;
+    opacity: 0
+}
+
+.rating>label:hover:before,
+.rating>label:hover~label:before {
+    opacity: 1 !important
+}
+
+.rating>input:checked~label:before {
+    opacity: 1
+}
+
+.rating:hover>input:checked~label:before {
+    opacity: 0.4
+}

@@ -2,7 +2,6 @@
 //JQuery use to show status of product
 $('input:radio[name="size"]').change(
     function(){
-        console.log($(this).val());
         if (this.checked) {
             const productID = $('[name="idProduct"]').val();
             const sizeID = $(this).val();
@@ -28,6 +27,105 @@ $('input:radio[name="size"]').change(
         }
     });
 
+//Jquery rate
+$('input:radio[name="rating"]').change(
+    function(){
+
+        // if (this.checked) {
+        //     const productID = $('[name="idProduct"]').val();
+        //     const sizeID = $(this).val();
+        //     let URL = '/api/products/'+productID
+        //     $.get(URL,function ({product}){
+        //         console.log(product)
+        //         const index = product.product_detail.findIndex(x=>x.size_id===sizeID);
+        //         const status = document.getElementById("status")
+        //
+        //         if (product.product_detail[index].remaining_amount===0){
+        //             status.innerHTML="Hết hàng"+product.product_detail[index].size_id;
+        //         }
+        //         else {
+        //             status.innerHTML="Còn hàng"+product.product_detail[index].size_id;
+        //         }
+        //         console.log(product.product_detail[index].remaining_amount)
+        //         $('#remain').text(product.product_detail[index].remaining_amount);
+        //         $('[name="qty"]').attr("max",product.product_detail[index].remaining_amount)
+        //
+        //
+        //
+        //     })
+        // }
+    });
+//jquery review
+$('#review-form').submit(function (event){
+    event.preventDefault()
+    const rate = $('[name = "rating"]:checked').val();
+
+})
+
+//Jquery comment
+$('#comment-form').submit(function (event){
+    event.preventDefault()
+    const  nameGuest = $('#guestname').val();
+    const commentContent = $('#content-comment').val();
+    const productID = $('[name="idProduct"]').val();
+
+    let comment = {};
+    comment.guest_name=nameGuest;
+    comment.comment_content=commentContent;
+
+
+    $.post('/api/products/comment', {productID:productID, comment: JSON.stringify(comment)}).done(function (data){
+        console.log(data)
+        $.get('/api/products/comment/'+productID,function (data){
+            renderComment(data.comments.reverse());
+        })
+    })
+
+
+})
+
+//
+const renderComment =  function (commentArr){
+    let html =``
+    commentArr.map(data=>{
+        html+=`<div class="card mb-5">
+                    <div class="card-header" style="display: inline">
+
+                        <img style="width: 40px; height: 40px; border-radius: 50%; border: #0a0a0a solid; display: inline"
+                             src="//bizweb.dktcdn.net/thumb/1024x1024/100/339/085/products/stan-smith-shoes-white-cq2206-01-standard.jpg?v=1545145114263"
+                             alt="avatar">
+
+                        <p class="card-title" style="display: inline">
+                            ${data.guest_name}
+                        </p>
+
+
+                    </div>
+
+                    <p class="w-100 card-text p-3" style="word-wrap: break-word">
+                        ${data.comment_content}
+                    </p>
+
+                </div>`
+    })
+
+    $('#comments-product').html(html);
+}
+
+//Show comment
+$('#show-comments').click(function (event){
+    event.preventDefault()
+    const productID = $('[name="idProduct"]').val();
+    console.log(productID   )
+    loadComment(productID)
+})
+
+//Render when load page
+const loadComment = function (productID){
+    $.get('/api/products/comment/'+productID,function (data){
+        renderComment(data.comments.reverse());
+    })
+}
 //plus the qty of product
 $('#plus-qty').click(function (){
     let qty = $('[name="qty"]').val();
@@ -104,11 +202,28 @@ $('#add-to-cart').submit(function (event){
         }
 
         window.localStorage.setItem("cart",JSON.stringify(cart))
+        window.alert("Successfully add item!")
 
         convertHTML(cart);
 
     })
 })
+//Product detail
+// $('#product-detail').click(function (){
+//     let URL = '/api/products/'
+//     const productID = $('[name="idProduct"]').val();
+//
+//     URL += productID;
+//     let html=``;
+//     $.get(URL, function (data){
+//         data.product.images_detail_url.map((data)=>{
+//             html +=``
+//         })
+//         $('#p-detail-content').html(html);
+//     })
+//
+// })
+
 
 //function use to delete cartitem
 //had a problem
@@ -122,7 +237,6 @@ const removeCartItem = function (idProd, idSize){
     window.localStorage.setItem("cart",JSON.stringify(cart))
 
     convertHTML(cart);
-    $("#cart-table").html( html)
 
 }
 

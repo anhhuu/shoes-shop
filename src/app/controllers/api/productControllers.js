@@ -1,6 +1,8 @@
 const productModel = require('../../models/productModel')
 const brandModel = require('../../models/brandModel')
 const sizeModel = require('../../models/sizeModel')
+const commentModel= require("../../models/commentModel");
+
 /**
  *
  * @param req => req.query = {
@@ -66,7 +68,44 @@ module.exports.getProduct =  async (req, res)=>{
     })} 
 
 module.exports.getBrands = async (req, res) => {
-    const brands = await brandModel.getList();
-    res.json(brands);
+    try{
+        const brands = await brandModel.getList();
+        res.json(brands);
 
+    }
+    catch (e) {
+        console.log(e)
+    }
+
+}
+
+module.exports.saveCommentController = async (req, res)=>{
+    let productid = req.body.productID;
+    let commentGuest = JSON.parse(req.body.comment);
+    console.log(req.body)
+    console.log(commentGuest)
+
+    try {
+        await commentModel.saveComment(productid,commentGuest);
+        res.status(201).send()
+    }
+    catch (e) {
+        console.log(e);
+        res.status(500).send();
+    }
+
+}
+
+module.exports.getComments = async (req,res)=>{
+
+    try{
+        const prodID = req.params.product_id;
+
+        let comments = await commentModel.getComment(prodID);
+        res.json(comments);
+    }
+    catch (e) {
+        console.log(e)
+        res.status(500);
+    }
 }

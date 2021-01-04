@@ -50,3 +50,12 @@ module.exports.signup = async (req, res, next) => {
     }
 
 }
+
+module.exports.checkAuthentication =  async (req,res, next)=>{
+    if (req.isAuthenticated()){
+        next();
+    }
+    else{
+        res.redirect("/users/login");
+    }
+}

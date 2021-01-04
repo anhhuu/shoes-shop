@@ -88,7 +88,7 @@
                 <div class="row  align-items-center ">
                     <div class="col-1"></div>
                     <div class="col">
-                        <button class="align-center btn-basic" type="submit"
+                        <button class="align-center btn btn-primary" type="submit"
 
                                 style="display:inline; padding: 5px; margin-bottom: 3px;">Add to cart
                         </button>
@@ -104,25 +104,99 @@
     <div class="clearfix"></div>
 </div>
     <div class="p-5 m-3">
-        <div class="card p-3 m-2">
-            <h3>Product Detail (Chi tiết sản phẩm)</h3>
-            <div id="p-detail-content">
+        <div class="card m-2">
+            <div class="card-header" id="product-detail" >
+                <a role="button" data-toggle="collapse" href="#p-detail-content">
+                    <h3>Product Detail (Chi tiết sản phẩm)</h3>
+                </a>
+
+            </div>
+
+            <div class="collapse"  id="p-detail-content" class="card-body" style="transition: height 5s!important">
+                <%product.images_detail_url.map((dataImage, index)=>{%>
+                    <img src="<%=dataImage%>" alt="image-<%=index%>" class="m-3 p-3">
+                <%})%>
+
+
 
             </div>
         </div>
-        <div class="card p-3 m-2">
-            <h3>(Hướng dẫn mua hàng)</h3>
-            <div id="p-tutorial-content">
+        <div class="card m-2">
+            <div class ="card-header" id="tutorial-shop">
+                <a role="button" data-toggle="collapse" href="#p-tutorial-content">
+                    <h3>(Hướng dẫn mua hàng)</h3>
+                </a>
+
+            </div>
+            <div class="collapse"  id="p-tutorial-content" class="card-body">
 
             </div>
         </div>
-        <div class="card p-3 m-2">
-            <h3>Đánh giá</h3>
-            <div id="p-review-content">
+        <div class="card m-2">
+            <div class="card-header" id="review-content" >
+                <a  role="button" data-toggle="collapse" href="#p-review-content">
+                    <h3>Đánh giá</h3>
+                </a>
+
+            </div>
+            <div class="collapse" id="p-review-content"  style="transition: height 1s!important">
+                <form id="review-form" class="card-body">
+                    <div>
+                        <label for="#username" class="display-4" style="display: inline"> Khach hang</label>
+                        <div class="rating" >
+
+                            <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                            <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                            <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                            <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                            <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                        </div>
+                        <input class="form-control" type="text" placeholder="Nhập tên khách hàng" id="usernamereivew" style="width: 100%">
+
+                    </div>
+                    <label for="reviewcontent" class="display-4"> Noi dung</label>
+                    <div>
+                        <textarea class="form-control" type="text" placeholder="Nội dung nhận xét" id="reviewcontent" rows="7" ></textarea>
+                    </div>
+
+                    <input type="submit" value="review"  class="w-100 my-3 p-0">
+                </form>
+            </div>
+        </div>
+<!--comment-->
+        <div class="card m-2">
+            <div class="card-header" id="comments-content" >
+                <a  role="button" data-toggle="collapse" href="#p-comments-content">
+                    <h3>Comments</h3>
+                </a>
+
+            </div>
+            <div class="collapse " id="p-comments-content" style="max-height: 500px; transition: height 1s!important;overflow-y: scroll ">
+                <div class="card-body scroll">
+                    <form id="comment-form" style="margin-bottom: 55px;margin-top: 20px">
+                        <div>
+                            <label for="#guestname" class="display-4" style="display: inline"> Khach hang</label>
+
+                            <input class="form-control" type="text" placeholder="Họ và tên" id="guestname" style="width: 100%">
+
+                        </div>
+                        <label for="content-comment" class="display-4"> Nội dung</label>
+                        <div>
+                            <textarea class="form-control" type="text" placeholder="Nội dung bình luận" id="content-comment" rows="4" ></textarea>
+                        </div>
+
+                        <input type="submit" value="Binh luan"  class="float-right m-3 btn btn-primary m-3" style="width: fit-content">
+                    </form>
+                    <a href="#comments-product" id="show-comments" class="d-flex justify-content-center"> Xem bình luận</a>
+                    <div id="comments-product" onload="loadComment('<%=product._id%>')">
+
+                    </div>
+                </div>
 
             </div>
         </div>
     </div>
+
 </div>
 <!-- //top products -->
 
@@ -132,7 +206,7 @@
 <!-- //newsletter-->
 
 <script src="/js/imagezoom.js"></script>
-<script src="js/jquery.flexslider.js"></script>
+<!--<script src="js/jquery.flexslider.js"></script>-->
 
 <!--<script>-->
 <!--    // Can also be used with $(document).ready()-->
@@ -143,3 +217,4 @@
 <!--        });-->
 <!--    });-->
 <!--</script>-->
+

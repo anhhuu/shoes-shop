@@ -138,3 +138,5 @@ btnCont.addEventListener("click",()=>{
     ui.hideCart();
 })
 
+//button checkout
+
