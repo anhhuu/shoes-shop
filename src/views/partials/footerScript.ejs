@@ -1,5 +1,5 @@
 <!-- js -->
-<script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
+<!--<script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>-->
 <!-- //js -->
 <!-- /nav -->
 <script src="/js/modernizr-2.6.2.min.js"></script>
@@ -10,63 +10,12 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 <!-- //nav -->
 
-<!-- cart-js -->
-<!--<script src="/js/minicart.js"></script>-->
-<!--<script>-->
-<!--    shoe.render();-->
-
-<!--    shoe.cart.on('shoe_checkout', function (evt) {-->
-<!--        var items, len, i;-->
-
-<!--        if (this.subtotal() > 0) {-->
-<!--            items = this.items();-->
-
-<!--            for (i = 0, len = items.length; i < len; i++) { }-->
-<!--        }-->
-<!--    });-->
-<!--</script>-->
-<!-- //cart-js -->
-
 <!-- price range (top products) -->
 <script src="/js/jquery-ui.js"></script>
-<script>
-    //<![CDATA[ 
-    $(window).load(function () {
-        $("#slider-range").slider({
-            range: true,
-            min: 0,
-            max: 9000,
-            values: [50, 6000],
-            slide: function (event, ui) {
-                $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
-            }
-        });
-        $("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
-
-    }); //]]>
-</script>
-<!-- //price range (top products) -->
 
 <!-- font-awesome-icons -->
 <script src="https://use.fontawesome.com/e8e9ff4318.js"></script>
 <!-- //font-awesome-icons -->
-
-<!-- flex slider -->
-<script src="/js/jquery.flexslider.js"></script>
-<script>
-    // Can also be used with $(document).ready()
-    $(window).load(function () {
-        $('.flexslider').flexslider({
-            animation: "slide",
-            controlNav: "thumbnails"
-        });
-    });
-</script>
-<!-- //flex slider -->
-
-<!-- single -->
-<script src="/js/imagezoom.js"></script>
-<!-- //single -->
 
 <!--search-bar-->
 <script src="/js/search.js"></script>

@@ -13,4 +13,6 @@ router.get('/profile', userController.getUserProfile);
 
 router.post('/upload',upload.single('avatar'),userController.uploadAvatar);
 
+router.put('/update-profile',userController.updateProfile);
+
 module.exports = router;

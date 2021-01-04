@@ -160,7 +160,12 @@ module.exports.queryByFilter = async (page, limit, brandURL, discount, keyword, 
         if (!limit) {
             limit = 12;
         }
-        const discountConditions = discount.map(discountVal => ({discount: {$gte: +discountVal}}));
+
+        if(typeof discount !== 'object'){
+            discount = [discount];
+        }
+
+        const discountConditions = discount && discount.map(discountVal => ({discount: {$gte: +discountVal}}));
 
         let brandID;
         try {
@@ -171,14 +176,17 @@ module.exports.queryByFilter = async (page, limit, brandURL, discount, keyword, 
         }
 
         const [start, end] = range.length === 2 ? range : [null, null];
+
+
+
         let countQuery = productMongooseModel.find(keyword ? {$text: {$search: keyword}} : {})
             .find(brandID ? {brand_id: brandID} : {})
-            .find(discountConditions.length > 0 ? {$or: discountConditions} : {})
+            .find( discountConditions && discountConditions.length > 0 ? {$or: discountConditions} : {})
 
         let productsQuery = productMongooseModel
             .find(keyword ? {$text: {$search: keyword}} : {})
             .find(brandID ? {brand_id: brandID} : {})
-            .find(discountConditions.length > 0 ? {$or: discountConditions} : {});
+            .find(discountConditions && discountConditions.length > 0 ? {$or: discountConditions} : {});
 
 
         if (start && end) {

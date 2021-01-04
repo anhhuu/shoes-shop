@@ -121,7 +121,7 @@ h1 {
 
 .btn {
     display: block;
-    width: 140px;
+    padding: 10px 15px;
     height: 40px;
     background: darkmagenta;
     color: #fff;
@@ -135,4 +135,11 @@ h1 {
 .btn:hover {
     background: rebeccapurple;
     box-shadow: 0 3px 0 0 deeppink;
+}
+#crop-image{
+    display: block;
+
+    /* This rule is very important, please don't ignore this */
+    max-width: 100%;
+    max-width: 100%;
 }

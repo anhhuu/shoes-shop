@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
  * @param user
  * @returns {Promise<boolean>}
  */
-module.exports.signup = async (user)=>{
+module.exports.createUser = async (user)=>{
     try{
         const userObj = await User.findOne({email: user.email});
 
@@ -37,4 +37,26 @@ module.exports.validPassword = (user,password)=>{
 
 module.exports.getUserProfile = (id)=>{
     return User.findOne({_id: id}).lean();
+}
+
+module.exports.updateUserProfile = async (lastName,firstName,email,phoneNumber,password,address,avatar_image_url)=>{
+
+
+    const salt = await bcrypt.genSalt(10);
+    password = await bcrypt.hash(password,salt);
+    return User.findOneAndUpdate({email},{
+        last_name: lastName,
+        first_name:firstName,
+        phone_number: phoneNumber,
+        password,
+        address,
+        avatar_image_url,
+        $set: { isModified: true }
+    });
+}
+
+module.exports.activateUser = (id)=>{
+    return User.findByIdAndUpdate(id,{
+        active: true
+    });
 }

@@ -1,59 +1,62 @@
 <link href="/css/login-sign-up-style.css" rel="stylesheet" type="text/css" media="all"/>
-<div class="row">
-    <div class="col-lg-5 col-5"></div>
-    <div class="form-container col-lg-7 col-7">
-        <form class="form" id="form" method="post" action="/users/signup">
-
-            <% if(!user){ %>
-                <h2>Register with us</h2>
-            <% } %>
-
-            <div class="form--control">
-                <label for="first_name">First name</label>
-                <input name="first_name" type="text" id="first_name" placeholder="Enter your firstname">
-                <small>Error message</small>
-            </div>
-
-            <div class="form--control">
-                <label for="last_name">Lastname</label>
-                <input name="last_name" type="text" id="last_name" placeholder="Lastname">
-                <small>Error message</small>
-            </div>
-
-            <div class="form--control">
-                <label for="email">Email</label>
-                <input name="email" type="text" id="email" placeholder="Enter email">
-                <small>Error message</small>
-            </div>
-
-            <div class="form--control">
-                <label for="password">Password</label>
-                <input name="password" type="password" id="password" placeholder="Enter password">
-                <small>Error message</small>
-            </div>
-
-            <div class="form--control">
-                <label for="password2">Confirm Password</label>
-                <input type="password" id="password2" placeholder="Enter password again">
-                <small>Error message</small>
-            </div>
-
-            <div class="form--control">
-                <label for="phone_number">Phone number</label>
-                <input name="phone_number" type="text" id="phone_number" placeholder="Enter phone number">
-                <small>Error message</small>
-            </div>
-
-            <div class="form--control">
-                <label for="address">Phone number</label>
-                <input name="address" type="text" id="address" placeholder="Enter your address">
-                <small>Error message</small>
-            </div>
-            <button class="disabled" id="btn-submit">Submit</button>
-        </form>
+<% if(options && options.email){ %>
+    <div class="row">
+        An email has been sent to you email <%=options.email%> please check it to verify you account
     </div>
-</div>
+<% }else{ %>    <div class="row">
+        <div class="col-lg-5 col-5"></div>
+        <div class="form-container col-lg-7 col-7">
+            <form class="form" id="form" method="post" action="/users/signup">
+                <% if(!user){ %>
+                    <h2>Register with us</h2>
+                <% } %>
+                <div class="form--control">
+                    <label for="first_name">First name</label>
+                    <input name="first_name" type="text" id="first_name" placeholder="Enter your firstname">
+                    <small>Error message</small>
+                </div>
 
+                <div class="form--control">
+                    <label for="last_name">Lastname</label>
+                    <input name="last_name" type="text" id="last_name" placeholder="Lastname">
+                    <small>Error message</small>
+                </div>
+
+                <div class="form--control">
+                    <label for="email">Email</label>
+                    <input name="email" type="text" id="email" placeholder="Enter email">
+                    <small>Error message</small>
+                </div>
+
+                <div class="form--control">
+                    <label for="password">Password</label>
+                    <input name="password" type="password" id="password" placeholder="Enter password">
+                    <small>Error message</small>
+                </div>
+
+                <div class="form--control">
+                    <label for="password2">Confirm Password</label>
+                    <input type="password" id="password2" placeholder="Enter password again">
+                    <small>Error message</small>
+                </div>
+
+                <div class="form--control">
+                    <label for="phone_number">Phone number</label>
+                    <input name="phone_number" type="text" id="phone_number" placeholder="Enter phone number">
+                    <small>Error message</small>
+                </div>
+
+                <div class="form--control">
+                    <label for="address">Address</label>
+                    <input name="address" type="text" id="address" placeholder="Enter your address">
+                    <small>Error message</small>
+                </div>
+                <button class="disabled" id="btn-submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+<% } %>
 
 <script>
 

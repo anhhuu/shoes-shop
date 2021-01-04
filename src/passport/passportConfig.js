@@ -9,9 +9,14 @@ passport.use(new LocalStrategy(
         User.findOne({email})
             .then(user => {
 
-                if (!user) {
+                if (!user){
                     return done(null, false, {message: 'Incorrect username.'});
                 }
+
+                if( !user.active ){
+                    return done(null, false, {message: 'The user has not active yet'});
+                }
+
                 userService.validPassword(user, password)
                     .then(result => {
                         if (!result) {
@@ -39,6 +44,7 @@ passport.deserializeUser(async function (id, done) {
 
     try{
         const user = await User.findById(id).select('-password');
+
         done(null, user);
     }catch (e){
         done(e);

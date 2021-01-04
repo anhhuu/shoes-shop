@@ -15,6 +15,7 @@ const session = require("express-session");
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/db');
 const route = require('./routes/index')
+const {sendMailTest} = require("./mailgun");
 
 db.connect();
 
@@ -29,7 +30,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 //Config passport
 app.use(session({

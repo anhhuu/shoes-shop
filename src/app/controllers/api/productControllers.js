@@ -14,18 +14,17 @@ const brandModel = require('../../models/brandModel')
  */
 module.exports.getProducts = async (req, res, next) => {
     let limit = 12;
-    let page = req.query.page?+req.query.page:1 ;
-    const discount = req.query.discount ? JSON.parse(req.query.discount) : [];
+    let page = req.query.page ? +req.query.page : 1;
+
+
+    const discount = req.query.discount ? req.query.discount : [];
     let brandURL = req.query.brand;
     const keyword = req.query.keyword;
-    const range = req.query.range?JSON.parse(req.query.range):[];
+    const range = req.query.range ? JSON.parse(req.query.range) : [];
 
-    if(req.query){
-        console.log("hi")
-    }
     let numOfPage;
     let currentPage = page;
-    const {products,count} = await productModel.queryByFilter(page, limit, brandURL, discount,keyword,range);
+    const {products, count} = await productModel.queryByFilter(page, limit, brandURL, discount, keyword, range);
 
     numOfPage = Math.round(count / limit);
 

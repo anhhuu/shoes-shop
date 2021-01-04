@@ -24,6 +24,8 @@ router.post('/login',
 
 //[GET] /users/logout
 router.get('/logout',usersController.logout);
+//[GET] /users/verification/:hashedID
+router.get('/verification/:token',usersController.verification);
 
 
 module.exports = router;

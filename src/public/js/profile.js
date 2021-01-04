@@ -1,92 +1,91 @@
-const avatarImageOverlay = `
-<div id="overlay">
+import _ from '/js/ElementListener.js';
 
-</div>
-`
-let isShowOverlay = false;
-window.localStorage.removeItem('image_url');
+const UPDATE_USER_INFO_URL = '/api/users/update';
 
-$('#img-user-avt').click(function () {
+$(document).ready(function () {
 
-    if (!isShowOverlay) {
-        $('#root-layout-container').append(avatarImageOverlay);
-        let img = $('#img-user-avt').detach();
-        img.addClass('avatar-animated');
-        $('#overlay').append(img);
+    window.localStorage.removeItem('image_url');
+    let readOnly = true;
+    $('#setting-button').click(function () {
+        console.log('RUn');
+        $('input[readonly]:not(input[id="email-address"])').prop('readOnly', !readOnly);
+        readOnly = !readOnly;
 
-        $('#overlay') && $('#overlay').click(function () {
+        if (!readOnly) {
+            $('#update-button-container').append(`
+                      <div class="w-100">
+                       <div class="form-group d-block w-100">
+                             <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Password">
+                       </div>
+                       <div class="form-group d-block w-100">
+                            <label for="retype-password">Retype password</label>
+                            <input type="password" class="form-control" id="retype-password" placeholder="Retype password">
+                            <small class="text-danger w-100" id="error-msg"></small>
+                       </div>
+                    </div>
+                    <button id="btn-update-profile" class="btn btn-primary ml-auto">Update your profile</button>
+            `)
+            $('#update-button-container button').click(handleUpdateUserInfo);
+            $('#retype-password').change(function (e) {
+                if ($('#password').val() !== $(this).val()) {
+                    $('#error-msg').html('Your input password does not match please check it out');
+                    $('#update-button-container button').prop('disabled', true);
+                } else {
+                    $('#update-button-container button').prop('disabled', false);
+                }
 
-            img = $('#img-user-avt').detach();
-            img.removeClass('avatar-animated')
-            $('#overlay').off('click');
-            $('#overlay').remove();
-            $('#user-avatar-container').append(img);
-            isShowOverlay = false;
-        });
+            });
 
-
-        isShowOverlay = true;
-    }
-})
-
-$("input[name='avatar']").change(function () {
-    if (this.files.length > 0) {
-        const file = this.files[0];
-        const img = document.getElementById('img-user-avt');
-        img.file = file;
-        const reader = new FileReader();
-        reader.onload = (function (aImg) {
-            return function (e) {
-                aImg.src = e.target.result;
-            };
-        })(img);
-        reader.readAsDataURL(file);
-    }
-})
-
-function clearMessage() {
-    if ($('#upload-message').html() !== '') {
-        setTimeout(function () {
-            $('#upload-message').html('')
-        }, 1000)
-    }
-}
-
-$('#upload-image-form').submit(function (e) {
-    e.preventDefault();
-    const form = new FormData();
-    const file = $("#upload-input").prop('files')[0];
-    form.append('avatar', file);
-
-    if (!file) {
-        $('#upload-message').attr('class', 'text-danger');
-        $('#upload-message').html('File not found');
-        clearMessage();
-        return;
-    }
-    const settings = {
-        "url": "/api/users/upload",
-        "method": "POST",
-        "processData": false,
-        dataType: 'text',
-        "type": "POST",
-        "enctype": "multipart/form-data",
-        "mimeType": "multipart/form-data",
-        "contentType": false,
-        "data": form,
-        success: function (res) {
-            $('#upload-message').attr('class', 'text-success');
-            $('#upload-message').html('Upload file succeed');
-            window.localStorage.setItem('image_url', res)
-        },
-
-        error: function (error) {
-            $('#upload-message').attr('class', 'text-danger');
-            $('#upload-message').html('Upload file failed');
+        } else {
+            $('#update-button-container button').off('click');
+            $('#update-button-container button').remove();
         }
-    };
-
-    clearMessage();
-    $.ajax(settings)
+    });
 });
 
+
+function handleUpdateUserInfo() {
+    const firstName = $('#firstname').val();
+    const lastName = $('#lastname').val();
+    const phoneNumber = $('#phone-number').val();
+    const address = $('#contact-information').val();
+    const avatar_image_url = $('#avatar-image-url').val();
+    const password = $('#password').val();
+    const email = $('#email-address').val();
+    console.log(window.localStorage.getItem('image_url'))
+    const data = {
+        first_name: firstName,
+        last_name: lastName,
+        phone_number: phoneNumber,
+        password,
+        address,
+        email,
+        avatar_image_url: window.localStorage.getItem('image_url') &&
+                        window.localStorage.getItem('image_url').split('"')[1] ||
+                            avatar_image_url
+    };
+
+
+
+    var settings = {
+
+        "url": "/api/users/update-profile",
+        "method": "PUT",
+        "data":data
+    };
+
+    $.ajax(settings).done(function (response) {
+        $('#root-layout-container').html(`
+            <div class="modal bd-example-modal-sm">
+            <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <span class="text-success">Update Info success</span>
+            </div>
+            </div>
+            </div>
+        `)
+    });
+
+
+}

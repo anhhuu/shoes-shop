@@ -2,31 +2,36 @@ const BASE_URL = '/api/products';
 let userOptions = {};
 
 function getQueryString(object) {
-    const query = Object.keys(object).map(key => {
-        if (!object[key]) return '';
-        if (Array.isArray(object[key])) {
-            return `${key}=[${object[key].join(',')}]`
-        }
-        return `${key}=${object[key]}`
-    }).join('&');
 
-    return '?' + query;
+    const range = object.range;
+    delete object['range'];
+
+    Object.keys(object).forEach(key => {
+        if (!object[key]) {
+            delete object[key];
+        }
+    });
+
+    return '?' + $.param(object, true) + (range ? '&range=[' + range.join(',') + ']' : '');
 }
 
 function getProducts(page, userOptions) {
     let URL = BASE_URL;
 
+
     if (typeof page !== 'string') {
         if (page && page > 1) {
             URL += getQueryString({page});
         }
+
+        if (userOptions && Object.keys(userOptions).length > 0) {
+            URL += getQueryString(userOptions);
+        }
+
     } else {
         URL = page;
     }
 
-    if (userOptions && Object.keys(userOptions).length > 0) {
-        URL += getQueryString(userOptions);
-    }
 
     $.get(URL, function (data) {
 
@@ -78,22 +83,26 @@ function getProducts(page, userOptions) {
         //Get next 4 pages;
         const options = data.options;
 
-        html += `<a href="${BASE_URL}${getQueryString({page: 1, ...userOptions})}">&laquo;</a>`
+        html += `<a href="${BASE_URL}${getQueryString({...userOptions, page: 1})}">&laquo;</a>`
 
         if (+options.currentPage - 3 > 1) {
             html += `<a href="#" class="disabled">...</a>`;
         }
         for (let j = +options.currentPage - 3; j <= +options.currentPage + 3; j++) {
 
-            if (j < 1) continue;
-            if (j > options.numOfPage) continue;
-            html += `<a href = "${BASE_URL}${getQueryString({page: j, ...userOptions})}"  class = "${j === options.currentPage ? 'active' : ''}" >${j}</a>`;
+            if (j < 1 || j > options.numOfPage) continue;
+            console.log(getQueryString({page: j, ...userOptions}));
+
+            html += `<a href = "${BASE_URL}${getQueryString({
+                ...userOptions,
+                page: j
+            })}"  ${j === options.currentPage ? 'class="active"' : ''} >${j}</a>`;
 
         }
         if (+options.currentPage + 3 < options.numOfPage) {
             html += `<a href="#" class="disabled">...</a>`
         }
-        html += `<a href="${BASE_URL}${getQueryString({page: options.numOfPage, ...userOptions})}">&raquo;</a>`
+        html += `<a href="${BASE_URL}${getQueryString({...userOptions, page: options.numOfPage})}">&raquo;</a>`
 
         $('#pagination').html(html);
 
@@ -155,25 +164,25 @@ $(window).load(function () {
     $('#cd-search').off('submit');
 
 
-    $(function() {
-        $( "#slider-range" ).slider({
+    $(function () {
+        $("#slider-range").slider({
             range: true,
             min: 1000000,
             max: 20000000,
             step: 10000,
-            values: [ 1000000, 20000000 ],
-            slide: function( event, ui ) {
+            values: [1000000, 20000000],
+            slide: function (event, ui) {
                 userOptions = {
                     ...userOptions,
                     range: ui.values
                 }
                 console.log(userOptions)
-                const [start,end] = ui.values;
-                $('#amount2').val(start+' VNĐ '+'    '+ end+' VNĐ')
+                const [start, end] = ui.values;
+                $('#amount2').val(start + ' VNĐ ' + '    ' + end + ' VNĐ')
             }
         });
 
-        $('#amount2').val(1000000+' VNĐ '+'    '+ 20000000+' VNĐ')
+        $('#amount2').val(1000000 + ' VNĐ ' + '    ' + 20000000 + ' VNĐ')
     });
 
     $('#cd-search').submit(function (e) {
@@ -183,7 +192,7 @@ $(window).load(function () {
             ...userOptions,
             keyword: $(this).find('input').val()
         }
-        getProducts(1,userOptions);
+        getProducts(1, userOptions);
 
     });
 
@@ -203,6 +212,7 @@ $(window).load(function () {
     const searchForm = $("#local-search");
     searchForm.submit(function (e) {
         e.preventDefault();
+
         userOptions = {
             ...userOptions,
             ...getUserOptions()
@@ -228,7 +238,6 @@ $(window).load(function () {
         getProducts(1, userOptions);
     });
     setUpAutoCallRequestAfterAnInterval(500);
-
 
 
 })
