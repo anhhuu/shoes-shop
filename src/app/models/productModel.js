@@ -3,7 +3,7 @@ const productMongooseModel = require('./mongooseModels/productMongooseModel');
 const {mongooseToObject} = require('../../utils/mongooseToObject');
 const {multipleMongooseToObject} = require('../../utils/mongooseToObject');
 const brandService = require('../models/brandModel');
-
+const mongoose = require('mongoose')
 
 module.exports.getByID = async (id) => {
     try {
@@ -17,6 +17,8 @@ module.exports.getByID = async (id) => {
         throw error;
     }
 }
+
+
 
 module.exports.getByURL = async (product_url) => {
     try {
@@ -212,5 +214,24 @@ module.exports.queryByFilter = async (page, limit, brandURL, discount, keyword, 
     } catch
         (error) {
         throw error;
+    }
+}
+
+module.exports.getProductRelated = async (categoryID,brandID, price)=>{
+    try {
+        let priceDownTo = +price - 500000;
+        let priceUpTo = +price + 500000;
+        let productRelated = await productMongooseModel.find({
+            $and:[
+                {brand_id: brandID},
+                {category_id:categoryID},
+                {"price.price_value":{$gte:priceDownTo, $lte: priceUpTo}}
+            ]
+        }).limit(9);
+        console.log(productRelated);
+        return productRelated;
+
+    }catch (e) {
+        throw e;
     }
 }

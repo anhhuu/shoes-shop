@@ -13,6 +13,8 @@ router.get('/signup', usersController.getSignUpPage);
 //[GET] /users/profile
 //GET user profile
 router.get('/profile', usersController.getProfile);
+//[GET] /users/logout
+router.get('/logout',usersController.logout);
 
 //[POST] /users/signup
 router.post('/signup', usersController.signup);
@@ -22,7 +24,6 @@ router.post('/login',
     passport.authenticate('local', { successRedirect: '/',
         failureRedirect: '/users/login' }));
 
-//[GET] /users/logout
-router.get('/logout',usersController.logout);
+
 
 module.exports = router;

@@ -1,31 +1,5 @@
 const cartContent = document.querySelector(".cart-detail");
 class UI {
-    displayProducts(products) {
-        let result = "";
-        products.forEach(product => {
-            result += `
-     <!-- single product -->
-        <article class="product">
-          <div class="img-container">
-            <img
-              src=${product.image}
-              alt="product"
-              class="product-img"
-            />
-            <button class="bag-btn" data-id=${product.id}>
-              <i class="fas fa-shopping-cart"></i>
-              add to cart
-            </button>
-          </div>
-          <h3>${product.title}</h3>
-          <h4>$${product.price}</h4>
-        </article>
-        <!--end of single product -->
-     `;
-        });
-        productsDOM.innerHTML = result;
-    }
-
     setCartValues(cart) {
         let tempTotal = 0;
         let itemsTotal = 0;
@@ -68,42 +42,7 @@ class UI {
         cartContent.classList.remove("cart-show");
         console.log("Hidden")
     }
-    cartLogic() {
-        // clear cart button
-        clearCartBtn.addEventListener("click", () => {
-            this.clearCart();
-        });
-        // cart functionality
-        cartContent.addEventListener("click", event => {
-            if (event.target.classList.contains("remove-item")) {
-                let removeItem = event.target;
-                let id = removeItem.dataset.id;
-                cartContent.removeChild(removeItem.parentElement.parentElement);
-                this.removeItem(id);
-            } else if (event.target.classList.contains("fa-chevron-up")) {
-                let addAmount = event.target;
-                let id = addAmount.dataset.id;
-                let tempItem = cart.find(item => item.id === id);
-                tempItem.amount = tempItem.amount + 1;
-                Storage.saveCart(cart);
-                this.setCartValues(cart);
-                addAmount.nextElementSibling.innerText = tempItem.amount;
-            } else if (event.target.classList.contains("fa-chevron-down")) {
-                let lowerAmount = event.target;
-                let id = lowerAmount.dataset.id;
-                let tempItem = cart.find(item => item.id === id);
-                tempItem.amount = tempItem.amount - 1;
-                if (tempItem.amount > 0) {
-                    Storage.saveCart(cart);
-                    this.setCartValues(cart);
-                    lowerAmount.previousElementSibling.innerText = tempItem.amount;
-                } else {
-                    cartContent.removeChild(lowerAmount.parentElement.parentElement);
-                    this.removeItem(id);
-                }
-            }
-        });
-    }
+
     clearCart() {
         let cartItems = cart.map(item => item.id);
         cartItems.forEach(id => this.removeItem(id));
