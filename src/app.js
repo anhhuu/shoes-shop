@@ -9,7 +9,7 @@ app.use(cors());
 
 const debugHttp = require('debug')('shoes-shop:http')
 const debugError = require('debug')('shoes-shop:error')
-const passport = require("./passport/passportConfig");
+const passport = require("./config/passport");
 const session = require("express-session");
 
 const expressLayouts = require('express-ejs-layouts');
