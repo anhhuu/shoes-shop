@@ -120,16 +120,21 @@
     position: relative;
 }
 
- .product-image:hover .img-overlay,.home-page-carousel-container:hover .img-overlay {
+.home-page-carousel-container:hover .img-overlay1 {
     opacity: 1;
     transform: rotate3d(0,0.5,0,180deg);
 }
 
-.product-image:hover #shop-now-btn, .home-page-carousel-container:hover #shop-now-btn{
+ .product-image:hover .img-overlay{
+    opacity: 1;
     transform: rotate3d(0,0.5,0,180deg);
 }
 
-.img-overlay{
+ .home-page-carousel-container:hover #shop-now-btn{
+    transform: rotate3d(0,0.5,0,180deg);
+}
+
+.img-overlay, .img-overlay1{
     position: absolute;
     top: 0;
     bottom: 0;
@@ -155,10 +160,12 @@
     height: 200px;
 }
 
-#carousel-related img{
+#carousel-brand img{
     height: 200px;
 }
 
-#multi-item-example{
+#carousel-brand{
+    width: 70vw;
+    margin: 0 auto;
 
 }

@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/css/products.css">
 <!-- top Products -->
 <div class="ads-grid_shop">
     <div class="shop_inner_inf">
@@ -185,8 +186,20 @@
         <!--        PRODUCT BODY-->
         <div class="left-ads-display col-md-9">
             <% if(options.numOfPage > 1) { %>
-                <div class="row">
-                    <div id="pagination" class="pagination"></div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div id="pagination" class="pagination"></div>\
+                    <div id="filter-select">
+                        <label for="filter">
+                            Filter
+                        </label>
+                        <select name="filter" id="filter" class="form-select" aria-label="Default select example">
+                            <option value="">Select to sort</option>
+                            <option value="price-asc">Order by price ascending</option>
+                            <option value="price-desc">Order by price descending</option>
+                            <option value="discount-asc">Order by discount ascending</option>
+                            <option value="discount-desc">Order by discount descending</option>
+                        </select>
+                    </div>
                 </div>
             <% } %>
 

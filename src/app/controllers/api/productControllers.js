@@ -26,10 +26,11 @@ module.exports.getProducts = async (req, res, next) => {
         let brandURL = req.query.brand;
         const keyword = req.query.keyword;
         const range = req.query.range ? JSON.parse(req.query.range) : [];
+        const orderBy = req.query.order_by;
 
         let numOfPage;
         let currentPage = page;
-        const {products, count} = await productService.queryByFilter(page, limit, brandURL, discount, keyword, range);
+        const {products, count} = await productService.queryByFilter(page, limit, brandURL, discount, keyword, range,orderBy);
 
         numOfPage = Math.round(count / limit);
 

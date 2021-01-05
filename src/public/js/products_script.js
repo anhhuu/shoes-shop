@@ -1,5 +1,7 @@
 const BASE_URL = '/api/products';
-let userOptions = {};
+let userOptions = {
+    range: [1000000, 20000000]
+};
 
 function getQueryString(object) {
 
@@ -15,23 +17,37 @@ function getQueryString(object) {
     return '?' + $.param(object, true) + (range ? '&range=[' + range.join(',') + ']' : '');
 }
 
-function getProducts(page, userOptions) {
+function getProducts(pageOrURL, options) {
     let URL = BASE_URL;
 
 
-    if (typeof page !== 'string') {
-        if (page && page > 1) {
-            URL += getQueryString({page});
+    if (typeof pageOrURL !== 'string') {
+        if (pageOrURL && pageOrURL > 1) {
+            URL += getQueryString({page: pageOrURL});
         }
 
-        if (userOptions && Object.keys(userOptions).length > 0) {
-            URL += getQueryString(userOptions);
+        if (options && Object.keys(options).length > 0) {
+            URL += getQueryString(options);
         }
+
+        userOptions.page = +pageOrURL;
 
     } else {
-        URL = page;
+        URL = pageOrURL;
+        const tokens = pageOrURL.split('&');
+
+        for (let i = 0; i < tokens.length; i++) {
+            if (/page=\d+/.test(tokens[i])) {
+                userOptions.page = +(tokens[i].split('=')[1]);
+                break;
+            }
+        }
+
     }
 
+    console.log('USER OPTIONS')
+    console.log(userOptions);
+    console.log('END');
 
     $.get(URL, function (data) {
 
@@ -83,7 +99,7 @@ function getProducts(page, userOptions) {
         //Get next 4 pages;
         const options = data.options;
 
-        html += `<a href="${BASE_URL}${getQueryString({...userOptions, page: 1})}">&laquo;</a>`
+        html += `<a href="${BASE_URL}${getQueryString({...options, page: 1})}">&laquo;</a>`
 
         if (+options.currentPage - 3 > 1) {
             html += `<a href="#" class="disabled">...</a>`;
@@ -91,10 +107,9 @@ function getProducts(page, userOptions) {
         for (let j = +options.currentPage - 3; j <= +options.currentPage + 3; j++) {
 
             if (j < 1 || j > options.numOfPage) continue;
-            console.log(getQueryString({page: j, ...userOptions}));
 
             html += `<a href = "${BASE_URL}${getQueryString({
-                ...userOptions,
+                ...options,
                 page: j
             })}"  ${j === options.currentPage ? 'class="active"' : ''} >${j}</a>`;
 
@@ -102,13 +117,13 @@ function getProducts(page, userOptions) {
         if (+options.currentPage + 3 < options.numOfPage) {
             html += `<a href="#" class="disabled">...</a>`
         }
-        html += `<a href="${BASE_URL}${getQueryString({...userOptions, page: options.numOfPage})}">&raquo;</a>`
+        html += `<a href="${BASE_URL}${getQueryString({...options, page: options.numOfPage})}">&raquo;</a>`
 
         $('#pagination').html(html);
 
         $('#pagination a').click(function (e) {
             e.preventDefault();
-            getProducts(($(this).attr('href')), userOptions);
+            getProducts(($(this).attr('href')), options);
         });
 
     });
@@ -149,12 +164,22 @@ function getUserOptions() {
 
     const brand = $('#brand-checks input:checked').val();
     const keyword = $('#local-search input').val()
-    return {
+    let options = {
         discount: discountOptions,
         brand,
         keyword,
         page: 1
+    };
+
+    const order_by = $('#filter').val();
+    if (order_by !== "") {
+        options = {
+            ...options,
+            order_by
+        }
     }
+
+    return options
 }
 
 $(window).load(function () {
@@ -176,7 +201,6 @@ $(window).load(function () {
                     ...userOptions,
                     range: ui.values
                 }
-                console.log(userOptions)
                 const [start, end] = ui.values;
                 $('#amount2').val(start + ' VNĐ ' + '    ' + end + ' VNĐ')
             }
@@ -186,7 +210,6 @@ $(window).load(function () {
     });
 
     $('#cd-search').submit(function (e) {
-        console.log('RUN')
         e.preventDefault();
         userOptions = {
             ...userOptions,
@@ -262,9 +285,12 @@ function setUpAutoCallRequestAfterAnInterval(interval) {
 //user is "finished typing," do something
     function doneTyping() {
         userOptions = getUserOptions();
-        console.log(userOptions);
-
         getProducts(userOptions.page || 1, userOptions);
     }
 }
 
+$('#filter').change(function () {
+    userOptions = getUserOptions();
+    getProducts(userOptions.page || 1, userOptions);
+
+});
