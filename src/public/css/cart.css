@@ -2,20 +2,79 @@
 ** Style Simple Ecommerce Theme for Bootstrap 4
 ** Created by T-PHP https://t-php.fr/43-theme-ecommerce-bootstrap-4.html
 */
-.bloc_left_price {
-    color: #c01508;
-    text-align: center;
-    font-weight: bold;
-    font-size: 150%;
-}
+/*.bloc_left_price {*/
+/*    color: #c01508;*/
+/*    text-align: center;*/
+/*    font-weight: bold;*/
+/*    font-size: 150%;*/
+/*}*/
 .cart-detail{
     width: auto!important;
     position: fixed;
     z-index: 100;
     top: 70px;
-    transform: translateX(100%);
+    transform: translateX(120%);
+}
+.qty .count {
+    color: #000;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 30px;
+    padding: 0 2px
+;min-width: 35px;
+    text-align: center;
+}
+.qty .plus {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    color: white;
+    width: 30px;
+    height: 30px;
+    font: 30px/1 Arial,sans-serif;
+    text-align: center;
+    border-radius: 50%;
+}
+.qty .minus {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    color: white;
+    width: 30px;
+    height: 30px;
+    font: 30px/1 Arial,sans-serif;
+    text-align: center;
+    border-radius: 50%;
+    background-clip: padding-box;
 }
 
+/*Prevent text selection*/
+span{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+input{
+    border: 0;
+    width: 2%;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input:disabled{
+    background-color:white;
+}
+
+.minus:hover{
+    background-color: #717fe0 !important;
+}
+.plus:hover{
+    background-color: #717fe0 !important;
+}
 
 .cart-show{
     transform: translateX(0%);
@@ -24,53 +83,50 @@
 .cart-hidden{
     transform: translateX(100%);
 }
-.category_block li:hover {
-    background-color: #007bff;
+
+
+
+.tableFixHead          { overflow-y: auto; max-height: 350px; }
+.tableFixHead thead th { position: sticky; top: 0; }
+
+/* Just common table stuff. Really. */
+table  { border-collapse: collapse; width: 100%; }
+th, td { padding: 8px 16px; }
+th     { background:#eee; }
+
+.rating {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    justify-content: left;
 }
-.category_block li:hover a {
-    color: #ffffff;
+
+.rating>input {
+    display: none
 }
-.category_block li a {
-    color: #343a40;
+
+.rating>label {
+    position: relative;
+    width: 1em;
+    font-size: 2vw;
+    color: #FFD600;
+    cursor: pointer
 }
-.add_to_cart_block .price {
-    color: #c01508;
-    text-align: center;
-    font-weight: bold;
-    font-size: 200%;
-    margin-bottom: 0;
+
+.rating>label::before {
+    content: "\2605";
+    position: absolute;
+    opacity: 0
 }
-.add_to_cart_block .price_discounted {
-    color: #343a40;
-    text-align: center;
-    text-decoration: line-through;
-    font-size: 140%;
+
+.rating>label:hover:before,
+.rating>label:hover~label:before {
+    opacity: 1 !important
 }
-.product_rassurance {
-    padding: 10px;
-    margin-top: 15px;
-    background: #ffffff;
-    border: 1px solid #6c757d;
-    color: #6c757d;
+
+.rating>input:checked~label:before {
+    opacity: 1
 }
-.product_rassurance .list-inline {
-    margin-bottom: 0;
-    text-transform: uppercase;
-    text-align: center;
-}
-.product_rassurance .list-inline li:hover {
-    color: #343a40;
-}
-.reviews_product .fa-star {
-    color: gold;
-}
-.pagination {
-    margin-top: 20px;
-}
-footer {
-    background: #343a40;
-    padding: 40px;
-}
-footer a {
-    color: #f8f9fa!important
+
+.rating:hover>input:checked~label:before {
+    opacity: 0.4
 }

@@ -1,10 +1,10 @@
-const productModel = require('../models/productModel');
+const productService = require('../models/services/productService');
 const debug = require('debug')('HomePage');
 module.exports.index = async (req, res, next) => {
 
     try {
         debug('Home');
-        const galleryProducts = await productModel.getList(3, 12);
+        const galleryProducts = await productService.getList(3, 12);
         res.render('index', {
             layout: 'layouts/homePage',
             title: 'Home',
@@ -49,10 +49,10 @@ module.exports.search = async (req, res, next) => {
 
     let currentPage = page;
 
-    let count = await productModel.countSearchByName(keyword);
+    let count = await productService.countSearchByName(keyword);
     let numOfPage = Math.round(count / limit);
 
-    let products = await productModel.searchByName(page, limit, keyword);
+    let products = await productService.searchByName(page, limit, keyword);
     if (products.length) {
         searchResultTitle = 'Có ' + count + ' kết quả tìm kiếm phù hợp';
     }

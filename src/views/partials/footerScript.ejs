@@ -1,72 +1,22 @@
 <!-- js -->
-<script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
+<!--<script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>-->
 <!-- //js -->
 <!-- /nav -->
 <script src="/js/modernizr-2.6.2.min.js"></script>
 <script src="/js/classie.js"></script>
 <script src="/js/demo1.js"></script>
+
 <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css'>
 <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 <!-- //nav -->
 
-<!-- cart-js -->
-<!--<script src="/js/minicart.js"></script>-->
-<!--<script>-->
-<!--    shoe.render();-->
-
-<!--    shoe.cart.on('shoe_checkout', function (evt) {-->
-<!--        var items, len, i;-->
-
-<!--        if (this.subtotal() > 0) {-->
-<!--            items = this.items();-->
-
-<!--            for (i = 0, len = items.length; i < len; i++) { }-->
-<!--        }-->
-<!--    });-->
-<!--</script>-->
-<!-- //cart-js -->
-
 <!-- price range (top products) -->
 <script src="/js/jquery-ui.js"></script>
-<script>
-    //<![CDATA[ 
-    $(window).load(function () {
-        $("#slider-range").slider({
-            range: true,
-            min: 0,
-            max: 9000,
-            values: [50, 6000],
-            slide: function (event, ui) {
-                $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
-            }
-        });
-        $("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
-
-    }); //]]>
-</script>
-<!-- //price range (top products) -->
 
 <!-- font-awesome-icons -->
 <script src="https://use.fontawesome.com/e8e9ff4318.js"></script>
 <!-- //font-awesome-icons -->
-
-<!-- flex slider -->
-<script src="/js/jquery.flexslider.js"></script>
-<script>
-    // Can also be used with $(document).ready()
-    $(window).load(function () {
-        $('.flexslider').flexslider({
-            animation: "slide",
-            controlNav: "thumbnails"
-        });
-    });
-</script>
-<!-- //flex slider -->
-
-<!-- single -->
-<script src="/js/imagezoom.js"></script>
-<!-- //single -->
 
 <!--search-bar-->
 <script src="/js/search.js"></script>
@@ -118,10 +68,13 @@
 <!-- start-smoth-scrolling -->
 <script type="text/javascript" src="/js/move-top.js"></script>
 <script type="text/javascript" src="/js/easing.js"></script>
-<script type="text/javascript" src="/js/cart.js"></script>
+<script type="text/javascript" src="/js/cart-handle.js"></script>
+<script type="text/javascript" src="/js/checkout-handle.js"></script>
+<script type="text/javascript" src="/js/product_detail.js"></script>
+
 <script type="text/javascript">
     jQuery(document).ready(function ($) {
-        $(".scroll").click(function (event) {
+        $("#toTop").click(function (event) {
             event.preventDefault();
             $('html,body').animate({
                 scrollTop: $(this.hash).offset().top
@@ -129,4 +82,7 @@
         });
     });
 </script>
-<!-- //end-smoth-scrolling -->
+ //end-smoth-scrolling
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js" ></script>
+<!--<script src="/js/bootstrap.min.js"></script>-->

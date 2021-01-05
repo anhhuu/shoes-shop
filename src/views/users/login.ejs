@@ -1,8 +1,8 @@
-<link href="/css/mystyle.css" rel="stylesheet" type="text/css" media="all" />
-<div class="row">
-    <div class="col-lg-5 col-5"></div>
-    <div class="form-container col-lg-7 col-7">
-        <form class="form" id="form" method="post" action="/login">
+<link href="/css/login-sign-up-style.css" rel="stylesheet" type="text/css" media="all" />
+
+<div class="container">
+    <div class="form-container">
+        <form class="form" id="form" method="post" action="/users/login">
             <h2>Login</h2>
             <div class="form--control">
                 <label for="username">Email</label>
@@ -15,7 +15,13 @@
                 <small>Error message</small>
             </div>
 
-            <button class="disabled" id="btn-submit">Submit</button>
+            <button type="submit" id="btn-primary">Login</button>
+
         </form>
+
+        <form class="form" action="/users/signup">
+            <button class="disabled">Register</button>
+        </form>
+
     </div>
 </div>

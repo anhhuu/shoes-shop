@@ -1,6 +1,7 @@
-const productModel = require('../models/productModel')
-const brandModel = require('../models/brandModel')
-
+const productService = require('../models/services/productService')
+const brandService = require('../models/services/brandService')
+const categoryService =  require('../models/services/categoryService')
+const sizeService = require('../models/services/sizeService');
 module.exports.showProducts = async(req, res, next) => {
     let limit = 24;
     let page = req.query.page;
@@ -14,15 +15,15 @@ module.exports.showProducts = async(req, res, next) => {
     let count;
     let numOfPage;
     let currentPage = page;
-    let brands = await brandModel.getList();
+    let brands = await brandService.getList();
 
     console.log(brands)
 
     if (brandChecked) {
-        let brand = await brandModel.getByURL(brandChecked);
-        count = await productModel.countByBrandID(brand._id);
+        let brand = await brandService.getByURL(brandChecked);
+        count = await productService.countByBrandID(brand._id);
         numOfPage = Math.round(count / limit);
-        products = await productModel.getListByBrandID(page, limit, brand._id);
+        products = await productService.getListByBrandID(page, limit, brand._id);
         let options = {
             numOfPage: numOfPage,
             currentPage: currentPage,
@@ -38,9 +39,9 @@ module.exports.showProducts = async(req, res, next) => {
         })
     } else {
 
-        count = await productModel.count();
+        count = await productService.count();
         numOfPage = Math.round(count / limit);
-        products = await productModel.getList(page, limit);
+        products = await productService.getList(page, limit);
 
         let options = {
             numOfPage: numOfPage,
@@ -59,17 +60,36 @@ module.exports.showProducts = async(req, res, next) => {
 
 module.exports.showProduct = async(req, res, next) => {
     product_url = req.params.url;
-    let product = await productModel.getByURL(product_url);
+    let product = await productService.getByURL(product_url);
+    let brand = await brandService.getByID(product.brand_id);
+    let category = await categoryService.getByID(product.category_id)
+    let color = product.color.split('/');
+    let result = [];
+
+    for(let size of  product.product_detail){
+        let sizeClass = sizeService.getByID(size.size_id)
+        result.push(sizeClass);
+
+    }
+
+    result = await Promise.all(result)
+
+
+    console.log(product)
     res.render('shop/productDetail', {
         title: 'HDH Shoes',
         pageName: 'Product',
-        product: product
+        product: product,
+        brand: brand,
+        category: category,
+        color:color,
+        size: result,
     })
 }
 
 module.exports.getProductController = async (req,res)=>{
     let productID = req.params.ID;
-    let product = await productModel.getByID(productID)
+    let product = await productService.getByID(productID)
     res(product);
 }
 

@@ -36,13 +36,24 @@ const User = new Schema({
     address: {
         type:String,
         required: true
+    },
+    active:{
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+    role_id: { type: Schema.Types.ObjectId, ref: "Role" },
+    isBlocked:{
+        type: Boolean,
+        default: false
     }
-
 }, {
     timestamps: true,
 });
 
 User.pre('save',async function(next){
+    console.log('Update');
+
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password,salt);
 })

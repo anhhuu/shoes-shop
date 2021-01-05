@@ -1,7 +1,7 @@
 const passport = require('passport')
     , LocalStrategy = require('passport-local').Strategy;
 const User = require('../app/models/mongooseModels/userMongooseModel');
-const userService = require('../app/models/userService');
+const userService = require('../app/models/services/userService');
 
 passport.use(new LocalStrategy(
     function (email, password, done) {
@@ -9,9 +9,14 @@ passport.use(new LocalStrategy(
         User.findOne({email})
             .then(user => {
 
-                if (!user) {
+                if (!user){
                     return done(null, false, {message: 'Incorrect username.'});
                 }
+
+                if( !user.active ){
+                    return done(null, false, {message: 'The user has not active yet'});
+                }
+
                 userService.validPassword(user, password)
                     .then(result => {
                         if (!result) {
@@ -24,7 +29,6 @@ passport.use(new LocalStrategy(
                         }
                     );
 
-
             }).catch(e => {
             done(e)
         });
@@ -35,12 +39,15 @@ passport.serializeUser(function (user, done) {
     done(null, user._id);
 });
 
-passport.deserializeUser(function (id, done) {
-    User.findById(id)
-        .then(function(user) {
-            done(null, user);
-        })
-        .catch(e=>done(e));
+passport.deserializeUser(async function (id, done) {
+
+    try{
+        const user = await User.findById(id).select('-password');
+
+        done(null, user);
+    }catch (e){
+        done(e);
+    }
 });
 
 module.exports = passport;

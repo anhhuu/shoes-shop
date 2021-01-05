@@ -3,7 +3,10 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const cors = require('cors');
 const app = express();
+app.use(cors());
+
 const debugHttp = require('debug')('shoes-shop:http')
 const debugError = require('debug')('shoes-shop:error')
 const passport = require("./passport/passportConfig");
@@ -26,7 +29,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 //Config passport
 app.use(session({
@@ -54,6 +56,8 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
+    console.log(err);
+
     res.locals.error = req.app.get('env') === 'development' ? err : {};
 
     // render the error page
