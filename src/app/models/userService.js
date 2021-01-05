@@ -6,35 +6,36 @@ const bcrypt = require('bcryptjs');
  * @param user
  * @returns {Promise<boolean>}
  */
-module.exports.signup = async (user)=>{
-    try{
-        const userObj = await User.findOne({email: user.email});
+module.exports.signup = async(user) => {
+    try {
+        const userObj = await User.findOne({ email: user.email });
 
-        if(userObj){
+        if (userObj) {
             return false;
         }
 
         const userResult = await User.create(user);
 
-        if(userResult){
+        if (userResult) {
             return true
         }
         return false;
-    }catch (e){
+    } catch (e) {
         return false;
     }
 
 }
+
 /**
  *
  * @param password
  * @returns {!Promise}
  */
 
-module.exports.validPassword = (user,password)=>{
+module.exports.validPassword = (user, password) => {
     return bcrypt.compare(password, user.password);
 }
 
-module.exports.getUserProfile = (id)=>{
-    return User.findOne({_id: id}).lean();
+module.exports.getUserProfile = (id) => {
+    return User.findOne({ _id: id }).lean();
 }

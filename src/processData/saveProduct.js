@@ -56,11 +56,13 @@ saveData = async() => {
             product_detail.push(product_detail_obj);
         }
         let discount = 0;
-        if (product.price.old_price.number_price) {
-            discount = 1 - product.price.price_value / product.price.old_price.number_price;
+        if (product.price.old_price.price_value) {
+            discount = 1 - parseFloat(product.price.price_value) / parseFloat(product.price.old_price.price_value);
             product.price = product.price.old_price;
         }
         product.discount = discount;
+        console.log('discount: ' + discount);
+        console.log('price: ' + product.price.price_value);
         product.product_detail = product_detail;
         product.description = "";
 
