@@ -1,9 +1,9 @@
 const brandMongooseModel = require('../mongooseModels/brandMongooseModel');
-const { mongooseToObject, multipleMongooseToObject } = require('../../../utils/mongooseToObject')
+const {mongooseToObject, multipleMongooseToObject} = require('../../../utils/mongooseToObject')
 
-module.exports.getByID = async(id) => {
+module.exports.getByID = async (id) => {
     try {
-        let brand = await brandMongooseModel.findOne({ _id: id });
+        let brand = await brandMongooseModel.findOne({_id: id});
         if (brand) {
             brand = mongooseToObject(brand);
         }
@@ -14,7 +14,7 @@ module.exports.getByID = async(id) => {
     }
 }
 
-module.exports.getByURL = async(url) => {
+module.exports.getByURL = async (url) => {
     try {
         return await brandMongooseModel.findOne({brand_url: url}).lean();
     } catch (error) {
@@ -22,13 +22,13 @@ module.exports.getByURL = async(url) => {
     }
 }
 
-module.exports.getList = async() => {
+module.exports.getList = async () => {
     return brandMongooseModel.find({}).select("brand_url name -_id").lean();
 }
 
-module.exports.getByName = async(name) => {
+module.exports.getByName = async (name) => {
     try {
-        let brand = await brandMongooseModel.findOne({ name: name });
+        let brand = await brandMongooseModel.findOne({name: name});
         if (brand) {
             brand = mongooseToObject(brand);
         }
@@ -39,7 +39,7 @@ module.exports.getByName = async(name) => {
     }
 }
 
-module.exports.save = async(brandObject) => {
+module.exports.save = async (brandObject) => {
     try {
         let brand = new brandMongooseModel({
             name: brandObject.name,
@@ -54,3 +54,16 @@ module.exports.save = async(brandObject) => {
     }
 }
 
+module.exports.getBrandsImageURL = () => {
+    return new Promise((resolve, reject) => {
+        brandMongooseModel.find({})
+            .then(result => {
+                resolve(result.map(({_id, images_url}) => ({
+                    _id,
+                    image_url: images_url.length > 0 ? images_url[0] : ''
+                })));
+            })
+            .catch(e => reject(e))
+    })
+
+}

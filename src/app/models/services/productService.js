@@ -19,7 +19,6 @@ module.exports.getByID = async (id) => {
 }
 
 
-
 module.exports.getByURL = async (product_url) => {
     try {
         let product = await productMongooseModel.findOne({product_url: product_url});
@@ -163,7 +162,7 @@ module.exports.queryByFilter = async (page, limit, brandURL, discount, keyword, 
             limit = 12;
         }
 
-        if(typeof discount !== 'object'){
+        if (typeof discount !== 'object') {
             discount = [discount];
         }
 
@@ -180,10 +179,9 @@ module.exports.queryByFilter = async (page, limit, brandURL, discount, keyword, 
         const [start, end] = range.length === 2 ? range : [null, null];
 
 
-
         let countQuery = productMongooseModel.find(keyword ? {$text: {$search: keyword}} : {})
             .find(brandID ? {brand_id: brandID} : {})
-            .find( discountConditions && discountConditions.length > 0 ? {$or: discountConditions} : {})
+            .find(discountConditions && discountConditions.length > 0 ? {$or: discountConditions} : {})
 
         let productsQuery = productMongooseModel
             .find(keyword ? {$text: {$search: keyword}} : {})
@@ -226,21 +224,44 @@ module.exports.queryByFilter = async (page, limit, brandURL, discount, keyword, 
     }
 }
 
-module.exports.getProductRelated = async (categoryID,brandID, price)=>{
+module.exports.getProductRelated = async (categoryID, brandID, price) => {
     try {
         let priceDownTo = +price - 500000;
         let priceUpTo = +price + 500000;
         let productRelated = await productMongooseModel.find({
-            $and:[
+            $and: [
                 {brand_id: brandID},
-                {category_id:categoryID},
-                {"price.price_value":{$gte:priceDownTo, $lte: priceUpTo}}
+                {category_id: categoryID},
+                {"price.price_value": {$gte: priceDownTo, $lte: priceUpTo}}
             ]
         }).limit(9);
         console.log(productRelated);
         return productRelated;
 
-    }catch (e) {
+    } catch (e) {
         throw e;
     }
+}
+
+module.exports.getBestSellerProducts = () => {
+    //TODO:
+    return this.getList(1, 12);
+}
+
+module.exports.getNewProducts = (page, limit) => {
+    return productMongooseModel
+        .find({})
+        .sort({createdAt: -1})
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .lean();
+}
+
+module.exports.getProductsOnSale = (page,limit)=>{
+    return productMongooseModel
+        .find({})
+        .sort({discount: -1})
+        .skip((page-1)* limit)
+        .limit(limit)
+        .lean();
 }

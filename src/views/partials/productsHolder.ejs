@@ -1,0 +1,8 @@
+<div class="products-holder pt-5">
+    <h2 class="text-center py-3 "><strong><%=title ? title: ''%></strong></h2>
+    <div class="products-container">
+        <%products.map(product=>{%>
+            <%-include('./productHomePage',{product})%>
+        <%})%>
+    </div>
+</div>

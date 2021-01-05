@@ -83,7 +83,7 @@ button#trigger-overlay {
 
 html,
 body {
-	overflow-x: hidden;
+	/*overflow-x: hidden;*/
 }
 
 .container.overlay-open {
