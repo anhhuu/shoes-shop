@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const usersController = require('../app/controllers/usersController');
-const passport = require("../passport/passportConfig");
-const {protect} = require("../middleware/auth");
+const passport = require("../config/passport");
+const { protect } = require("../middleware/auth");
 
 //[GET] /users/login
 router.get('/login', usersController.getLoginPage);
@@ -27,7 +27,7 @@ router.post('/login',
 router.get('/logout', usersController.logout);
 
 //[GET] /users/verification/:hashedID
-router.get('/verification/:token',usersController.verification);
+router.get('/verification/:token', usersController.verification);
 
 
 module.exports = router;
