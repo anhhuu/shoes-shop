@@ -1,0 +1,49 @@
+
+.direction-button:hover{
+    background-color: #407004 !important;
+    color: white;
+    clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+}
+.direction-button{
+    background-color: #143a58 !important;
+    clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+}
+
+.direction-button-back:hover{
+    background-color: #407004 !important;
+    color: white;
+    clip-path: polygon(0% 50%, 25% 0%, 100% 0%, 100% 100%, 25% 100%);
+}
+.direction-button-back{
+    background-color: #143a58 !important;
+    padding-left: 30px !important;
+    clip-path: polygon(0% 50%, 25% 0%, 100% 0%, 100% 100%, 25% 100%);
+}
+
+.select-css{
+    max-width: 100%;
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 0;
+    border: 2px solid rgba(20,20,20,0.2);
+
+}
+.select-css option {
+    width: 100%;
+    max-width: 100%;
+}
+
+.information-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 10px 0;
+}
+
+.information-wrapper #fullName, .information-wrapper #phoneNumber,
+.information-wrapper #address
+{
+    box-sizing: border-box;
+    height: 30px !important;
+    padding: 15px 5px;
+}

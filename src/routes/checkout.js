@@ -7,5 +7,11 @@ const {checkAuthentication} = require("../app/controllers/usersController");
 
 router.get('/',checkAuthentication,checkoutController.checkout);
 
+/**
+ *
+ * @type {Router}
+ */
+
+router.get('/address',checkoutController.getAddressManagementPage);
 
 module.exports = router;

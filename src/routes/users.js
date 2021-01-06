@@ -20,7 +20,7 @@ router.post('/signup', usersController.signup);
 
 //[POST] /users/login
 router.post('/login',
-    passport.authenticate('local', { successRedirect: '/users/profile',
+    passport.authenticate('local', { successRedirect: '/checkout/address',
         failureRedirect: '/users/login' }));
 
 //[GET] /users/logout
