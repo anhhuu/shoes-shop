@@ -30,7 +30,7 @@ module.exports.save = async (phoneNumber, fullName,  note, userID, provinceID, d
 
 module.exports.getAllAddressesByUserID = async (userID) => {
     try{
-        let addresses = await addressMongooseModel.find({user_id: userID}).lean()
+        let addresses = await addressMongooseModel.find({user_id: userID, isDeleted: false}).lean()
         let provinces = addresses.map(address => provinceService.getProvinceByID(address.province_id));
         let districts = addresses.map(address => districtService.getDistrictByID(address.district_id));
         let wards = addresses.map(address => wardService.getWardByID(address.ward_id));
@@ -52,4 +52,10 @@ module.exports.getAllAddressesByUserID = async (userID) => {
         throw e
     }
 
+}
+
+module.exports.deleteAnAddress = (id)=>{
+    return addressMongooseModel.findOneAndUpdate({_id: id},{
+        isDeleted: true
+    });
 }

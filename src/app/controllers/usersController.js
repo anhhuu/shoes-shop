@@ -3,6 +3,7 @@ const debug = require('debug')('user-controllers');
 const jwt = require('jsonwebtoken');
 const {sendMail} = require("../../config/mailjet");
 const userService = require("../models/services/userService");
+const addressService = require('../models/services/addressService');
 
 module.exports.getLoginPage = (req, res) => {
     if (req.user) {
@@ -30,12 +31,22 @@ module.exports.getSignUpPage = (req, res) => {
     })
 }
 
-module.exports.getProfile = (req, res) => {
+module.exports.getProfile = async (req, res,next) => {
 
-    res.render('users/profile', {
-        title: 'User profile',
-        pageName: 'Profile',
-    })
+    try{
+        const addresses = await addressService.getAllAddressesByUserID(req.user._id);
+        res.render('users/profile', {
+            title: 'User profile',
+            pageName: 'Profile',
+            options:{
+                addresses
+            }
+        });
+    }catch (e){
+        next();
+    }
+
+
 }
 
 module.exports.logout = (req, res) => {
