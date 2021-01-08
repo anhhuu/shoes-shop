@@ -1,0 +1,10 @@
+#filter{
+    border-radius: 1px;
+    border: 1px solid #e0dddd;
+    padding: 5px 10px   ;
+    margin-left: 10px;
+}
+
+#filter::selection{
+    outline: none;
+}
