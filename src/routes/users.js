@@ -26,8 +26,16 @@ router.post('/login',
 //[GET] /users/logout
 router.get('/logout', usersController.logout);
 
+// [POST] /users/forgot-password
+router.post('/forgot-password',usersController.forgotPassword);
+
+//[POST] /users/reset-password
+router.post('/reset-password',usersController.postResetPassword);
+
+//[GET] /user/reset-password/:token
+router.get('/reset-password/:token',usersController.resetPassword);
+
 //[GET] /users/verification/:hashedID
 router.get('/verification/:token', usersController.verification);
-
 
 module.exports = router;

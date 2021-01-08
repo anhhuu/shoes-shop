@@ -1,7 +1,7 @@
-const { createUser } = require("../models/services/userService");
+const {createUser} = require("../models/services/userService");
 const debug = require('debug')('user-controllers');
 const jwt = require('jsonwebtoken');
-const { sendMail } = require("../../config/mailjet");
+const {sendMail} = require("../../config/mailjet");
 const userService = require("../models/services/userService");
 
 module.exports.getLoginPage = (req, res) => {
@@ -13,7 +13,7 @@ module.exports.getLoginPage = (req, res) => {
     res.render('users/login', {
         title: 'Login',
         pageName: 'Login',
-        options: { message }
+        options: {message}
     });
 
 }
@@ -26,7 +26,7 @@ module.exports.getSignUpPage = (req, res) => {
     res.render('users/signup', {
         title: 'Sign Up',
         pageName: 'Sign Up',
-        options: { email: queryEmail, message }
+        options: {email: queryEmail, message}
     })
 }
 
@@ -44,10 +44,10 @@ module.exports.logout = (req, res) => {
 }
 
 
-module.exports.signup = async(req, res, next) => {
+module.exports.signup = async (req, res, next) => {
 
     try {
-        const { first_name, last_name, password, email, phone_number, address } = req.body;
+        const {first_name, last_name, password, email, phone_number, address} = req.body;
         const user = await createUser({
             first_name,
             last_name,
@@ -62,7 +62,7 @@ module.exports.signup = async(req, res, next) => {
         if (user) {
             const userEmail = user.email;
 
-            const token = await jwt.sign({ email: userEmail }, process.env.JWT_SECRET, { expiresIn: '1h' }, );
+            const token = await jwt.sign({email: userEmail}, process.env.JWT_SECRET, {expiresIn: '1h'},);
             const link = `${process.env.WEB_URL}/users/verification/${token}`
             sendMail(link, userEmail, 'Activate your account', 'Verify account');
             res.redirect(`/users/signup?email=${email}`);
@@ -77,7 +77,7 @@ module.exports.signup = async(req, res, next) => {
     }
 }
 
-module.exports.verification = async(req, res, next) => {
+module.exports.verification = async (req, res, next) => {
 
     try {
 
@@ -97,10 +97,114 @@ module.exports.verification = async(req, res, next) => {
 
 }
 
-module.exports.checkAuthentication = async(req, res, next) => {
+module.exports.checkAuthentication = async (req, res, next) => {
     if (req.isAuthenticated()) {
         next();
     } else {
         res.redirect("/users/login");
     }
+}
+
+module.exports.forgotPassword = async (req, res, next) => {
+    try {
+        const {email} = req.body;
+        if (!email) {
+            next();
+        }
+        const user = await userService.findUser(email);
+
+        if (user) {
+            const link = await userService.generateUserResetPasswordLink(user.email);
+            sendMail(link, email, 'Reset your password', 'Click to reset');
+
+            res.render('users/forgot-password', {
+                title: 'Forgot password',
+                pageName: "Forgot Password",
+                options: {email, confirm: false}
+            });
+
+        } else {
+            next();
+        }
+
+    } catch (e) {
+        next();
+    }
+
+}
+
+
+module.exports.resetPassword = async (req, res, next) => {
+
+    try {
+        const token = req.params.token;
+        if (!token) return next();
+
+        const decodedID = await jwt.verify(token, process.env.JWT_SECRET);
+        if (!decodedID.email) return next();
+
+        const exists = await userService.checkExistUser(decodedID.email);
+        if (!exists) {
+            return next();
+        }
+
+        res.render('users/forgot-password', {
+            title: 'Forgot password',
+            pageName: 'Forgot Password',
+            options: {
+                email: decodedID.email,
+                confirm: true,
+                token
+            }
+        })
+
+
+    } catch (e) {
+        next();
+    }
+
+}
+
+module.exports.postResetPassword = async (req, res, next) => {
+
+    try {
+        const {password, token} = req.body;
+
+        if (!token || !password) return next();
+
+        const {email} = await jwt.verify(token, process.env.JWT_SECRET);
+        if (!email) return next();
+
+        const user = await userService.updateUserPassword(email, password);
+
+
+        if (user) {
+            res.render('users/forgot-password', {
+                title: 'Forgot password',
+                pageName: 'Forgot Password',
+                options: {
+                    email,
+                    confirm: true,
+                    token,
+                    message: 'Update password successfully'
+                }
+            });
+        } else {
+            res.render('users/forgot-password', {
+                title: 'Forgot password',
+                pageName: 'Forgot Password',
+                options: {
+                    email,
+                    confirm: true,
+                    message: 'An error occur',
+                    hasError: true
+                }
+            });
+        }
+
+
+    } catch (e) {
+        next();
+    }
+
 }
