@@ -27,4 +27,9 @@ router.get('/district/:provinceID', addressController.getDistricts);
 router.get('/ward/:districtID',addressController.getWards);
 
 
+/**
+ * DELETE /api/address/delete/:addressID
+ */
+router.delete('/delete/:addressID',protect,addressController.deleteAnAddress)
+
 module.exports = router;

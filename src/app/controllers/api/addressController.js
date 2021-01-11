@@ -53,3 +53,20 @@ module.exports.getWards = async (req,res,next)=>{
         next();
     }
 }
+
+module.exports.deleteAnAddress = async(req,res,next)=>{
+
+    try{
+        const {addressID} = req.params;
+        const deletedAddress = await addressService.deleteAnAddress(addressID);
+
+        res.json({
+            message: 'Deleted',
+            deletedAddress
+        });
+
+    }catch (e){
+        next();
+    }
+
+}

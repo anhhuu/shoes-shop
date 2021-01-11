@@ -6,6 +6,7 @@ const address_info = new Schema({
     address_text: { type: String, required: true },
     phone_number: { type: Object , required: true},
     note: { type: String },
+    isDeleted: { type: Boolean, default: false },
     user_id: { type: Schema.Types.ObjectId, ref: "uses" },
     province_id: { type: Schema.Types.ObjectId, ref: "provinces" },
     district_id: { type: Schema.Types.ObjectId, ref: "districts" },

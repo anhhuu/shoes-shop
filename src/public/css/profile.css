@@ -46,12 +46,11 @@
     100%{
         left: 50%;
         top: 50%;
-        border-radius: 0%;
+        border-radius: 0;
         transform:scale(2.0) translate(-50%, -50%);
     }
 }
 
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:700,300);
 .dropzone:hover{
     cursor: pointer;
 }
@@ -113,7 +112,7 @@
     opacity: 0;
 }
 
-.btn {
+.btn- {
     display: block;
     padding: 10px 15px;
     height: 40px;
@@ -126,7 +125,7 @@
     font-size: 14px;
 }
 
-.btn:hover {
+.btn-:hover {
     background: rebeccapurple;
     box-shadow: 0 3px 0 0 deeppink;
 }
@@ -136,4 +135,13 @@
     /* This rule is very important, please don't ignore this */
     max-width: 100%;
     max-width: 100%;
+}
+#user-shipping-address-section{
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit,auto);
+    grid-gap: 10px;
+}
+
+.delete-btn{
+    border-radius: 0;
 }

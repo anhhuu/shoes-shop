@@ -1,242 +1,215 @@
 <link rel="stylesheet" href="/css/products.css">
 <!-- top Products -->
-<div class="ads-grid_shop">
-    <div class="shop_inner_inf">
-        <!--        SIDE BAR-->
-        <div class="side-bar col-md-3">
-            <div class="search-hotel">
-                <h3 class="agileits-sear-head">Search Here..</h3>
-                <form action="/search" method="get" id="local-search">
-                    <input type="search" placeholder="Product name..." name="keyword">
-                    <input type="submit" value=" ">
-                </form>
-            </div>
-
-            <!-- price range -->
-            <link rel="stylesheet" href="/css/price-slider.css">
-            <div class="range ">
-                <div class="price-range-slider">
-
-                    <p class="range-value">
-                        <input type="text" id="amount2" readonly>
-                    </p>
-                    <div id="slider-range" class="range-bar"></div>
-
-                </div>
-            </div>
-
-            <!--            Brand-->
-            <div class="left-side">
-                <h3 class="agileits-sear-head">Brand</h3>
-                <!--                BRANDS-->
-                <ul id="brand-checks"></ul>
-            </div>
-            <!-- // preference -->
-            <!-- discounts -->
-            <div class="left-side">
-                <h3 class="agileits-sear-head">Discount</h3>
-                <ul id="discount-options">
-                    <li>
-                        <input type="checkbox" name="discount" value="0.05" class="checked">
-                        <span class="span">5% or More</span>
-                    </li>
-                    <li>
-                        <input type="checkbox" name="discount" value="0.1" class="checked">
-                        <span class="span">10% or More</span>
-                    </li>
-                    <li>
-                        <input type="checkbox" name="discount" value="0.2" class="checked">
-                        <span class="span">20% or More</span>
-                    </li>
-                    <li>
-                        <input type="checkbox" name="discount" value="0.3" class="checked">
-                        <span class="span">30% or More</span>
-                    </li>
-                    <li>
-                        <input type="checkbox" name="discount" value="0.5" class="checked">
-                        <span class="span">50% or More</span>
-                    </li>
-                    <li>
-                        <input type="checkbox" name="discount" value="0.6" class="checked">
-                        <span class="span">60% or More</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- //discounts -->
-
-            <!-- reviews -->
-
-            <div class="customer-rev left-side">
-                <h3 class="agileits-sear-head">Customer Review</h3>
-                <ul>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <span>5.0</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                            <span>4.0</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star-half-o" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                            <span>3.5</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                            <span>3.0</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star-half-o" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                            <span>2.5</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- //reviews -->
-            <!-- deals -->
-
-            <div class="deal-leftmk left-side">
-                <h3 class="agileits-sear-head">Special Deals</h3>
-                <div class="special-sec1">
-                    <div class="col-xs-4 img-deals">
-                        <img src="images/s4.jpg" alt="">
-                    </div>
-                    <div class="col-xs-8 img-deal1">
-                        <h3>Shuberry Heels</h3>
-                        <a href="/products/single">$180.00</a>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="special-sec1">
-                    <div class="col-xs-4 img-deals">
-                        <img src="images/s2.jpg" alt="">
-                    </div>
-                    <div class="col-xs-8 img-deal1">
-                        <h3>Chikku Loafers</h3>
-                        <a href="/products/single">$99.00</a>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="special-sec1">
-                    <div class="col-xs-4 img-deals">
-                        <img src="images/s1.jpg" alt="">
-                    </div>
-                    <div class="col-xs-8 img-deal1">
-                        <h3>Bella Toes</h3>
-                        <a href="/products/single">$165.00</a>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="special-sec1">
-                    <div class="col-xs-4 img-deals">
-                        <img src="images/s5.jpg" alt="">
-                    </div>
-                    <div class="col-xs-8 img-deal1">
-                        <h3>Red Bellies</h3>
-                        <a href="/products/single">$225.00</a>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="special-sec1">
-                    <div class="col-xs-4 img-deals">
-                        <img src="images/s3.jpg" alt="">
-                    </div>
-                    <div class="col-xs-8 img-deal1">
-                        <h3>(SRV) Sneakers</h3>
-                        <a href="/products/single">$169.00</a>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-
-
+<div class="root-grid">
+    <div class="side-bar">
+        <div class="search-hotel">
+            <h3 class="agileits-sear-head">Search Here..</h3>
+            <form action="/search" method="get" id="local-search">
+                <input type="search" placeholder="Product name..." name="keyword">
+                <input type="submit" value=" ">
+            </form>
         </div>
 
-        <!--        PRODUCT BODY-->
-        <div class="left-ads-display col-md-9">
-            <% if(options.numOfPage > 1) { %>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div id="pagination" class="pagination"></div>\
-                    <div id="filter-select">
-                        <label for="filter">
-                            Filter
-                        </label>
-                        <select name="filter" id="filter" class="form-control" aria-label="Default select example">
-                            <option value="">Select to sort</option>
-                            <option value="price-asc">Order by price ascending</option>
-                            <option value="price-desc">Order by price descending</option>
-                            <option value="discount-asc">Order by discount ascending</option>
-                            <option value="discount-desc">Order by discount descending</option>
-                        </select>
-                    </div>
-                </div>
-            <% } %>
-
-            <div class="wrapper_top_shop">
-
-                <!--                ADVERTISING-->
-                <div class="col-md-6 shop_left">
-                    <img src="images/banner3.jpg" alt="">
-                    <h6>40% off</h6>
-                </div>
-                <div class="col-md-6 shop_right">
-                    <img src="images/banner2.jpg" alt="">
-                    <h6>50% off</h6>
-                </div>
-                <div class="clearfix"></div>
-                <!--                END ADVERTISING-->
-
-                <!-- product-sec1 -->
-                <div class="product-sec1 row-custom">
-
-                </div>
-                <div class="clearfix"></div>
-
+        <!-- price range -->
+        <link rel="stylesheet" href="/css/price-slider.css">
+        <div class="range ">
+            <div class="price-range-slider my-4">
+                <p class="range-value">
+                    <input type="text" id="amount2" class="text-center" readonly>
+                </p>
+                <div id="slider-range" class="range-bar"></div>
             </div>
         </div>
-        <div class="clearfix"></div>
+
+        <!--            Brand-->
+        <div class="left-side">
+            <h3 class="agileits-sear-head">Brand</h3>
+            <!--                BRANDS-->
+            <ul id="brand-checks"></ul>
+        </div>
+        <!-- // preference -->
+        <!-- discounts -->
+        <div class="left-side">
+            <h3 class="agileits-sear-head">Discount</h3>
+            <ul id="discount-options">
+                <li>
+                    <input type="checkbox" name="discount" value="0.05" class="checked">
+                    <span class="span">5% or More</span>
+                </li>
+                <li>
+                    <input type="checkbox" name="discount" value="0.1" class="checked">
+                    <span class="span">10% or More</span>
+                </li>
+                <li>
+                    <input type="checkbox" name="discount" value="0.2" class="checked">
+                    <span class="span">20% or More</span>
+                </li>
+                <li>
+                    <input type="checkbox" name="discount" value="0.3" class="checked">
+                    <span class="span">30% or More</span>
+                </li>
+                <li>
+                    <input type="checkbox" name="discount" value="0.5" class="checked">
+                    <span class="span">50% or More</span>
+                </li>
+                <li>
+                    <input type="checkbox" name="discount" value="0.6" class="checked">
+                    <span class="span">60% or More</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- //discounts -->
+
+        <!-- reviews -->
+        <div class="customer-rev left-side">
+            <h3 class="agileits-sear-head">Customer Review</h3>
+            <ul>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <span>5.0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <span>4.0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <span>3.5</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <span>3.0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <span>2.5</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- //reviews -->
+        <!-- deals -->
+
+        <div class="deal-leftmk left-side">
+            <h3 class="agileits-sear-head">Special Deals</h3>
+            <div class="special-sec1">
+                <div class="col-xs-4 img-deals">
+                    <img src="images/s4.jpg" alt="">
+                </div>
+                <div class="col-xs-8 img-deal1">
+                    <h3>Shuberry Heels</h3>
+                    <a href="/products/single">$180.00</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="special-sec1">
+                <div class="col-xs-4 img-deals">
+                    <img src="images/s2.jpg" alt="">
+                </div>
+                <div class="col-xs-8 img-deal1">
+                    <h3>Chikku Loafers</h3>
+                    <a href="/products/single">$99.00</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="special-sec1">
+                <div class="col-xs-4 img-deals">
+                    <img src="images/s1.jpg" alt="">
+                </div>
+                <div class="col-xs-8 img-deal1">
+                    <h3>Bella Toes</h3>
+                    <a href="/products/single">$165.00</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="special-sec1">
+                <div class="col-xs-4 img-deals">
+                    <img src="images/s5.jpg" alt="">
+                </div>
+                <div class="col-xs-8 img-deal1">
+                    <h3>Red Bellies</h3>
+                    <a href="/products/single">$225.00</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="special-sec1">
+                <div class="col-xs-4 img-deals">
+                    <img src="images/s3.jpg" alt="">
+                </div>
+                <div class="col-xs-8 img-deal1">
+                    <h3>(SRV) Sneakers</h3>
+                    <a href="/products/single">$169.00</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="left-ads-display">
+        <% if(options.numOfPage > 1) { %>
+            <div class="d-flex justify-content-between align-items-center row page-nums-filter">
+                <div id="pagination" class="pagination col-lg-7 col-md-12 col-sm-12 col-xs-12 my-5"></div>
+                <div id="filter-select" class="row">
+                    <label for="filter"> Filter </label>
+                    <select name="filter" id="filter" aria-label="Default select example">
+                        <option value="">Select to sort</option>
+                        <option value="price-asc">Order by price ascending</option>
+                        <option value="price-desc">Order by price descending</option>
+                        <option value="discount-asc">Order by discount ascending</option>
+                        <option value="discount-desc">Order by discount descending</option>
+                    </select>
+                </div>
+            </div>
+        <% } %>
+
+        <div class="row" id="advertisement">
+            <div class="col-md-6 h-100">
+                <img src="images/banner3.jpg" alt="">
+                <div class="overlay-txt">
+                    <h3 class="text-danger">40% off</h3>
+                </div>
+            </div>
+            <div class="col-md-6 h-100">
+                <img src="images/banner2.jpg" alt="">
+                <div class="overlay-txt">
+                    <h3 class="text-danger">50% off</h3>
+                </div>
+            </div>
+        </div>
+        <div class="products">
+        </div>
     </div>
 </div>
-
-
 <script src="/js/products_script.js"></script>
-<!-- //top products -->
-
-<!-- products highlight -->
-
-<!-- //products highlight -->
-
-<!-- /newsletter-->
-<%- include('../partials/letterSignup.ejs') %>
-<!-- //newsletter-->

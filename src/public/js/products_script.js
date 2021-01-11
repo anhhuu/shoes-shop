@@ -52,7 +52,7 @@ function getProducts(pageOrURL, options) {
     $.get(URL, function (data) {
 
         const result = data.products.map(function (item) {
-            return `<div class="col-md-3 product-men">
+            return `<div class="product-men">
                             <div class="product-shoe-info shoe">
                                 <div class="men-pro-item">
                                     <div class="men-thumb-item">
@@ -93,7 +93,7 @@ function getProducts(pageOrURL, options) {
 
 
         });
-        $('.product-sec1.row-custom').html(result.join(' '));
+        $('.products').html(result.join(' '));
 
         let html = '';
         //Get next 4 pages;
