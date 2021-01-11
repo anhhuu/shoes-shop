@@ -3,6 +3,7 @@ let userOptions = {
     range: [1000000, 20000000]
 };
 
+
 function getQueryString(object) {
 
     const range = object.range;
@@ -19,6 +20,8 @@ function getQueryString(object) {
 
 function getProducts(pageOrURL, options) {
     let URL = BASE_URL;
+
+    console.log('Run this');
 
 
     if (typeof pageOrURL !== 'string') {
@@ -179,7 +182,12 @@ function getUserOptions() {
         }
     }
 
-    return options
+    userOptions = {
+        ...userOptions,
+        ...options
+    }
+
+    return userOptions
 }
 
 $(window).load(function () {
@@ -187,6 +195,8 @@ $(window).load(function () {
 
     const BROWSER_URL = window.location.href;
     $('#cd-search').off('submit');
+
+    let timerHandler;
 
 
     $(function () {
@@ -201,8 +211,16 @@ $(window).load(function () {
                     ...userOptions,
                     range: ui.values
                 }
+
+                userOptions = getUserOptions();
                 const [start, end] = ui.values;
                 $('#amount2').val(start + ' VNĐ ' + '    ' + end + ' VNĐ')
+
+                clearTimeout(timerHandler);
+                timerHandler = setTimeout(() => {
+                    getProducts(1, userOptions)
+                }, 1000);
+
             }
         });
 
@@ -262,7 +280,6 @@ $(window).load(function () {
     });
     setUpAutoCallRequestAfterAnInterval(500);
 
-
 })
 
 function setUpAutoCallRequestAfterAnInterval(interval) {
@@ -270,7 +287,8 @@ function setUpAutoCallRequestAfterAnInterval(interval) {
     let typingTimer;                //timer identifier
     const doneTypingInterval = interval;  //time in ms, 5 second for example
     const $input = $('#local-search input');
-//on keyup, start the countdown
+    //on keyup, start the countdown
+
     $input.on('keyup', function () {
         clearTimeout(typingTimer);
         typingTimer = setTimeout(doneTyping, doneTypingInterval);
