@@ -1,0 +1,109 @@
+<div class="container my-5" style="padding: 0 !important;">
+    <div class="card">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">ID Invoice</th>
+                <th scope="col">Address</th>
+                <th scope="col">Status</th>
+                <th scope="col">Payment Method</th>
+                <th scope="col">Total</th>
+                <th scope="col">Time</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+
+            </tr>
+            </thead>
+            <tbody id="body-invoices">
+            <%invoices.map((invoice, index) =>{%>
+            <tr>
+                <th scope="row"><%=index+1%></th>
+                <td><%=invoice._id%></td>
+                <td id="<%=invoice.address_info_id%>"><%=invoice.address_text%></td>
+                <td><%=invoice.status%></td>
+                <td><%=invoice.payment_method%></td>
+                <td><p><%=new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(invoice.totalFee)%></p></td>
+                <td><%=invoice.createdAt.toLocaleString()%></td>
+                <%if(invoice.status==='UNVERIFIED'){%>
+                    <td><button class=" btn btn-danger fa-trash fa w-100 h-100" onclick="deleteInvoice('<%=invoice._id%>')"></button></td>
+                <%}else{%>
+                    <td><button class=" btn btn-danger fa-trash fa w-100 h-100 " disabled></button></td>
+                <%}%>
+
+                <td><button class="btn btn-primary" data-toggle="modal" data-target="#idCenter" onclick="showDetailInvoice('<%=invoice._id%>')">Detail </button></td>
+            </tr>
+            <%})%>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex justify-content-center m-5">
+        <ul class="pagination">
+
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Previous</a>
+            </li>
+
+            <li class="page-item">
+                <a class="page-link" href="#">1</a>
+            </li>
+
+            <li class="page-item active">
+                <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="page-item">
+                <a class="page-link" href="#">3</a>
+            </li>
+
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+<!-- Modal -->
+
+
+<div class="modal" id="idCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="padding:0 !important; ">
+    <div class="modal-dialog-centered p-5" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col"></th>
+                            <th scope="col" class="text-center">Product</th>
+                            <th scope="col" class="text-center">Option</th>
+                            <th scope="col" class="text-center">Quantity</th>
+                            <th scope="col" class="text-center">Price</th>
+                            <th scope="col" class="text-center">Total</th>
+                        </tr>
+                        </thead>
+                        <tbody id="body-invoice-detail" >
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/invoice-management-handle.js"> </script>

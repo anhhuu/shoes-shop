@@ -63,7 +63,6 @@ module.exports.showProduct = async(req, res, next) => {
     let product = await productService.getByURL(product_url);
     let brand = await brandService.getByID(product.brand_id);
     let category = await categoryService.getByID(product.category_id)
-    let color = product.color.split('/');
     let result = [];
 
     for(let size of  product.product_detail){
@@ -82,7 +81,7 @@ module.exports.showProduct = async(req, res, next) => {
         product: product,
         brand: brand,
         category: category,
-        color:color,
+        color:product.color,
         size: result,
     })
 }

@@ -37,6 +37,7 @@ module.exports.getProducts = async (req, res, next) => {
             numOfPage: numOfPage,
             currentPage: currentPage,
         }
+
         res.json({
             products,
             options: options,
@@ -134,11 +135,42 @@ module.exports.getComments = async (req, res) => {
 
     try {
         const prodID = req.params.product_id;
-        console.log(req.locals)
+        console.log(req.user)
         let comments = await commentService.getComment(prodID);
         res.json(comments);
     } catch (e) {
         console.log(e)
         res.status(500);
     }
+}
+
+module.exports.updateQtyController = async (req, res)=>{
+    try{
+        const productID = req.query.product_id;
+        const size_id = req.query.size_id;
+        const qty = req.query.qty;
+        await productService.decreaseProductRemain(productID,size_id,qty);
+
+        res.status(203).send()
+    }
+    catch (e) {
+        console.log(e)
+        res.status(500).send()
+    }
+
+}
+module.exports.test = async (req, res)=>{
+    try{
+        const productID = req.query.product_id;
+        const size_id = req.query.size_id;
+        const qty = req.query.qty;
+        const result = await productService.decreaseProductRemain(productID,size_id,qty);
+
+        res.json(result)
+    }
+    catch (e) {
+        console.log(e)
+        res.status(500).send()
+    }
+
 }

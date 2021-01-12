@@ -9,6 +9,8 @@ router.get('/product-related', productControllerAPI.getProductRelatedController)
 router.get('/brands', productController.getBrands);
 router.post('/comment',productControllerAPI.saveCommentController);
 router.get('/comment/:product_id', productControllerAPI.getComments)
+router.get('/update', productControllerAPI.test);
 router.get('/:ID', productControllerAPI.getProduct);
+
 
 module.exports = router;

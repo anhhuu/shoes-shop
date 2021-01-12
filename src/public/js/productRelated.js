@@ -31,7 +31,7 @@ $(document).ready(function (){
                                 <div class="men-pro-item">
                                     <div class="men-thumb-item">
                                         <img src="${productsRelated[i*3+j].image_show_url}" alt="" class="w-75 h-75">
-                                        <div class="men-cart-pro">
+                                        <div class= "men-cart-pro">
                                             <div class="inner-men-cart-pro">
                                                 <a href="/products/${productsRelated[i*3+j].product_url}"
                                                    class="link-product-add-cart">Quick

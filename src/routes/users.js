@@ -15,6 +15,10 @@ router.get('/signup', usersController.getSignUpPage);
 //GET user profile
 router.get('/profile', protect, usersController.getProfile);
 
+//[GET] /users/invoices
+//GET user invoices
+router.get('/invoices', protect, usersController.getInvoicesController);
+
 //[POST] /users/signup
 router.post('/signup', usersController.signup);
 

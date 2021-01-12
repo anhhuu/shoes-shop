@@ -1,7 +1,10 @@
 const userService = require('../../models/services/userService');
 const {updateUserProfile} = require("../../models/services/userService");
 const {uploadFromBuffer} = require("../../../cloudinaryConfig");
-
+const invoiceService = require("../../models/services/invoiceService")
+const addressService = require("../../models/services/address_InfoService")
+const sizeService =require("../../models/services/sizeService")
+const productService = require("../../models/services/productService")
 
 module.exports.getUserProfile = async(req, res, next) => {
 
@@ -41,6 +44,64 @@ module.exports.uploadAvatar = async (req,res,next) =>{
     }
 }
 
+module.exports.getInvoices = async (req, res) =>{
+    try {
+        let invoices = await invoiceService.getInvoices(req.user._id);
+        const promises = invoices.map(invoice => {
+            return addressService.getAddressByID(invoice.address_info_id)
+        });
+        let data = [];
+
+        await invoices.reduce(async (prev, cur) => {
+            const solve = await prev;
+            if (solve) {
+                data.push(solve);
+            }
+            return {address_text: (await addressService.getAddressByID(cur.address_info_id)), ...cur}
+        }, Promise.resolve())
+
+
+        const addresses = await Promise.all(promises);
+        invoices = invoices.map((val, index) => {
+            return {
+                ...val,
+                address_text: addresses[index].address_text,
+            }
+        });
+        console.log('---------------');
+        console.log(invoices);
+        console.log('---------------');
+        res.json(invoices)
+    }catch (e) {
+        console.log(e)
+        res.send("Get invoices fails")
+    }
+}
+module.exports.getInvoice = async (req, res) =>{
+    try{
+        const invoiceID =req.params.id;
+        const user_id = req.query.user_id;
+        let invoice = await invoiceService.getInvoice(req.user._id,invoiceID);
+        let product_detail = [];
+        const product= await invoice.invoice_items.reduce(async (prev,cur)=>{
+            const item = await prev;
+            if (item){
+                product_detail.push(item)
+            }
+                return  {product:await productService.getByID(cur.product_id),qty:cur.qty,size:(await sizeService.getByID(cur.size_id)).text}
+            }, Promise.resolve()
+
+        )
+        product_detail.push(product)
+
+        invoice.invoice_items=product_detail
+        console.log(invoice)
+        res.json(invoice)
+    }catch (e) {
+        console.log(e)
+    }
+}
+
 
 module.exports.updateProfile = async (req,res)=>{
 
@@ -67,4 +128,15 @@ module.exports.updateUserAvatar = async (req,res)=>{
     const updateUserImageUrl  = await userService.updateUserImageUrl(email,imageURL);
 
     res.send(updateUserImageUrl);
+}
+
+module.exports.deleteInvoice = async (req, res)=>{
+    const invoiceID = req.params.id;
+    try{
+        const delInvoice = await invoiceService.deleteInvoice(req.user._id,invoiceID)
+        res.status(205).send("Delete is successfully");
+    }catch (e) {
+        console.log(e);
+        res.status(500).send("Delete is fail");
+    }
 }

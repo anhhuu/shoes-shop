@@ -2,6 +2,7 @@ const User = require('../mongooseModels/userMongooseModel');
 const bcrypt = require('bcryptjs');
 const Role = require('../mongooseModels/roleMongooseModel');
 
+
 /**
  *
  * @param user

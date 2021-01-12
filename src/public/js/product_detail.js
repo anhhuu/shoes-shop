@@ -12,14 +12,18 @@ $('input:radio[name="size"]').change(
                 const status = document.getElementById("status")
 
                 if (product.product_detail[index].remaining_amount===0){
-                    status.innerHTML="Hết hàng"+product.product_detail[index].size_id;
+                    status.innerHTML="Hết hàng";
+                    $('#pd-add-to-cart').attr('disabled', true);
+                    $('[name="qty"]').val(1);
                 }
                 else {
-                    status.innerHTML="Còn hàng"+product.product_detail[index].size_id;
+                    status.innerHTML="Còn hàng";
+                    $('#pd-add-to-cart').attr('disabled', false);
+                    $('[name="qty"]').val(1);
                 }
                 console.log(product.product_detail[index].remaining_amount)
                 $('#remain').text(product.product_detail[index].remaining_amount);
-                $('[name="qty"]').attr("max",product.product_detail[index].remaining_amount)
+                $('[name="qty"]').attr("max",product.product_detail[index].remaining_amount).attr("min",1)
 
 
 
@@ -164,12 +168,15 @@ const chooseSize = function (idSize, prod ) {
         }
     })
     if (size.remaining_amount>0){
-        status.innerHTML="Còn hàng"+idSize;
+        status.innerHTML="Còn hàng";
+        $('[name="qty"]').val(1);
     }
-    else
-        status.innerHTML="Hết hàng"+idSize;
-    console.log(product);
-    console.log(size);
+    else {
+        status.innerHTML = "Hết hàng";
+        $('[name="qty"]').val(1);
+    }
+
+
 
 
 }

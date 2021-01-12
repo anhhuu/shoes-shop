@@ -2,7 +2,7 @@ const express = require('express');
 const router = new express.Router();
 const productsRouter = require('./products');
 const userRouter = require('./users');
-
+const addressRouter = require('./address')
 const cartRouter = require('./cartshop')
 
 /**
@@ -10,6 +10,7 @@ const cartRouter = require('./cartshop')
  */
 router.use('/products',productsRouter);
 router.use('/cart', cartRouter);
+router.use('/address',addressRouter);
 
 /**
  *

@@ -1,5 +1,5 @@
 <!-- top Products -->
-<div class="">
+<div class="mt-5">
     <div class="shop_inner_inf">
         <div class="row">
             <div class="col-md-4 single-right-left ">
@@ -20,16 +20,26 @@
                 </div>
             </div>
             <div class="col-md-8 single-right-left simpleCart_shelfItem">
-                <h3><%= product.name %> -<%= Math.floor(product.discount * 100) %>%</h3>
+                <%if (Math.floor(product.discount * 100)===0){%>
+                <%}else {%>
+                    <h3><%= product.name %> -<%= Math.floor(product.discount * 100) %>%</h3>
+                <%}%>
+
                 <h4 class="my-4">Category: <%= category.name %></h4>
                 <h4 class="my-4">Brand: <%= brand.name %></h4>
                 <h4 class="my-4">SKU: <%= product.SKU %></h4>
                 <h4 class="my-4">Status: <span id="status"></span></h4>
                 <h4 class="my-4">Remain: <span id="remain"></span></h4>
 
-                <p><span class="item_price"><%= product.price.string_price %></span>
-                    <%= new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'})
-                            .format(Math.floor(product.price.price_value * (1 - product.discount) / 1000) * 1000) %></p>
+                <%if (Math.floor(product.discount * 100)===0){%>
+                    <h4>Price:<span> <%= (new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}))
+                                .format(Math.floor(product.price.price_value * (1 - product.discount) / 1000) * 1000).toString() %></span> </h4>
+                <%}else {%>
+                <h4>Price:<p><span class="item_price"><%= product.price.string_price %></span>
+                        <%= (new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}))
+                                .format(Math.floor(product.price.price_value * (1 - product.discount) / 1000) * 1000).toString() %></p></h4>
+                <%}%>
+
                 <form action="#" id="add-to-cart">
                     <div class="container my-4">
                         <div class="row">
@@ -38,15 +48,11 @@
                                 <h4 class="mt-1" style="display: inline">Color: </h4>
                             </div>
                             <div class="col">
-                                <% color.map(data=>{ %>
-                                    <input type="radio"
-                                           id="<%= data %>"
-                                           style="display:inline; border: #1adeed solid;padding: 5px"
-                                           name="color"
-                                           value="<%= data %>"/>
-                                    <label for="<%= data %>"><%= data %></label>
-                                <% }) %>
+                                <h4><%=color%></h4>
                             </div>
+
+
+
                         </div>
                     </div>
                     <div class="container my-4">
@@ -54,7 +60,7 @@
                             <div class="col-1">
                                 <h4 class="mt-1" style="display: inline">Size: </h4>
                             </div>
-                            <div class="col">
+                            <div class="col-11">
                                 <% size.map((data, index)=>{ %>
 
                                     <input id="<%= data._id %>" type="radio"
@@ -84,6 +90,7 @@
                             <div class="col">
                                 <button class="align-center btn btn-primary"
                                         type="submit"
+                                        id="pd-add-to-cart"
                                         style="display:inline; padding: 5px; margin-bottom: 3px;">Add to cart
                                 </button>
                             </div>
