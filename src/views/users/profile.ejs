@@ -129,7 +129,7 @@
         <div class="col py-5">
             <div class="card">
                 <div class="d-flex justify-content-center" id="user-avatar-container">
-                    <img id="img-user-avt"
+                    <img class="img-user-avt" id="avt"
                          src=<%= user && user.avatar_image_url !== '' ? user.avatar_image_url : "/images/avatar.png" %>
                          alt="user-avt">
                 </div>
@@ -174,6 +174,30 @@
             </div>
         </div>
     </div>
+    <div class="modal " id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="exit-button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="overlay" class="d-flex align-items-center justify-content-center p-4">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="crop-image" class="btn btn-primary text-center ">Crop</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-close-preview">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+
 <script src="/crop/croppie.js"></script>
 <script type="module" src="/js/profile.js"></script>
