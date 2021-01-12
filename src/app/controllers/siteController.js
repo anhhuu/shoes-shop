@@ -1,23 +1,30 @@
 const productService = require('../models/services/productService');
+const brandService = require('../models/services/brandService');
 const debug = require('debug')('HomePage');
 module.exports.index = async (req, res, next) => {
 
     try {
-        debug('Home');
         const galleryProducts = await productService.getList(3, 12);
+        const bestSellers = await productService.getBestSellerProducts();
+        const newProducts = await productService.getNewProducts(1,5);
+        const flashSellProducts = await productService.getProductsOnSale(1,5);
+        const brandList = await brandService.getBrandsImageURL();
+
         res.render('index', {
             layout: 'layouts/homePage',
             title: 'Home',
-            products: galleryProducts
+            options:{
+                products: galleryProducts,
+                new_products: newProducts,
+                best_seller_products: bestSellers,
+                flash_sell_products:flashSellProducts,
+                brands: brandList
+            }
+
         });
 
     } catch (e) {
-
-        debug(e);
-        res.render('site/404', {
-            title: '404',
-            pageName: e.toString()
-        });
+        next();
     }
 
 

@@ -150,7 +150,7 @@ module.exports.save = async (productObject) => {
     }
 }
 
-module.exports.queryByFilter = async (page, limit, brandURL, discount, keyword, range) => {
+module.exports.queryByFilter = async (page, limit, brandURL, discount, keyword, range, orderBy) => {
 
     try {
 
@@ -188,6 +188,20 @@ module.exports.queryByFilter = async (page, limit, brandURL, discount, keyword, 
             .find(brandID ? {brand_id: brandID} : {})
             .find(discountConditions && discountConditions.length > 0 ? {$or: discountConditions} : {});
 
+        switch (orderBy){
+            case 'price-asc':
+                productsQuery.sort({'price.price_value': 1});
+                break;
+            case 'price-desc':
+                productsQuery.sort({'price.price_value': -1});
+                break;
+            case 'discount-desc':
+                productsQuery.sort({'discount':-1});
+                break;
+            case 'discount-asc':
+                productsQuery.sort({'discount': 1});
+                break;
+        }
 
         if (start && end) {
 
@@ -275,4 +289,26 @@ module.exports.decreaseProductRemain = async (productID, sizes) => {
     } catch (e) {
         console.log(e)
     }
+}
+module.exports.getBestSellerProducts = () => {
+    //TODO:
+    return this.getList(1, 12);
+}
+
+module.exports.getNewProducts = (page, limit) => {
+    return productMongooseModel
+        .find({})
+        .sort({createdAt: -1})
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .lean();
+}
+
+module.exports.getProductsOnSale = (page,limit)=>{
+    return productMongooseModel
+        .find({})
+        .sort({discount: -1})
+        .skip((page-1)* limit)
+        .limit(limit)
+        .lean();
 }

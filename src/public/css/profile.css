@@ -1,4 +1,4 @@
-#img-user-avt{
+.img-user-avt{
     border-radius: 50%;
     position: relative;
     bottom: 50px;
@@ -10,19 +10,19 @@
     max-height: 100px;
 }
 
-#overlay{
-    position: fixed;
-    display: block;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 20000;
-    cursor: pointer;
-}
+/*#overlay{*/
+/*    position: fixed;*/
+/*    display: block;*/
+/*    width: 100vw;*/
+/*    height: 100vh;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    right: 0;*/
+/*    bottom: 0;*/
+/*    background-color: rgba(0,0,0,0.5);*/
+/*    z-index: 20000;*/
+/*    cursor: pointer;*/
+/*}*/
 
 .avatar-animated{
     animation-name: avt-animate;
@@ -46,12 +46,10 @@
     100%{
         left: 50%;
         top: 50%;
-        border-radius: 0%;
         transform:scale(2.0) translate(-50%, -50%);
     }
 }
 
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:700,300);
 .dropzone:hover{
     cursor: pointer;
 }
@@ -113,7 +111,7 @@
     opacity: 0;
 }
 
-.btn {
+.btn- {
     display: block;
     padding: 10px 15px;
     height: 40px;
@@ -126,7 +124,7 @@
     font-size: 14px;
 }
 
-.btn:hover {
+.btn-:hover {
     background: rebeccapurple;
     box-shadow: 0 3px 0 0 deeppink;
 }
@@ -136,4 +134,31 @@
     /* This rule is very important, please don't ignore this */
     max-width: 100%;
     max-width: 100%;
+}
+#user-shipping-address-section{
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit,auto);
+    grid-gap: 10px;
+}
+
+.delete-btn{
+    border-radius: 0;
+}
+
+#myModal{
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+}
+
+.normal-avt{
+    border-radius: 50%;
+    position: relative;
+    bottom: 0 !important;
+    z-index: 9999;
+    min-width: 50px;
+    width: 100px;
+    height: 100px;
+    max-width: 100px;
+    max-height: 100px;
+    transform: scale(2.0);
 }

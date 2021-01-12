@@ -1,5 +1,8 @@
 const BASE_URL = '/api/products';
-let userOptions = {};
+let userOptions = {
+    range: [1000000, 20000000]
+};
+
 
 function getQueryString(object) {
 
@@ -15,28 +18,44 @@ function getQueryString(object) {
     return '?' + $.param(object, true) + (range ? '&range=[' + range.join(',') + ']' : '');
 }
 
-function getProducts(page, userOptions) {
+function getProducts(pageOrURL, options) {
     let URL = BASE_URL;
 
+    console.log('Run this');
 
-    if (typeof page !== 'string') {
-        if (page && page > 1) {
-            URL += getQueryString({page});
+
+    if (typeof pageOrURL !== 'string') {
+        if (pageOrURL && pageOrURL > 1) {
+            URL += getQueryString({page: pageOrURL});
         }
 
-        if (userOptions && Object.keys(userOptions).length > 0) {
-            URL += getQueryString(userOptions);
+        if (options && Object.keys(options).length > 0) {
+            URL += getQueryString(options);
         }
+
+        userOptions.page = +pageOrURL;
 
     } else {
-        URL = page;
+        URL = pageOrURL;
+        const tokens = pageOrURL.split('&');
+
+        for (let i = 0; i < tokens.length; i++) {
+            if (/page=\d+/.test(tokens[i])) {
+                userOptions.page = +(tokens[i].split('=')[1]);
+                break;
+            }
+        }
+
     }
 
+    console.log('USER OPTIONS')
+    console.log(userOptions);
+    console.log('END');
 
     $.get(URL, function (data) {
 
         const result = data.products.map(function (item) {
-            return `<div class="col-md-3 product-men">
+            return `<div class="product-men">
                             <div class="product-shoe-info shoe">
                                 <div class="men-pro-item">
                                     <div class="men-thumb-item">
@@ -77,13 +96,13 @@ function getProducts(page, userOptions) {
 
 
         });
-        $('.product-sec1.row-custom').html(result.join(' '));
+        $('.products').html(result.join(' '));
 
         let html = '';
         //Get next 4 pages;
         const options = data.options;
 
-        html += `<a href="${BASE_URL}${getQueryString({...userOptions, page: 1})}">&laquo;</a>`
+        html += `<a href="${BASE_URL}${getQueryString({...options, page: 1})}">&laquo;</a>`
 
         if (+options.currentPage - 3 > 1) {
             html += `<a href="#" class="disabled">...</a>`;
@@ -91,10 +110,9 @@ function getProducts(page, userOptions) {
         for (let j = +options.currentPage - 3; j <= +options.currentPage + 3; j++) {
 
             if (j < 1 || j > options.numOfPage) continue;
-            console.log(getQueryString({page: j, ...userOptions}));
 
             html += `<a href = "${BASE_URL}${getQueryString({
-                ...userOptions,
+                ...options,
                 page: j
             })}"  ${j === options.currentPage ? 'class="active"' : ''} >${j}</a>`;
 
@@ -102,13 +120,13 @@ function getProducts(page, userOptions) {
         if (+options.currentPage + 3 < options.numOfPage) {
             html += `<a href="#" class="disabled">...</a>`
         }
-        html += `<a href="${BASE_URL}${getQueryString({...userOptions, page: options.numOfPage})}">&raquo;</a>`
+        html += `<a href="${BASE_URL}${getQueryString({...options, page: options.numOfPage})}">&raquo;</a>`
 
         $('#pagination').html(html);
 
         $('#pagination a').click(function (e) {
             e.preventDefault();
-            getProducts(($(this).attr('href')), userOptions);
+            getProducts(($(this).attr('href')), options);
         });
 
     });
@@ -149,12 +167,27 @@ function getUserOptions() {
 
     const brand = $('#brand-checks input:checked').val();
     const keyword = $('#local-search input').val()
-    return {
+    let options = {
         discount: discountOptions,
         brand,
         keyword,
         page: 1
+    };
+
+    const order_by = $('#filter').val();
+    if (order_by !== "") {
+        options = {
+            ...options,
+            order_by
+        }
     }
+
+    userOptions = {
+        ...userOptions,
+        ...options
+    }
+
+    return userOptions
 }
 
 $(window).load(function () {
@@ -162,6 +195,8 @@ $(window).load(function () {
 
     const BROWSER_URL = window.location.href;
     $('#cd-search').off('submit');
+
+    let timerHandler;
 
 
     $(function () {
@@ -176,9 +211,16 @@ $(window).load(function () {
                     ...userOptions,
                     range: ui.values
                 }
-                console.log(userOptions)
+
+                userOptions = getUserOptions();
                 const [start, end] = ui.values;
                 $('#amount2').val(start + ' VNĐ ' + '    ' + end + ' VNĐ')
+
+                clearTimeout(timerHandler);
+                timerHandler = setTimeout(() => {
+                    getProducts(1, userOptions)
+                }, 1000);
+
             }
         });
 
@@ -186,7 +228,6 @@ $(window).load(function () {
     });
 
     $('#cd-search').submit(function (e) {
-        console.log('RUN')
         e.preventDefault();
         userOptions = {
             ...userOptions,
@@ -239,7 +280,6 @@ $(window).load(function () {
     });
     setUpAutoCallRequestAfterAnInterval(500);
 
-
 })
 
 function setUpAutoCallRequestAfterAnInterval(interval) {
@@ -247,7 +287,8 @@ function setUpAutoCallRequestAfterAnInterval(interval) {
     let typingTimer;                //timer identifier
     const doneTypingInterval = interval;  //time in ms, 5 second for example
     const $input = $('#local-search input');
-//on keyup, start the countdown
+    //on keyup, start the countdown
+
     $input.on('keyup', function () {
         clearTimeout(typingTimer);
         typingTimer = setTimeout(doneTyping, doneTypingInterval);
@@ -262,9 +303,12 @@ function setUpAutoCallRequestAfterAnInterval(interval) {
 //user is "finished typing," do something
     function doneTyping() {
         userOptions = getUserOptions();
-        console.log(userOptions);
-
         getProducts(userOptions.page || 1, userOptions);
     }
 }
 
+$('#filter').change(function () {
+    userOptions = getUserOptions();
+    getProducts(userOptions.page || 1, userOptions);
+
+});

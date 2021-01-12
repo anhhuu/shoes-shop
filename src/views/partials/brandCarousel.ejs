@@ -1,0 +1,23 @@
+<h2 class="py-5 text-center " id="brands-title"><strong>List Brands</strong></h2>
+<div id="multi-item-example" class="carousel slide carousel-multi-item product-card " data-ride="carousel" data-interval="2000">
+
+    <!--Slides-->
+    <div class="carousel-inner "  role="listbox" id="carousel-brand">
+        <% for(let i = 0; i < 2;i++){ %>
+            <% if(i === 0 ) { %>
+        <div class="carousel-item active mx-2">
+            <% }else{ %>
+            <div class="carousel-item mx-2">
+                <% } %>
+                <% for(let j = 0;j < 4 && j< options.brands.length;j++){ %>
+                    <img src="<%= options.brands[j].image_url %>" alt="" onclick="window.location.href='/products'">
+
+                <% } %>
+            </div>
+            <% } %>
+
+        </div>
+        <!--/.Slides-->
+    </div>
+
+</div>

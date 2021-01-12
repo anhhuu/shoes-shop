@@ -1,22 +1,16 @@
 import {uploadFile} from '/js/helper_function.js';
 
-const avatarImageOverlay = `<div id="overlay" class="d-flex align-items-center justify-content-center"></div> `
-
 const cropImageModal = `
-<div style="z-index: 9999; margin: 0 auto">
-    <div id="resizer-demo" style="width: 500px; height: 500px; " ></div>
-    <button id="crop-image" class="btn text-center">Crop</button>
+<div style="z-index: 9999; margin: 0 auto" class="d-flex flex-column w-100 justify-content-around">
+    <div id="resizer-demo" class="w-100" style=" height: 300px; " ></div>
+
 </div>
-
 `
-let isShowOverlay = false;
 
-function renderOverlay(data) {
-    $('#root-layout-container').append(avatarImageOverlay);
-    isShowOverlay = true;
+function renderCropModal(data) {
 
-    $('#overlay').append($.parseHTML(cropImageModal));
-
+    cModal.showModal(true);
+    $('#overlay').html(cropImageModal);
     const el = document.getElementById('resizer-demo');
     const resize = new Croppie(el, {
         viewport: {width: 100, height: 100, type: 'circle'},
@@ -37,51 +31,87 @@ function renderOverlay(data) {
 
             reader.onloadend = function () {
                 const base64data = reader.result;
-                $('#img-user-avt').prop('src', base64data);
+                $('#avt').prop('src', base64data);
             }
-
-            $('#overlay').off('click');
-            $('#overlay').remove();
-
         });
 
     })
 }
 
+let cModal;
+
 export default $(document).ready(function () {
 
-
-    $('#img-user-avt').click(function () {
-
-        if (!isShowOverlay) {
-            $('#root-layout-container').append(avatarImageOverlay);
-            let img = $('#img-user-avt').detach();
-            img.addClass('avatar-animated');
-            $('#overlay').append(img);
-            $('#overlay').attr('class','');
-
-            isShowOverlay = true;
-            $('#overlay') && $('#overlay').click(function () {
-                img = $('#img-user-avt').detach();
-                img.removeClass('avatar-animated')
-                $('#overlay').off('click');
-                $('#overlay').remove();
-                $('#user-avatar-container').append(img);
-                isShowOverlay = false;
-            });
+    $('#crop-image').hide();
+    class Modal {
+        constructor(props) {
+            this.isShowModal = false;
+            $('#myModal').modal('hide');
         }
+
+        toggle() {
+            if (this.isShowModal) {
+                $('#myModal').modal('hide');
+                $('#myModal').removeClass(' animate__animated animate__backInRight')
+
+            } else {
+                $('#myModal').modal('show');
+                $('#myModal').addClass(' animate__animated animate__backInRight')
+            }
+            this.isShowModal = !this.isShowModal;
+        }
+
+        showModal( showCropBtn = false ) {
+            $('#myModal').modal('show');
+            if(showCropBtn){
+                $('#crop-image').show();
+            }
+            this.isShowModal = true
+        }
+
+        hideModal() {
+            $('#myModal').modal('hide');
+            $('#overlay').children().remove();
+            $('#crop-image').hide();
+            this.isShowModal = false;
+        }
+
+
+    }
+
+    $('#btn-close-preview').click(function (){
+        cModal.hideModal();
     })
+    $('#exit-button').click(function (){
+        cModal.hideModal();
+    })
+
+    const restore = function () {
+        cModal.hideModal();
+    }
+    cModal = new Modal();
+    const handleImgClick = function () {
+        cModal.showModal();
+        let img = $('#avt').clone(false);
+        img.prop('id','xyz');
+        img.addClass('normal-avt');
+        $('#overlay').html(img);
+        $('#myModal').click(() => restore());
+
+    };
+
+    $('.img-user-avt').on('click .new', handleImgClick)
 
     $("input[name='avatar']").change(function () {
         if (this.files.length > 0) {
             const file = this.files[0];
-            const img = document.getElementById('img-user-avt');
+            const img = document.getElementById('avt');
             img.file = file;
             const reader = new FileReader();
             reader.onload = (function (aImg) {
                 return function (e) {
                     aImg.src = e.target.result;
-                    renderOverlay(e.target.result);
+                    renderCropModal(e.target.result);
                 };
             })(img);
             reader.readAsDataURL(file);
@@ -95,6 +125,7 @@ export default $(document).ready(function () {
             function (res) {
                 $('#upload-message').attr('class', 'text-success');
                 $('#upload-message').html('Upload file succeeded');
+                setTimeout(() => $('#upload-message').html(''), 2000);
             },
 
             function (error) {

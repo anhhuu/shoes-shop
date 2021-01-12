@@ -12,6 +12,9 @@ module.exports.checkout = async (req, res) => {
     userInfo.address = req.user.address;
     console.log(userInfo)
     userInfo.list_address = await addressService.getAddress(req.user._id);
+}
+
+module.exports.checkout = async (req, res) => {
     res.render('checkout/checkout', {
         title: 'HDH Shoes',
         pageName: 'Shop',
@@ -48,7 +51,23 @@ module.exports.createInvoice = async (req, res) => {
         res.status(201).send("Create Successfully");
     } catch (e) {
         console.log(e);
-        res.status(500).send("Create Fail");
+        res.status(500).send("Create Fail");}
+    }
+
+module.exports.getAddressManagementPage = async (req, res, next) => {
+
+    try {
+        const provinces = await provinceService.getAllProvinces();
+        res.render('checkout/address', {
+            title: 'HDH Shoes',
+            pageName: 'Shop',
+            options: {
+                provinces
+            }
+
+        });
+    } catch (e) {
+
     }
 
 }

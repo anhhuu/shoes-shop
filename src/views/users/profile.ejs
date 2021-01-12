@@ -3,17 +3,13 @@
       crossorigin="anonymous"/>
 <link rel="stylesheet" href="/css/profile.css">
 <link rel="stylesheet" href="/crop/croppie.css">
-<%if(user){%>
-<script>
-    localStorage.setItem('isLogin',user.email);
-</script>
-<%}%>
+
 <div id="root-layout-container">
     <div class="row">
         <!--    User profile Dash board-->
         <div class="col-md-9  py-5">
-            <div id="user-info" >
-                <div class="card ml-auto" style="width:95%">
+            <div id="user-info">
+                <div class="card ml-auto" style="width: 95%;">
                     <!--                //Card header-->
                     <div class="d-flex justify-content-between m-3">
                         <h4 class="card-title ml-4 font-weight-bold mt-3">My Account</h4>
@@ -25,22 +21,23 @@
                         <div class="row my-5 mx-3">
                             <div class="col">
                                 <label class="font-weight-normal my-3" for="firstname">First Name</label>
-                                <input id="firstname" type="text" readonly value="<%=user && user.first_name%>"
+                                <input id="firstname" type="text" readonly value="<%= user && user.first_name %>"
                                        class="form-control form-control-alternative">
                                 <label class="font-weight-normal mt-5 mb-3" for="lastname">Last Name</label>
-                                <input id="lastname" type="text" value="<%=user && user.last_name%>" readonly class="form-control form-control-alternative">
+                                <input id="lastname" type="text" value="<%= user && user.last_name %>" readonly
+                                       class="form-control form-control-alternative">
                             </div>
                             <div class="col">
                                 <label class="font-weight-normal my-3" for="email-address">Email Address</label>
                                 <input id="email-address" type="text" readonly
-                                       value="<%=user && user.email%>"
+                                       value="<%= user && user.email %>"
                                        class="form-control form-control-alternative">
                                 <label class="font-weight-normal mt-5 mb-3" for="phone-number">Phone Number</label>
                                 <input id="phone-number" type="text" readonly
-                                       value="<%=user && user.phone_number%>"
+                                       value="<%= user && user.phone_number %>"
                                        class="form-control form-control-alternative">
 
-                                <input id="avatar-image-url" type="hidden" value="<%=user && user.avatar_image_url%>">
+                                <input id="avatar-image-url" type="hidden" value="<%= user && user.avatar_image_url %>">
                             </div>
                         </div>
                     </div>
@@ -52,23 +49,85 @@
                         <h4 class="text-center mb-3">CONTACT INFORMATION</h4>
                         <div class="row mx-4">
                             <input id="contact-information" readonly type="text"
-                                   value="<%= user && user.address%>"
+                                   value="<%= user && user.address %>"
                                    class="form-control form-control-alternative">
                             <div id="update-button-container" class="py-3 w-100">
+                                <div class="w-100">
+                                    <div class="form-group d-block w-100">
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" id="password" placeholder="Password">
+                                    </div>
+                                    <div class="form-group d-block w-100">
+                                        <label for="retype-password">Retype password</label>
+                                        <input type="password" class="form-control" id="retype-password" placeholder="Retype password">
+                                        <small class="text-danger w-100" id="error-msg"></small>
+                                    </div>
+                                    <div id='password-error-alert' class="alert alert-danger" role="alert">
+                                    </div>
+                                </div>
+                                <button id="btn-update-profile" class="btn btn-primary ml-auto">Update your profile</button>
                             </div>
                         </div>
 
                     </div>
+
+                    <hr>
+                    <div id="user-shipping-address-section" class="p-4">
+                        <h4 class="w-100 text-center py-3 px-5 mb-3 card-header" style="color: black">Your address list</h4>
+                        <% if(options.addresses.length > 0){ %>
+                            <% options.addresses.forEach(address=>{ %>
+                                <div class="card">
+                                    <div id="user-shipping-address">
+                                        <div class="d-flex my-2  px-4">
+                                            <h5>Receiver's name: </h5>
+                                            <div style="flex:1;"></div>
+                                            <h5><%= address.full_name %></h5>
+                                        </div>
+                                        <div class="d-flex my-2  px-4">
+                                            <h5>Ward: </h5>
+                                            <div style="flex:1;"></div>
+                                            <h5><%= address.ward %></h5>
+                                        </div>
+                                        <div class="d-flex my-2  px-4">
+                                            <h5>District: </h5>
+                                            <div style="flex:1;"></div>
+                                            <h5><%= address.district %></h5>
+                                        </div>
+                                        <div class="d-flex my-2  px-4">
+                                            <h5>Province: </h5>
+                                            <div style="flex:1;"></div>
+                                            <h5><%= address.province %></h5>
+                                        </div>
+
+                                        <div class="d-flex my-2  px-4">
+                                            <h5>Address: </h5>
+                                            <div style="flex:1;"></div>
+                                            <h5><%= address.note %></h5>
+                                        </div>
+                                        <div class="custom-form p-2">
+                                            <input type="hidden" value="<%= address._id %>">
+                                            <button class="btn btn-danger fa fa-trash w-100"  ></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        <% }else{ %>
+                                <div class="alert alert-info" role="alert">
+                                    There no addresses added
+                                </div>
+                        <% } %>
+                    </div>
                 </div>
 
             </div>
+
 
         </div>
         <!--    User address and avatar section-->
         <div class="col py-5">
             <div class="card">
                 <div class="d-flex justify-content-center" id="user-avatar-container">
-                    <img id="img-user-avt"
+                    <img class="img-user-avt" id="avt"
                          src=<%= user && user.avatar_image_url !== '' ? user.avatar_image_url : "/images/avatar.png" %>
                          alt="user-avt">
                 </div>
@@ -85,7 +144,7 @@
                                 <input type="file" name="avatar" class="upload-input" id="upload-input"/>
                             </div>
 
-                            <button type=submit class="btn" name="uploadbutton">Upload file</button>
+                            <button type=submit class="btn btn-primary" name="uploadbutton">Upload file</button>
                             <span class="text-danger" id="upload-message"></span>
                         </div>
                     </div>
@@ -94,6 +153,49 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="alert-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Modal</h4>
+                </div>
+                <div class="modal-body">
+                    Can not delete this address
+                </div>
+                <div class="modal-footer">
+                    <button id="close-modal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal " id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="exit-button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="overlay" class="d-flex align-items-center justify-content-center p-4">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="crop-image" class="btn btn-primary text-center ">Crop</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-close-preview">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+
 <script src="/crop/croppie.js"></script>
 <script type="module" src="/js/profile.js"></script>

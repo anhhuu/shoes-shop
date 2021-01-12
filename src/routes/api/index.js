@@ -13,9 +13,12 @@ router.use('/cart', cartRouter);
 router.use('/address',addressRouter);
 
 /**
- *
- *
+ * /api/users
  */
-
 router.use('/users',userRouter);
+
+/**
+ * /api/address
+ */
+router.use('/address',addressRouter);
 module.exports = router;

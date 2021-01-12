@@ -8,4 +8,11 @@ const {checkAuthentication} = require("../app/controllers/usersController");
 router.get('/',checkAuthentication,checkoutController.checkout);
 router.post('/createInvoice', checkAuthentication,checkoutController.createInvoice);
 
+/**
+ *
+ * @type {Router}
+ */
+
+router.get('/address',checkoutController.getAddressManagementPage);
+
 module.exports = router;

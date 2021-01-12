@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const usersController = require('../app/controllers/usersController');
-const passport = require("../passport/passportConfig");
-const {protect} = require("../middleware/auth");
+const passport = require("../config/passport");
+const { protect } = require("../middleware/auth");
 
 //[GET] /users/login
 router.get('/login', usersController.getLoginPage);
@@ -30,8 +30,16 @@ router.post('/login',
 //[GET] /users/logout
 router.get('/logout', usersController.logout);
 
-//[GET] /users/verification/:hashedID
-router.get('/verification/:token',usersController.verification);
+// [POST] /users/forgot-password
+router.post('/forgot-password',usersController.forgotPassword);
 
+//[POST] /users/reset-password
+router.post('/reset-password',usersController.postResetPassword);
+
+//[GET] /user/reset-password/:token
+router.get('/reset-password/:token',usersController.resetPassword);
+
+//[GET] /users/verification/:hashedID
+router.get('/verification/:token', usersController.verification);
 
 module.exports = router;
