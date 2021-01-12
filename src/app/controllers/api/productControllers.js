@@ -3,7 +3,8 @@ const brandService = require('../../models/services/brandService')
 const sizeService = require('../../models/services/sizeService')
 const commentService = require("../../models/services/commentService");
 const {getProductRelated} = require("../../models/services/productService");
-
+const {client } = require('../../../config/redis');
+const getCache = require('../../../config/redis');
 /**
  *
  * @param req => req.query = {
@@ -30,6 +31,7 @@ module.exports.getProducts = async (req, res, next) => {
 
         let numOfPage;
         let currentPage = page;
+
         const {products, count} = await productService.queryByFilter(page, limit, brandURL, discount, keyword, range,orderBy);
 
         numOfPage = Math.round(count / limit);

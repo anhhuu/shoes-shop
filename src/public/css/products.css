@@ -102,5 +102,24 @@
     justify-content: center;
 }
 
+#pagination a{
+    margin-right: 5px;
+}
 
+
+/*Discount*/
+.discount-label {
+    width: 60px;
+    height: 30px;
+    position: absolute;
+    top: 10px;
+    transform: rotateZ(-45deg);
+    background-color: #d70505;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    z-index: 1000;
+    clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+}
 
