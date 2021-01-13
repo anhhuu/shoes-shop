@@ -55,8 +55,11 @@ module.exports.getProfile = async (req, res,next) => {
 }
 
 module.exports.getInvoicesController = async (req, res) => {
-
-    let invoices = await invoiceService.getInvoices(req.user._id);
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 1;
+    console.log(limit)
+    let invoices = await invoiceService.getInvoices(req.user._id,page,limit);
+    const pages = invoices.pages;
     const promises = invoices.map(invoice => {
         return addressService.getAddressByID(invoice.address_info_id)
     });
@@ -78,10 +81,7 @@ module.exports.getInvoicesController = async (req, res) => {
             address_text: addresses[index].address_text,
         }
     });
-    console.log('---------------');
-    console.log(invoices);
-    console.log('---------------');
-
+    invoices.pages = pages;
     res.render('users/invoiceManagement', {
         title: 'Invoice Management',
         pageName: 'Invoice Management',

@@ -1,34 +1,3 @@
-// $(document).ready(function (){
-//     let html =``
-//     $.get("/api/users/invoices", function (invoices) {
-//         console.log(invoices)
-//
-//         invoices.map( (invoice, index)=>{
-//             setTimeout(function (){
-//                 $.get("/api/address/"+invoice.address_info_id, function (address){
-//                     const date = new Date(invoice.createdAt).toLocaleString()
-//                     console.log(date)
-//                     html += `
-//             <tr>
-//                 <th scope="row">${index+1}</th>
-//                 <td>${invoice._id}</td>
-//                 <td id="${invoice.address_info_id}">${address.address_text}</td>
-//                 <td>${invoice.status}</td>
-//                 <td>${invoice.payment_method}</td>
-//                 <td><p>${new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(invoice.totalFee)}</p></td>
-//                 <td><p>${date}</p></td>
-//                 <td><a href="#">Detail</a></td>
-//             </tr>
-//             `
-//                     $('#invoice-list').html(html)
-//                 })
-//             },100)
-//
-//
-//         })
-//
-//     })
-// })
 
 const showDetailInvoice = function (invoiceID){
     console.log(invoiceID)
@@ -62,7 +31,7 @@ const deleteInvoice = function(invoiceID){
 
                 let html =''
                 $.get('/api/users/invoices', function(data){
-                    data.map((invoice,index)=>{
+                    data.invoices.map((invoice,index)=>{
                         const priceFormat = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(invoice.totalFee)
                         const dateFormat = (new Date(invoice.createdAt)).toLocaleString();
                         html+=`<tr>
@@ -89,4 +58,98 @@ const deleteInvoice = function(invoiceID){
         }
     )
 }
+
+const pagination = function (page){
+
+    $.get('/api/users/invoices',{page:page, limit:1}, function(data){
+        let html=``;
+        let pages = data.pages
+        console.log(data)
+        data.invoices.map((invoice,index)=>{
+            const priceFormat = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(invoice.totalFee)
+            const dateFormat = (new Date(invoice.createdAt)).toLocaleString();
+            html+=`<tr>
+                            <th scope="row">${index+1}</th>
+                            <td>${invoice._id}</td>
+                            <td id="${invoice.address_info_id}">${invoice.address_text}</td>
+                            <td>${invoice.status}</td>
+                            <td>${invoice.payment_method}</td>
+                            <td><p>${priceFormat}</p></td>
+                            <td>${dateFormat}</td>`
+
+            if(invoice.status==='UNVERIFIED'){
+                html+= `<td><button class=" btn btn-danger fa-trash fa w-100 h-100" onclick=""></button></td>`}
+            else{
+                html+=` <td><button class=" btn btn-danger fa-trash fa w-100 h-100 " disabled></button></td>`
+            }
+
+            html+= `<td><button class="btn btn-primary" data-toggle="modal" data-target="#idCenter" onclick="showDetailInvoice('${invoice._id}')">Detail </button></td>
+                        </tr>`
+        })
+        $('#body-invoices').html(html);
+
+        html=``;
+        console.log(html)
+        if (+page === 1) {
+            html +=
+                `<nav aria-label="Page navigation" class="mb-5">
+            <ul class="pagination justify-content-center mb-5">               
+                <li class="page-item"><a class="page-link active" >${page}</a></li>`
+
+            if (+page + 1 <= +pages) {
+                html += `<li class="page-item"><a class="page-link" onclick="pagination('${+page + 1}')" >${+page + 1}</a></li>`
+            }
+
+            if (+page + 2 <= +pages) {
+                html += `<li class="page-item"><a class="page-link" onclick="pagination('${+page + 2}')" >${+page + 2}</a></li>`
+            }
+            if (+pages>1){
+                html +=`<li class="page-item">
+                    <a class="page-link"  onclick="pagination('${+page + 1}')" >Next</a>
+                </li>
+            </ul>
+        </nav>`
+            }
+
+        }
+        else {
+            if (+page === +pages) {
+                html +=
+                    `<nav aria-label="Page navigation" class="mb-5">
+            <ul class="pagination justify-content-center mb-5">
+                <li class="page-item">
+                    <a class="page-link" onclick="pagination('${+page - 1}')" >Previous</a>
+                </li>`
+                if (+page - 2 > 0) {
+                    html += `<li className="page-item"><a className="page-link" onclick="pagination('${+page - 2}')" >${+page - 2}</a></li>`
+                }
+                if (+page - 1 > 0) {
+                    html += `<li className="page-item"><a className="page-link" onclick="pagination(${+page - 1})" >${+page - 1}</a></li>`
+                }
+
+                html += `<li class="page-item"><a class="page-link active"  onclick="pagination('${page}')">${page}</a></li>
+                </ul>
+        </nav>`
+            } else {
+                html +=
+                    `<nav aria-label="Page navigation" class="mb-5">
+            <ul class="pagination justify-content-center mb-5">
+                <li class="page-item">
+                    <a class="page-link" onclick="pagination('${+page - 1}')" >Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" onclick="pagination('${+page - 1}')">${+page - 1}</a></li>
+                <li class="page-item"><a class="page-link active" >${page}</a></li>
+                <li class="page-item"><a class="page-link" onclick="pagination('${+page + 1}')">${+page + 1}</a></li>
+                <li class="page-item">
+                    <a class="page-link" >Next</a>
+                </li>
+            </ul>
+        </nav>`
+            }
+        }
+        $('#pagination-invoice-1').html(html);
+    })
+
+}
+
 $('#idCenter').on('shown.bs.modal', function() { $("body.modal-open").removeAttr("style"); });

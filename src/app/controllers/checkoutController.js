@@ -12,9 +12,7 @@ module.exports.checkout = async (req, res) => {
     userInfo.address = req.user.address;
     console.log(userInfo)
     userInfo.list_address = await addressService.getAddress(req.user._id);
-}
 
-module.exports.checkout = async (req, res) => {
     res.render('checkout/checkout', {
         title: 'HDH Shoes',
         pageName: 'Shop',

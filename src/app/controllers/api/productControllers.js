@@ -2,6 +2,7 @@ const productService = require('../../models/services/productService')
 const brandService = require('../../models/services/brandService')
 const sizeService = require('../../models/services/sizeService')
 const commentService = require("../../models/services/commentService");
+const ratingService = require("../../models/services/ratingService");
 const {getProductRelated} = require("../../models/services/productService");
 
 /**
@@ -132,16 +133,42 @@ module.exports.saveCommentController = async (req, res) => {
 
 }
 
+
 module.exports.getComments = async (req, res) => {
 
     try {
         const prodID = req.params.product_id;
-        console.log(req.user)
         let comments = await commentService.getComment(prodID);
         res.json(comments);
     } catch (e) {
         console.log(e)
         res.status(500);
+    }
+}
+
+module.exports.saveRatingController = async (req,res)=>{
+    const rating = JSON.parse(req.body.rating);
+    const user_id = req.user._id;
+    console.log(rating)
+    try{
+        await ratingService.saveRating(user_id, rating);
+        res.status(201).send("Rating successfully")
+    }catch (e) {
+        console.log(e)
+        res.status(500).send("Rating fail");
+    }
+}
+module.exports.getReview = async (req, res) => {
+
+    try {
+        const prodID = req.params.product_id;
+        const page = req.query.page?req.query.page:1;
+        let reviews = await ratingService.getReviews(prodID,page);
+
+        res.json(reviews);
+    } catch (e) {
+        console.log(e)
+        res.status(500).send("Get review fail");
     }
 }
 
@@ -160,18 +187,4 @@ module.exports.updateQtyController = async (req, res)=>{
     }
 
 }
-module.exports.test = async (req, res)=>{
-    try{
-        const productID = req.query.product_id;
-        const size_id = req.query.size_id;
-        const qty = req.query.qty;
-        const result = await productService.decreaseProductRemain(productID,size_id,qty);
 
-        res.json(result)
-    }
-    catch (e) {
-        console.log(e)
-        res.status(500).send()
-    }
-
-}

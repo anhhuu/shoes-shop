@@ -23,7 +23,6 @@ $(document).ready(function (){
                 }
                 //content slider
                 for (let j=0; j<4 && typeof productsRelated[i*4+j] !=='undefined';j++){
-                    console.log(productsRelated[i*3+j])
                     html += `
                     <div class="col-md-3">
                         <div class="card mb-2">

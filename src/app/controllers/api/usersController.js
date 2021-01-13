@@ -48,7 +48,10 @@ module.exports.uploadAvatar = async(req, res, next) => {
 
 module.exports.getInvoices = async (req, res) =>{
     try {
-        let invoices = await invoiceService.getInvoices(req.user._id);
+        const page = req.query.page || 1;
+        const limit = req.query.limit || 1;
+        let invoices = await invoiceService.getInvoices(req.user._id, page, +limit);
+        const pages = invoices.pages;
         const promises = invoices.map(invoice => {
             return addressService.getAddressByID(invoice.address_info_id)
         });
@@ -64,16 +67,18 @@ module.exports.getInvoices = async (req, res) =>{
 
 
         const addresses = await Promise.all(promises);
+
         invoices = invoices.map((val, index) => {
             return {
                 ...val,
                 address_text: addresses[index].address_text,
             }
         });
-        console.log('---------------');
-        console.log(invoices);
-        console.log('---------------');
-        res.json(invoices)
+
+        let result ={};
+        result.invoices = invoices;
+        result.pages = pages;
+        res.json(result)
     }catch (e) {
         console.log(e)
         res.send("Get invoices fails")
@@ -97,13 +102,12 @@ module.exports.getInvoice = async (req, res) =>{
         product_detail.push(product)
 
         invoice.invoice_items=product_detail
-        console.log(invoice)
+
         res.json(invoice)
     }catch (e) {
         console.log(e)
     }
 }
-
 
 module.exports.updateProfile = async(req, res) => {
 

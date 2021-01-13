@@ -22,10 +22,13 @@ module.exports.postNewInvoice = async (userId, addressInfoId,items, paymentMetho
     }
 }
 
-module.exports.getInvoices = async (user_id)=>{
+module.exports.getInvoices = async (user_id, page, limit)=>{
     try{
-        const invoices = await invoiceMongooseModel.find({user_id:user_id, is_delete:false}).sort({createdAt:-1}).lean()
-
+        const invoices = await invoiceMongooseModel.find({user_id:user_id, is_delete:false}).limit(limit).skip((page-1)*limit).sort({createdAt:-1}).lean()
+        const count = await invoiceMongooseModel.countDocuments({user_id:user_id, is_delete:false});
+        const pages = count%limit>0?Math.floor(count/limit)+1:count/limit;
+        invoices.pages = pages
+        console.log(invoices)
         return invoices;
     }catch (e) {
         console.log(e)

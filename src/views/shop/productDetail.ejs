@@ -20,55 +20,114 @@
                 </div>
             </div>
             <div class="col-md-8 single-right-left simpleCart_shelfItem">
-                <%if (Math.floor(product.discount * 100)===0){%>
-                <%}else {%>
+                <% if (Math.floor(product.discount * 100) === 0){ %>
+                    <h3><%= product.name %></h3>
+                <% }else { %>
                     <h3><%= product.name %> -<%= Math.floor(product.discount * 100) %>%</h3>
-                <%}%>
+                <% } %>
 
-                <h4 class="my-4">Category: <%= category.name %></h4>
-                <h4 class="my-4">Brand: <%= brand.name %></h4>
-                <h4 class="my-4">SKU: <%= product.SKU %></h4>
-                <h4 class="my-4">Status: <span id="status"></span></h4>
-                <h4 class="my-4">Remain: <span id="remain"></span></h4>
+                <div class="container">
+                    <div class="row my-4">
+                        <div class="col-sm-1 mr-3">
+                            <h4 class="mt-1">Category: </h4>
+                        </div>
+                        <div class="col-sm mt-1">
+                            <h4> <%= category.name %></h4>
+                        </div>
+                    </div>
 
-                <%if (Math.floor(product.discount * 100)===0){%>
-                    <h4>Price:<span> <%= (new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}))
-                                .format(Math.floor(product.price.price_value * (1 - product.discount) / 1000) * 1000).toString() %></span> </h4>
-                <%}else {%>
-                <h4>Price:<p><span class="item_price"><%= product.price.string_price %></span>
-                        <%= (new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}))
-                                .format(Math.floor(product.price.price_value * (1 - product.discount) / 1000) * 1000).toString() %></p></h4>
-                <%}%>
+                    <div class="row my-4">
+                        <div class="col-sm-1 mr-3">
+                            <h4 class="mt-1">Brand: </h4>
+                        </div>
+                        <div class="col-sm mt-1">
+                            <h4> <%= brand.name %></h4>
+                        </div>
+                    </div>
+
+                    <div class="row my-4">
+                        <div class="col-sm-1 mr-3">
+                            <h4 class="mt-1">SKU: </h4>
+                        </div>
+                        <div class="col-sm mt-1">
+                            <h4> <%= product.SKU %></h4>
+                        </div>
+                    </div>
+
+                    <div class="row my-4">
+                        <div class="col-sm-1 mr-3">
+                            <h4 class="mt-1">Status: </h4>
+                        </div>
+                        <div class="col-sm mt-1">
+                            <h4 id="status"></h4>
+                        </div>
+                    </div>
+                    <div class="row my-4">
+                        <div class="col-sm-1 mr-3">
+                            <h4 class="mt-1">Remain: </h4>
+                        </div>
+                        <div class="col-sm mt-1">
+                            <h4 id="remain"></h4>
+                        </div>
+                    </div>
+
+
+                    <% if (Math.floor(product.discount * 100) === 0){ %>
+                        <div class="row my-4">
+                            <div class="col-sm-1 mr-3">
+                                <h4 class="mt-1">Price: </h4>
+                            </div>
+                            <div class="col-sm mt-1">
+                                <h4><%= (new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}))
+                                            .format(Math.floor(product.price.price_value * (1 - product.discount) / 1000) * 1000).toString() %></h4>
+                            </div>
+                        </div>
+                    <% }else { %>
+                        <div class="row my-4">
+                            <div class="col-sm-1 mr-3">
+                                <h4 class="mt-1">Price: </h4>
+                            </div>
+                            <div class="col-sm p-0 mt-1">
+                                <p><span class="item_price"><%= product.price.string_price %></span><%= (new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}))
+                                                .format(Math.floor(product.price.price_value * (1 - product.discount) / 1000) * 1000).toString() %></p>
+
+                            </div>
+                        </div>
+                    <% } %>
+
+                </div>
+
+
 
                 <form action="#" id="add-to-cart">
                     <div class="container my-4">
                         <div class="row">
                             <input type="hidden" name="idProduct" value="<%= product._id %>">
-                            <div class="col-1">
+                            <div class="col-sm-1 mr-3">
                                 <h4 class="mt-1" style="display: inline">Color: </h4>
                             </div>
-                            <div class="col">
-                                <h4><%=color%></h4>
+                            <div class="col-sm">
+                                <h4><%= color %></h4>
                             </div>
-
-
-
                         </div>
                     </div>
                     <div class="container my-4">
                         <div class="row">
-                            <div class="col-1">
+                            <div class="col-sm-1 mr-3">
                                 <h4 class="mt-1" style="display: inline">Size: </h4>
                             </div>
-                            <div class="col-11">
+
+                            <div class="col-sm-10">
                                 <% size.map((data, index)=>{ %>
 
-                                    <input id="<%= data._id %>" type="radio"
-                                           name="size"
-                                           onchange="chooseSize(this.id, '<%= product._id %>')"
-                                           style="display:inline; border: #1adeed solid;padding: 5px; margin-bottom: 3px;"
-                                           value="<%= data._id %>"/>
-                                    <label for="<%= data._id %>" class=" mr-4"><%= data.text %></label>
+                                    <div style="display:inline-block">
+                                        <input id="<%= data._id %>" type="radio"
+                                               name="size"
+                                               onchange="chooseSize(this.id, '<%= product._id %>')"
+                                               style="display:inline; border: #1adeed solid;padding: 5px; margin-bottom: 3px;"
+                                               value="<%= data._id %>"/>
+                                        <label for="<%= data._id %>" class=" mr-4"><%= data.text %></label>
+                                    </div>
                                     <% if((index + 1) % 3 === 0){ %>
                                         <div class="clearfix"></div>
                                     <% } %>
@@ -76,17 +135,17 @@
                             </div>
                         </div>
                         <div class="row  align-items-center">
-                            <div class="col-1 align-items-center">
+                            <div class="col-sm-1 align-items-center">
                                 <h4 class="mt-1" style="display: inline">Qty </h4>
                             </div>
                             <div class="col qty my-4">
                                 <span class="minus bg-dark" id="minus-qty">-</span>
-                                <input type="number" class="count" name="qty" value="1" maxlength="20"/>
+                                <input type="number" class="count" name="qty" value="1" placeholder="Qty"/>
                                 <span class="plus bg-dark" id="plus-qty">+</span>
                             </div>
                         </div>
                         <div class="row  align-items-center ">
-                            <div class="col-1"></div>
+                            <div class="col-sm-1"></div>
                             <div class="col">
                                 <button class="align-center btn btn-primary"
                                         type="submit"
@@ -141,16 +200,21 @@
             <form id="review-form" class="card-body">
                 <div>
                     <label for="#username" class="display-4" style="display: inline"> Khach hang</label>
-                    <div class="rating">
-
+                    <div class="rating" >
                         <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
                         <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
                         <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
                         <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
                         <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
                     </div>
-                    <input class="form-control" type="text" placeholder="Nhập tên khách hàng" id="usernamereivew"
+                    <% if(user_name !== ''){ %>
+
+                    <input class="form-control" type="text" value="<%= user_name %>" readonly id="usernamereivew"
                            style="width: 100%">
+                    <% }else{ %>
+                        <input class="form-control" type="text" placeholder="Nhập tên khách hàng" id="usernamereivew"
+                               style="width: 100%">
+                    <% } %>
 
                 </div>
                 <label for="reviewcontent" class="display-4"> Noi dung</label>
@@ -159,8 +223,12 @@
                               rows="7"></textarea>
                 </div>
 
-                <input type="submit" value="review" class="w-100 my-3 p-0">
+                <input type="submit" value="review" class="float-right m-3 btn btn-primary m-3">
             </form>
+            <a href="#review-product" id="show-review" class="d-flex justify-content-center mt-5">Xem đánh giá</a>
+            <div class="mt-3 p-3" id="review-product">
+
+            </div>
         </div>
     </div>
     <!--comment-->
@@ -178,21 +246,28 @@
                     <div>
                         <label for="#guestname" class="display-4" style="display: inline"> Khach hang</label>
 
-                        <input class="form-control" type="text" placeholder="Họ và tên" id="guestname"
+                        <% if(user_name !== ''){ %>
+                        <input class="form-control" type="text" value="<%= user_name %>" readonly id="guestname"
                                style="width: 100%">
+                        <% }else{ %>
+                            <input class="form-control" type="text" placeholder="Nhập tên khách hàng"
+                                   id="guestname"
+                                   style="width: 100%">
+                        <% } %>
 
                     </div>
                     <label for="content-comment" class="display-4"> Nội dung</label>
                     <div>
-                        <textarea class="form-control" type="text" placeholder="Nội dung bình luận" id="content-comment"
+                        <textarea class="form-control" type="text" required placeholder="Nội dung bình luận"
+                                  id="content-comment"
                                   rows="4"></textarea>
                     </div>
 
                     <input type="submit" value="Binh luan" class="float-right m-3 btn btn-primary m-3"
                            style="width: fit-content">
                 </form>
-                <a href="#comments-product" id="show-comments" class="d-flex justify-content-center"> Xem bình luận</a>
-                <div id="comments-product" onload="loadComment('<%= product._id %>')">
+                <a href="#" id="show-comments" class="d-flex justify-content-center">Xem bình luận</a>
+                <div class="mt-3" id="comments-product">
 
                 </div>
             </div>

@@ -20,7 +20,7 @@ module.exports.saveComment = async(idProduct,comment) => {
             commentArr.unshift(comment)
             let commentDoc = new commentMongooseModel({
                 product_id: idProduct,
-                comments: commentArr
+                comments: commentArr,
             });
             console.log(commentDoc);
             await commentDoc.save(function (err) {

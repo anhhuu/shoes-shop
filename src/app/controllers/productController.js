@@ -72,9 +72,12 @@ module.exports.showProduct = async(req, res, next) => {
     }
 
     result = await Promise.all(result)
+    let fullName = ''
+    if (req.user){
+        fullName=req.user.first_name +' '+ req.user.last_name;
+    }
 
 
-    console.log(product)
     res.render('shop/productDetail', {
         title: 'HDH Shoes',
         pageName: 'Product',
@@ -83,6 +86,7 @@ module.exports.showProduct = async(req, res, next) => {
         category: category,
         color:product.color,
         size: result,
+        user_name:fullName
     })
 }
 

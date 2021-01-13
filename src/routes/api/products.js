@@ -8,8 +8,9 @@ router.get('/', productController.getProducts);
 router.get('/product-related', productControllerAPI.getProductRelatedController)
 router.get('/brands', productController.getBrands);
 router.post('/comment',productControllerAPI.saveCommentController);
+router.post('/review',productControllerAPI.saveRatingController);
 router.get('/comment/:product_id', productControllerAPI.getComments)
-router.get('/update', productControllerAPI.test);
+router.get('/review/:product_id', productControllerAPI.getReview)
 router.get('/:ID', productControllerAPI.getProduct);
 
 
