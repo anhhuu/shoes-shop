@@ -25,12 +25,18 @@
     width: 100%;
     padding: 8px 10px;
     border-radius: 0;
-    border: 2px solid rgba(20,20,20,0.2);
-
+    border: 1px solid rgba(20,20,20,0.2);
+    margin: 10px 0 0;
 }
+
+form.select-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .select-css option {
     width: 100%;
-    max-width: 100%;
 }
 
 .information-wrapper{
@@ -47,3 +53,13 @@
     height: 30px !important;
     padding: 15px 5px;
 }
+
+#body-address-page{
+    margin-top: 10px;
+}
+
+.card-address-title {
+    background: #212121 !important;
+    margin-top: 0 !important;
+}
+

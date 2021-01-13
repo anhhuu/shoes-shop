@@ -25,7 +25,7 @@ class Addresses {
     renderAddressSideBar(position){
         $('#user-shipping-address').html(
             `
-                <h4 class="w-100 text-center py-3 px-5 mb-3 bg-success" style="color: white">
+                <h4 class="w-100 text-center py-3 px-5 mb-3  card-address-title" style="color: white">
                             Your address list</h4>
                <div class="d-flex my-2  px-4 align-items-baseline">
                     <h5>Receiver's name: </h5>

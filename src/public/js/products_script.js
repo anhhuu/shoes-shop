@@ -1,8 +1,13 @@
 const BASE_URL = '/api/products';
+let range = [1000000, 20000000];
+
 let userOptions = {
-    range: [1000000, 20000000]
+    range
 };
 
+const alert = `    <div class="alert alert-warning w-100" role="alert">
+                    <h4 class="alert-heading">There are no products with those conditions</h4>
+                    </div>`
 
 function getQueryString(object) {
 
@@ -18,11 +23,16 @@ function getQueryString(object) {
     return '?' + $.param(object, true) + (range ? '&range=[' + range.join(',') + ']' : '');
 }
 
+function resetProducts() {
+    $('.products').prop('class', 'products');
+}
+
 function getProducts(pageOrURL, options) {
     let URL = BASE_URL;
 
-    console.log('Run this');
-
+    console.log('USER OPTIONS')
+    console.log(JSON.stringify(options));
+    console.log('END');
 
     if (typeof pageOrURL !== 'string') {
         if (pageOrURL && pageOrURL > 1) {
@@ -48,17 +58,30 @@ function getProducts(pageOrURL, options) {
 
     }
 
-    console.log('USER OPTIONS')
-    console.log(userOptions);
-    console.log('END');
 
     $.get(URL, function (data) {
 
+        if (data.products.length === 0) {
+            $('#products__section').removeClass("products");
+            $('#products__section').addClass('d-flex justify-content-center align-items-center w-100 h-100');
+            return $('#products__section').html(alert);
+        }else{
+            $('#products__section').removeClass('d-flex justify-content-center align-items-center w-100 h-100');
+            $('#products__section').addClass('products');
+        }
+
         const result = data.products.map(function (item) {
-            return `<div class="product-men">
-                            <div class="product-shoe-info shoe">
-                                <div class="men-pro-item">
-                                    <div class="men-thumb-item">
+            return `
+           <div class="product-men">
+                 <div class="product-shoe-info shoe">
+                       <div class="men-pro-item">
+                            <div class="men-thumb-item">         
+                                        
+                                        ${item.discount > 0 ?
+                                            `<div class="discount-label red text-center">
+                                               <span>${Math.floor(item.discount * 100)} %</span>
+                                           </div>` : ''
+            }           
                                         <img src="${item.image_show_url}" alt="">
                                         <div class="men-cart-pro">
                                             <div class="inner-men-cart-pro">
@@ -96,6 +119,7 @@ function getProducts(pageOrURL, options) {
 
 
         });
+        resetProducts();
         $('.products').html(result.join(' '));
 
         let html = '';
@@ -184,7 +208,8 @@ function getUserOptions() {
 
     userOptions = {
         ...userOptions,
-        ...options
+        ...options,
+        range
     }
 
     return userOptions
@@ -212,14 +237,16 @@ $(window).load(function () {
                     range: ui.values
                 }
 
-                userOptions = getUserOptions();
                 const [start, end] = ui.values;
+                range = [start, end];
                 $('#amount2').val(start + ' VNĐ ' + '    ' + end + ' VNĐ')
 
                 clearTimeout(timerHandler);
                 timerHandler = setTimeout(() => {
+                    userOptions = getUserOptions();
                     getProducts(1, userOptions)
-                }, 1000);
+                    console.log('complete');
+                }, 1500);
 
             }
         });

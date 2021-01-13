@@ -65,44 +65,48 @@ $('#select-district').change(function () {
 
 
 })
-$('#select-address-delivery').change(function (){
+$('#select-address-delivery').change(function () {
     const addrID = $('#select-address-delivery option:selected').val();
-    let addressText =''
-    $.get('api/address/'+addrID, function (data){
-        addressText = data.phone_number + ', ' + data.full_name +', '+data.address_text
+    let addressText = ''
+    $.get('api/address/' + addrID, function (data) {
+        addressText = data.phone_number + ', ' + data.full_name + ', ' + data.address_text
         $('#show-address-delivery').text(addressText)
     })
 })
-$('#select-payment-method').change(function (){
+$('#select-payment-method').change(function () {
     const paymentMethod = $('#select-payment-method option:selected').val();
-        $('#show-payment-method').text(paymentMethod)
+    $('#show-payment-method').text(paymentMethod)
 })
 
-$('#order').click(function (){
+$('#order').click(function () {
     const paymentMethod = $('#select-payment-method option:selected').val();
     const addressDeliveryID = $('#select-address-delivery option:selected').val();
     const carts = JSON.parse(window.localStorage.getItem("cart"));
     const items = [];
     let totalFee = 0
-    carts.map(item=>{
+    carts.map(item => {
         let itemInfo = {};
         itemInfo.product_id = item.product._id;
         itemInfo.qty = item.qty;
         itemInfo.size_id = item.size._id;
         itemInfo.cost = item.qty * (+item.product.price.price_value);
-        totalFee +=itemInfo.cost;
+        totalFee += itemInfo.cost;
         items.push(itemInfo);
     })
 
 
     console.log(items)
-    if (paymentMethod===''|| addressDeliveryID ==='' ||carts.length===0){
-        let alertStr = carts.length===0?"Cart is not empty":'' + addressDeliveryID ===''?"Address Delivery is not empty":''+ paymentMethod===''?"Payment method is not empty":'';
+    if (paymentMethod === '' || addressDeliveryID === '' || carts.length === 0) {
+        let alertStr = carts.length === 0 ? "Cart is not empty" : '' + addressDeliveryID === '' ? "Address Delivery is not empty" : '' + paymentMethod === '' ? "Payment method is not empty" : '';
         window.alert(alertStr)
         console.log(alertStr)
-    }
-    else {
-        $.post('/checkout/createInvoice',{addressInfoID:addressDeliveryID,items:JSON.stringify(items),paymentMethod:paymentMethod, totalFee:totalFee}).done(function (){
+    } else {
+        $.post('/checkout/createInvoice', {
+            addressInfoID: addressDeliveryID,
+            items: JSON.stringify(items),
+            paymentMethod: paymentMethod,
+            totalFee: totalFee
+        }).done(function () {
 
             window.localStorage.setItem("cart", JSON.stringify([]));
             window.alert("Successfully Order");
@@ -110,7 +114,6 @@ $('#order').click(function (){
 
         })
     }
-
 
 
 })
@@ -127,7 +130,7 @@ $('#add-new-delivery').submit(function (event) {
 
     let addressInfo = {};
     addressInfo.full_name = fullname
-    addressInfo.address_text =address + ', ' + ward.text() + ', ' + district.text() + ', ' + province.text();
+    addressInfo.address_text = address + ', ' + ward.text() + ', ' + district.text() + ', ' + province.text();
     addressInfo.phone_number = phoneNumber
     addressInfo.note = note
     addressInfo.province_id = province.val()
@@ -135,13 +138,40 @@ $('#add-new-delivery').submit(function (event) {
     addressInfo.ward_id = ward.val()
     console.log(addressInfo)
 
-    $.post('/api/address/',{addressInfo:JSON.stringify(addressInfo)})
+    $.ajax({
+        url: '/api/address/',
+        type: 'POST',
+        data: {addressInfo: JSON.stringify(addressInfo)},
+        success: function () {
+            $('#checkout-address-message')
+                .attr('class', '')
+                .addClass('text-success')
+                .html('Add address successfully');
+            setTimeout(function () {
+                $('#checkout-address-message').html('');
+            }, 2000)
+        },
+        error: function () {
+            $('#checkout-address-message')
+                .attr('class', '')
+                .addClass('text-danger')
+                .html('Add address an error occur');
+            setTimeout(function () {
+                $('#checkout-address-message').html('');
+            }, 2000)
 
-    $('#show-address-delivery').html(addressInfo.phone_number+', '+addressInfo.full_name+', '+ addressInfo.address_text);
-    $.get('/api/address/', function (data)   {
-        let html=``;
-        data.slice(0).reverse().map(addr=>{
-            html+=`<option value="${addr._id}" >${addr.phone_number},${addr.full_name},${addr.address_text}</option>`
+        }
+    })
+
+    // $.post('/api/address/',)
+    //     .done(function(){
+    //     })
+
+    $('#show-address-delivery').html(addressInfo.phone_number + ', ' + addressInfo.full_name + ', ' + addressInfo.address_text);
+    $.get('/api/address/', function (data) {
+        let html = ``;
+        data.slice(0).reverse().map(addr => {
+            html += `<option value="${addr._id}" >${addr.phone_number},${addr.full_name},${addr.address_text}</option>`
         })
         $('#select-address-delivery').html(html);
 

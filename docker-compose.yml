@@ -1,0 +1,39 @@
+version: '3'
+services:
+  redis:
+    image: 'redis'
+    expose:
+      - 6379
+  app:
+    image: 'node'
+    build: ./
+    restart: always
+    volumes:
+      - ./:/app
+    links:
+      - redis
+    ports:
+      - 5000:5000
+    environment:
+      - REDIS_URL=redis://cache
+      - NODE_ENV=development
+      - PORT=5000
+      - DB_URI_V1=mmongodb+srv://anhhuu:QntiC4albYUOsYHz@shoes-shop-cluster.cdqes.mongodb.net/shoes-shop-dev-v1?retryWrites=true&w=majority
+      - DB_URI_V2=mmongodb+srv://anhhuu:QntiC4albYUOsYHz@shoes-shop-cluster.cdqes.mongodb.net/shoes-shop-dev-v2?retryWrites=true&w=majority
+      - DB_URI_LOCAL_V1=mongodb://127.0.0.1:27017/shoes-shop-dev-v1
+      - DB_URI_LOCAL_V2=mongodb://127.0.0.1:27017/shoes-shop-dev-v2
+      - PASSPORT_SECRET="SHOESSHOPABC"
+      - CLOUD_NAME=daqvky8nk
+      - CLOUD_API_KEY=672571941514581
+      - CLOUD_SECRET_KEY=mB5TKtGpNIYTT7FxGoA07B79mqQ
+      - WEB_URL=http://localhost:5000
+      - JWT_SECRET=shoeshop123
+      - MAIL_GUN_API_KEY=5fbf0217c09fffe7cfd90af02111e767-3d0809fb-c37e9f2a
+      - EMAIL_KEY_PUBLIC=ce04d4489cfe459f174006cf73ab7626
+      - EMAIL_KEY_PRIVATE=4e2c5f5a18c2383fc6638c5d6b956087
+      - TEST_EMAIL=truongsalacuavietnamnhe@gmail.com
+      - DB_NAME=shoes-shop-dev-v2
+      - DEBUG=shoes-shop:*
+      - CACHE_TIME_TTL=20
+    command:
+      sh -c 'npm i && npm run start'

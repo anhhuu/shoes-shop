@@ -6,7 +6,7 @@ module.exports.getDistricts = async(province_id) => {
         const districts = await districtMongoosesModel.find({ province_id: province_id });
         return districts
     } catch (e) {
-        console.log(e)
+        throw e;
     }
 }
 module.exports.getDistrictsByProvinceID = (provinceID) => {

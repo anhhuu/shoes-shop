@@ -76,7 +76,9 @@
                         <h4 class="w-100 text-center py-3 px-5 mb-3 card-header" style="color: black">Your address list</h4>
                         <% if(options.addresses.length > 0){ %>
                             <% options.addresses.forEach(address=>{ %>
-                                <div class="card">
+                            <%if(!address.isDeleted){%>
+                                <div class="card" id="<%=address._id%>">
+
                                     <div id="user-shipping-address">
                                         <div class="d-flex my-2  px-4">
                                             <h5>Receiver's name: </h5>
@@ -110,6 +112,7 @@
                                         </div>
                                     </div>
                                 </div>
+                            <%}%>
                             <% }) %>
                         <% }else{ %>
                                 <div class="alert alert-info" role="alert">
@@ -159,9 +162,9 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Modal</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Modal</h4>
                 </div>
                 <div class="modal-body">
                     Can not delete this address

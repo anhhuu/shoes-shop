@@ -10,7 +10,7 @@ $(document).ready(function () {
     $('.custom-form .btn-danger').click(handleDeleteAddress);
 
     $('#setting-button').click(handleSettingBtnClick);
-    $('#close-modal').click(handleCloseModal);
+    $('#close-modal, .close').click(handleCloseModal);
 
     $('#update-button-container').hide();
     hideMessage();
@@ -42,7 +42,7 @@ function handleDeleteAddress() {
         url: `/api/address/delete/${addressID}`,
         type: 'delete',
         success: function () {
-            $(self).parent().parent().remove();
+            $(`div[id=${addressID}]`).remove();
         },
         error: function () {
             $('#alert-modal').modal('show');
