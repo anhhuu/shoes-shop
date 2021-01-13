@@ -72,15 +72,16 @@ module.exports.getInvoicesController = async (req, res) => {
 
 
     const addresses = await Promise.all(promises);
+    console.log('---------------');
+    console.log(addresses);
+    console.log('---------------');
     invoices = invoices.map((val, index) => {
         return {
             ...val,
             address_text: addresses[index].address_text,
         }
     });
-    console.log('---------------');
-    console.log(invoices);
-    console.log('---------------');
+
 
     res.render('users/invoiceManagement', {
         title: 'Invoice Management',

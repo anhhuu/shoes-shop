@@ -29,7 +29,8 @@
                         <div class="col-md-4">
                             <div class="card">
                                 <div id="user-shipping-address">
-                                    <h4 class="w-100 text-center py-3 px-5 mb-3 card-address-title"  style="color: white">Your address list</h4>
+                                    <h4 class="w-100 text-center py-3 px-5 mb-3 card-address-title"
+                                        style="color: white">Your address list</h4>
                                     <div class="d-flex my-2  px-4">
                                         <h5>Receiver's name: </h5>
                                         <div style="flex:1;"></div>
@@ -59,7 +60,7 @@
                                 </div>
 
                                 <form action="" class="select-container">
-                                    <select id="address-select" class="select-css" name="user-address" required="">
+                                    <select id="select-address-delivery" class="select-css" name="user-address" required="">
                                     </select>
                                 </form>
 
@@ -67,44 +68,34 @@
 
                             <div class="card mt-5">
                                 <div id="chose-payment-method">
-                                    <h4 class="w-100 text-center py-3 px-5 mb-3 card-address-title" style="color: white">Your address list</h4>
-                                    <div class="d-flex my-2  px-4">
-                                        <h5>Receiver's name: </h5>
-                                        <div style="flex:1;"></div>
-                                        <h5></h5>
-                                    </div>
-                                    <div class="d-flex my-2  px-4">
-                                        <h5>Ward: </h5>
-                                        <div style="flex:1;"></div>
-                                        <h5></h5>
-                                    </div>
-                                    <div class="d-flex my-2  px-4">
-                                        <h5>District: </h5>
-                                        <div style="flex:1;"></div>
-                                        <h5></h5>
-                                    </div>
-                                    <div class="d-flex my-2  px-4">
-                                        <h5>Province: </h5>
-                                        <div style="flex:1;"></div>
-                                        <h5></h5>
-                                    </div>
+                                    <div class="card">
+                                        <div class="card-header "></div>
+                                        <h4 class="w-100 text-center py-3 px-5 mb-3 card-address-title"
+                                            style="color: white">Choose payment methods</h4>
+                                        <div class="card-body" style="padding-bottom: 0">
+                                            <div class="d-flex my-2  px-4">
+                                                <h5>Payment method: </h5>
+                                                <div style="flex:1;"></div>
+                                                <h5 id="show-payment-method">COD</h5>
+                                            </div>
+                                            <div class="row select-container">
+                                                <select name="Choose payments methods" id="select-payment-method"
+                                                        class="w-100 select-css" style="height: fit-content">
+                                                    <option value="">Choose payment method</option>
+                                                    <option value="COD">COD</option>
+                                                    <option value="Credit Card">Credit Card</option>
+                                                    <option value="Online Payment">Online Payment</option>
 
-                                    <div class="d-flex my-2  px-4">
-                                        <h5>Address: </h5>
-                                        <div style="flex:1;"></div>
-                                        <h5></h5>
+                                                </select>
+                                            </div>
+                                            <div>
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <form action="" class="select-container">
-
-                                    <select id="address-select" class="select-css" name="user-address" required="">
-                                    </select>
-                                </form>
-
                             </div>
                         </div>
-
                         <!--                User address-->
 
                         <div class="col">
@@ -119,7 +110,8 @@
                                                         class="form-control py-4" type="text" name="name"
                                                         placeholder="Full name" required="">
                                             </div>
-                                            <div class="controls"><label class="control-label">Mobile number:</label>
+                                            <div class="controls"><label class="control-label">Mobile
+                                                    number:</label>
                                                 <input
                                                         class="form-control py-4" type="number" name="phoneNumber"
                                                         required=""
@@ -155,28 +147,43 @@
                                                 </select>
                                             </div>
 
-                                            <div class="controls"><label class="control-label">Address:</label><input
+                                            <div class="controls">
+                                                <label
+                                                        class="control-label">Address:
+                                                </label>
+                                                <input
                                                         id="address"
                                                         class="form-control" type="text" name="address" required=""
-                                                        placeholder="Address"></div>
-                                            <% if(user){ %>
-                                                <input name="userID" id="userID" type="hidden" value="<%= user._id %>">
-                                            <% } %>
+                                                        placeholder="Address">
+                                            </div>
+                                            <div class="controls">
+                                                <label for="note"
+                                                       class="control-label">Note:
+                                                </label>
+                                                <input
+                                                        id="note"
+                                                        class="form-control" type="text" name="note"
+                                                        placeholder="Note">
+                                            </div>
+
                                         </div>
                                         <span class="text-success"></span>
                                         <div class="row">
                                             <div class="d-flex flex-column col">
-                                                <button class="btn btn-primary" type="submit">Add New Address</button>
+                                                <button class="btn btn-primary" type="submit">Add New Address
+                                                </button>
                                             </div>
                                         </div>
 
                                     </section>
 
                                     <div class="d-flex justify-content-between px-2 row">
-                                        <div class="checkout-right-basket align-self-start"><a class="direction-button-back" href="/">Back
+                                        <div class="checkout-right-basket align-self-start"><a
+                                                    class="direction-button-back" href="/">Back
                                                 Step<span aria-hidden="true"></span></a></div>
                                         <div class="col"></div>
-                                        <div class="checkout-right-basket align-self-start"><a class="direction-button" href="/">Make a
+                                        <div class="checkout-right-basket align-self-start"><a
+                                                    class="direction-button" id="order" href="/">Make a
                                                 Payment <span aria-hidden="true"></span></a></div>
                                     </div>
                                 </form>

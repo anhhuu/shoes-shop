@@ -114,8 +114,9 @@
     width: 60px;
     height: 30px;
     position: absolute;
-    top: 10px;
-    transform: rotateZ(-45deg);
+    top: 15px;
+    left: -15px;
+    transform: rotateZ(90deg);
     background-color: #d70505;
     display: flex;
     justify-content: center;
