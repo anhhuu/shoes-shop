@@ -66,11 +66,11 @@ td.invert-image a img {
 .close3 {
 	background: url('../images/close_1.jpg') no-repeat 0px 0px;
 	cursor: pointer;
-    width: 41px;
-    height: 39px;
-    position: absolute;
-    right: 36px;
-    top: -26px;
+	width: 41px;
+	height: 39px;
+	position: absolute;
+	right: 36px;
+	top: -26px;
 	-webkit-transition: color 0.2s ease-in-out;
 	-moz-transition: color 0.2s ease-in-out;
 	-o-transition: color 0.2s ease-in-out;
@@ -213,7 +213,7 @@ td.invert-image a img {
 }
 
 .checkout-right-basket a:hover {
-	    background: #fb383b;
+	background: #fb383b;
 }
 
 .checkout-right-basket a span {

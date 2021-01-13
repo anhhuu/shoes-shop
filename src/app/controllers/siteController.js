@@ -8,39 +8,51 @@ const debug = require('debug')('HomePage');
 module.exports.index = async (req, res, next) => {
 
     try {
+
+        const cachedHTML = await getCache('homePage');
+
+        if(cachedHTML){
+            return res.send(cachedHTML);
+        }
+
         let galleryProducts = await parseCaching(getCache("galleryProducts"));
 
-        if(!galleryProducts){
+        if (!galleryProducts) {
             galleryProducts = await productService.getList(3, 12);
-            client.set("galleryProducts",JSON.stringify(galleryProducts),"EX", +process.env.CACHE_TIME_TTL,()=>{});
+            client.set("galleryProducts", JSON.stringify(galleryProducts), "EX", +process.env.CACHE_TIME_TTL, () => {
+            });
 
         }
 
         let bestSellers = await parseCaching(getCache("bestSellers"));
 
-        if(!bestSellers){
+        if (!bestSellers) {
             bestSellers = await productService.getBestSellerProducts();
-            client.set("bestSellers",JSON.stringify(bestSellers),"EX",+process.env.CACHE_TIME_TTL,()=>{});
+            client.set("bestSellers", JSON.stringify(bestSellers), "EX", +process.env.CACHE_TIME_TTL, () => {
+            });
 
         }
 
         let newProducts = await parseCaching(getCache("newProducts"));
-        if(!newProducts){
-            newProducts = await productService.getNewProducts(1,10);
-            client.set("newProducts",JSON.stringify(newProducts),"EX",+process.env.CACHE_TIME_TTL, ()=>{});
+        if (!newProducts) {
+            newProducts = await productService.getNewProducts(1, 10);
+            client.set("newProducts", JSON.stringify(newProducts), "EX", +process.env.CACHE_TIME_TTL, () => {
+            });
         }
 
         let flashSellProducts = await parseCaching(getCache("flashSellProducts"));
-        if(!flashSellProducts){
-            flashSellProducts = await productService.getProductsOnSale(1,5);
-            client.set("flashSellProducts",JSON.stringify(flashSellProducts),"EX",+process.env.CACHE_TIME_TTL,()=>{});
+        if (!flashSellProducts) {
+            flashSellProducts = await productService.getProductsOnSale(1, 5);
+            client.set("flashSellProducts", JSON.stringify(flashSellProducts), "EX", +process.env.CACHE_TIME_TTL, () => {
+            });
         }
 
-        let brandList = await parseCaching(getCache("brandList")) ;
+        let brandList = await parseCaching(getCache("brandList"));
 
-        if(!brandList){
-             brandList = await brandService.getBrandsImageURL();
-            client.set("brandList",JSON.stringify(brandList),"EX",+process.env.CACHE_TIME_TTL, ()=>{});
+        if (!brandList) {
+            brandList = await brandService.getBrandsImageURL();
+            client.set("brandList", JSON.stringify(brandList), "EX", +process.env.CACHE_TIME_TTL, () => {
+            });
 
         }
         res.render('index', {
@@ -54,6 +66,12 @@ module.exports.index = async (req, res, next) => {
                 brands: brandList
             }
 
+        }, (error, html) => {
+            client.set("homePage",html,"EX",30,(...msg)=>{
+                console.log(msg);
+                console.log("Cached");
+            })
+            res.send(html);
         });
 
     } catch (e) {
@@ -64,14 +82,18 @@ module.exports.index = async (req, res, next) => {
 
 }
 
-module.exports.getAboutPage = async (req, res, next) => {
+module.exports.getAboutPage = (req, res, next) => {
+    console.log("Run")
+
     res.render('site/about', {
         title: 'HDH Shoes',
-        pageName: 'About'
+        pageName: 'About',
+        products: []
     });
 }
 
-module.exports.getContactPage = async (req, res, next) => {
+module.exports.getContactPage = (req, res, next) => {
+    console.log("Run")
     res.render('site/contact', {
         title: 'HDH Shoes',
         pageName: 'Contact'

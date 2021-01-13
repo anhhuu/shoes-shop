@@ -15,7 +15,7 @@
             <div class="carousel-inner" role="listbox">
                 <div class="item active">
                     <div class="row">
-                        <% for(let i = 0;i < 4;i++){ %>
+                        <% for(let i = 0;i < 4 && i<products.length;i++){ %>
                             <% let product = products[i]; %>
                             <div class="col-md-3 col-sm-3 col-xs-3 slidering">
                                 <div class="thumbnail"><img src="<%= product.image_show_url %>" alt="Image"
@@ -24,7 +24,7 @@
                         <% } %>
                     </div>
                 </div>
-                <% for(let outer = 1;outer <3;outer++){ %>
+                <% for(let outer = 1;outer <3 && outer<products.length;outer++){ %>
                     <div class="item">
                         <div class="row">
                             <% for(let i = outer * 4;i < outer * 4 + 4;i++){ %>

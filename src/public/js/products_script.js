@@ -6,7 +6,7 @@ let userOptions = {
 };
 
 const alert = `    <div class="alert alert-warning w-100" role="alert">
-                    <h4 class="alert-heading">Ops there are no products with those conditions</h4>
+                    <h4 class="alert-heading">There are no products with those conditions</h4>
                     </div>`
 
 function getQueryString(object) {
@@ -60,9 +60,16 @@ function getProducts(pageOrURL, options) {
 
 
     $.get(URL, function (data) {
+
         if (data.products.length === 0) {
-            return $('.products').html(alert);
+            $('#products__section').removeClass("products");
+            $('#products__section').addClass('d-flex justify-content-center align-items-center w-100 h-100');
+            return $('#products__section').html(alert);
+        }else{
+            $('#products__section').removeClass('d-flex justify-content-center align-items-center w-100 h-100');
+            $('#products__section').addClass('products');
         }
+
         const result = data.products.map(function (item) {
             return `
            <div class="product-men">

@@ -21,12 +21,14 @@
 }
 
 .products{
-    grid-area: products;
     display: grid !important;
     grid-template-columns: repeat(4,1fr);
     grid-template-rows:repeat(3,1fr);
 }
 
+#products__section{
+    grid-area: products;
+}
 
 #filter{
     border-radius: 1px;

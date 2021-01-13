@@ -42,7 +42,7 @@ function handleDeleteAddress() {
         url: `/api/address/delete/${addressID}`,
         type: 'delete',
         success: function () {
-            $(self).parent().parent().remove();
+            $(`div[id=${addressID}]`).remove();
         },
         error: function () {
             $('#alert-modal').modal('show');
