@@ -1,11 +1,11 @@
 const createError = require('http-errors');
-const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const {app, http, io, express} = require('./config/socket.io');
 
-const app = express();
+
 app.use(cors());
 
 const debugHttp = require('debug')('shoes-shop:http')
@@ -58,6 +58,7 @@ app.use((req, res, next) => {
 
 route(app);
 
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
 
@@ -81,4 +82,32 @@ app.use(function (err, req, res, next) {
     });
 });
 
-module.exports = app;
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+const port = normalizePort(process.env.PORT || '5000');
+app.set('port', port);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+    const port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
+
+    if (port >= 0) {
+        // port number
+        return port;
+    }
+
+    return false;
+}
+
+module.exports = http;

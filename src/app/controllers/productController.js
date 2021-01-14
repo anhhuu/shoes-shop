@@ -74,7 +74,7 @@ module.exports.showProduct = async(req, res, next) => {
     result = await Promise.all(result)
 
 
-    console.log(product)
+    // console.log(product)
     res.render('shop/productDetail', {
         title: 'HDH Shoes',
         pageName: 'Product',
