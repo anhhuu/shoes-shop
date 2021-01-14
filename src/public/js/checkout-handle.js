@@ -20,8 +20,7 @@ $(document).ready(function () {
                         <td class="invert">${Intl.NumberFormat('vi-VN', {
             style: 'currency',
             currency: 'VND'
-        }).format(cartItem.product.price.price_value * cartItem.qty)}</td>
-                        
+        }).format(cartItem.product.price.price_value * cartItem.qty).slice(1)}&#x20ab;</td>
                     </tr>`
     })
     html += `<tr class="rem1">
