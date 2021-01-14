@@ -74,8 +74,16 @@ $('#order').click(function () {
         }).done(function () {
 
             window.localStorage.setItem("cart", JSON.stringify([]));
-            window.alert("Successfully Order");
+            //window.alert("Successfully Order");
+            $('#message').html(
+                ' <div class="alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                '        Đặt hàng thành công!' +
+                '        <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                '            <span aria-hidden="true">&times;</span>\n' +
+                '        </button>\n' +
+                '    </div>');
             window.location.replace("/products")
+
 
         })
     }

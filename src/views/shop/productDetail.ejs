@@ -1,6 +1,9 @@
 <!-- top Products -->
 <div class="mt-5">
     <div class="shop_inner_inf">
+        <div id="message">
+
+        </div>
         <div class="row">
             <div class="col-md-4 single-right-left ">
                 <div class="grid images_3_of_2">
@@ -94,68 +97,68 @@
                             </div>
                         </div>
                     <% } %>
+                    <form action="#" id="add-to-cart">
+                        <div class="container my-4">
+                            <div class="row">
+                                <input type="hidden" name="idProduct" value="<%= product._id %>">
+                                <div class="col-sm-1 mr-3">
+                                    <h4 class="mt-1" style="display: inline">Color: </h4>
+                                </div>
+                                <div class="col-sm">
+                                    <h4><%= color %></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container my-4">
+                            <div class="row">
+                                <div class="col-sm-1 mr-3">
+                                    <h4 class="mt-1" style="display: inline">Size: </h4>
+                                </div>
 
+                                <div class="col-sm-10">
+                                    <% size.map((data, index)=>{ %>
+
+                                        <div style="display:inline-block">
+                                            <input id="<%= data._id %>" type="radio"
+                                                   name="size"
+                                                   onchange="chooseSize(this.id, '<%= product._id %>')"
+                                                   style="display:inline; border: #1adeed solid;padding: 5px; margin-bottom: 3px;"
+                                                   value="<%= data._id %>"/>
+                                            <label for="<%= data._id %>" class=" mr-4"><%= data.text %></label>
+                                        </div>
+                                        <% if((index + 1) % 3 === 0){ %>
+                                            <div class="clearfix"></div>
+                                        <% } %>
+                                    <% }) %>
+                                </div>
+                            </div>
+                            <div class="row  align-items-center">
+                                <div class="col-sm-1 align-items-center">
+                                    <h4 class="mt-1" style="display: inline">Qty </h4>
+                                </div>
+                                <div class="col qty my-4">
+                                    <span class="minus bg-dark" id="minus-qty">-</span>
+                                    <input type="number" class="count" name="qty" value="1" placeholder="Qty"/>
+                                    <span class="plus bg-dark" id="plus-qty">+</span>
+                                </div>
+                            </div>
+                            <div class="row  align-items-center ">
+                                <div class="col-sm-1"></div>
+                                <div class="col">
+                                    <button class="align-center btn btn-primary"
+                                            type="submit"
+                                            id="pd-add-to-cart"
+                                            style="display:inline; padding: 5px; margin-bottom: 3px;">Add to cart
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
 
 
-                <form action="#" id="add-to-cart">
-                    <div class="container my-4">
-                        <div class="row">
-                            <input type="hidden" name="idProduct" value="<%= product._id %>">
-                            <div class="col-sm-1 mr-3">
-                                <h4 class="mt-1" style="display: inline">Color: </h4>
-                            </div>
-                            <div class="col-sm">
-                                <h4><%= color %></h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container my-4">
-                        <div class="row">
-                            <div class="col-sm-1 mr-3">
-                                <h4 class="mt-1" style="display: inline">Size: </h4>
-                            </div>
 
-                            <div class="col-sm-10">
-                                <% size.map((data, index)=>{ %>
-
-                                    <div style="display:inline-block">
-                                        <input id="<%= data._id %>" type="radio"
-                                               name="size"
-                                               onchange="chooseSize(this.id, '<%= product._id %>')"
-                                               style="display:inline; border: #1adeed solid;padding: 5px; margin-bottom: 3px;"
-                                               value="<%= data._id %>"/>
-                                        <label for="<%= data._id %>" class=" mr-4"><%= data.text %></label>
-                                    </div>
-                                    <% if((index + 1) % 3 === 0){ %>
-                                        <div class="clearfix"></div>
-                                    <% } %>
-                                <% }) %>
-                            </div>
-                        </div>
-                        <div class="row  align-items-center">
-                            <div class="col-sm-1 align-items-center">
-                                <h4 class="mt-1" style="display: inline">Qty </h4>
-                            </div>
-                            <div class="col qty my-4">
-                                <span class="minus bg-dark" id="minus-qty">-</span>
-                                <input type="number" class="count" name="qty" value="1" placeholder="Qty"/>
-                                <span class="plus bg-dark" id="plus-qty">+</span>
-                            </div>
-                        </div>
-                        <div class="row  align-items-center ">
-                            <div class="col-sm-1"></div>
-                            <div class="col">
-                                <button class="align-center btn btn-primary"
-                                        type="submit"
-                                        id="pd-add-to-cart"
-                                        style="display:inline; padding: 5px; margin-bottom: 3px;">Add to cart
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
@@ -311,6 +314,7 @@
 
 
 </div>
+
 
 
 <!-- /newsletter-->

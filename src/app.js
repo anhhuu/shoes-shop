@@ -18,6 +18,8 @@ const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/db');
 const route = require('./routes/index')
 
+const { flash } = require('express-flash-message');
+
 db.connect();
 
 // view engine setup
@@ -47,7 +49,7 @@ app.use(session({
         maxAge: 7 * 24 * 60 * 60 * 1000, //7 ngay
     }
 }));
-
+app.use(flash({ sessionKeyName: 'flashMessage' }));
 app.use(passport.initialize());
 app.use(passport.session());
 

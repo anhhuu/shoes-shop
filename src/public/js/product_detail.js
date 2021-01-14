@@ -462,9 +462,16 @@ $('#add-to-cart').submit(function (event){
         }
 
         window.localStorage.setItem("cart",JSON.stringify(cart))
-        window.alert("Successfully add item!")
+        //window.alert("Successfully add item!")
 
         convertHTML(cart);
+        $('#message').html(
+            ' <div class="alert alert-danger alert-dismissible fade show" role="alert">\n' +
+            '        Thêm vào giỏ hàng thành công!' +
+            '        <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+            '            <span aria-hidden="true">&times;</span>\n' +
+            '        </button>\n' +
+            '    </div>');
 
     })
 })
