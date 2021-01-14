@@ -339,3 +339,4 @@ $('#filter').change(function () {
     getProducts(userOptions.page || 1, userOptions);
 
 });
+

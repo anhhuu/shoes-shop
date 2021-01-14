@@ -100,14 +100,6 @@ jQuery(document).ready(function($){
 
 	$('#cd-search').submit(function(e){
 		e.preventDefault();
-		const URL_SITE = window.location.href;
-
-		if(!URL_SITE.includes('products')){
-			//HOME PAGE
-			window.location.href += `products?keyword=${$('#cd-search input').val()}`
-		}else{
-
-		}
-
+		window.location.href += `products?keyword=${$('#cd-search input').val()}`
 	})
 });

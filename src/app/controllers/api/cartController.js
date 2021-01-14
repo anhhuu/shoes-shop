@@ -4,11 +4,12 @@ module.exports.saveCart = async (req, res)=>{
     try{
         let user_id = req.user._id;
         let cart_items = JSON.parse(req.body.cart_items);
-        console.log('--------------')
-        console.log(cart_items)
-        console.log('--------------')
+        //TODO:
 
-        await cartService.saveCart(user_id,cart_items);
+        if(cart_items.length>0){
+            await cartService.saveCart(user_id,cart_items);
+        }
+
         res.status(200).send("Successfully");
     }catch (e) {
         throw e

@@ -196,6 +196,7 @@ module.exports.resetPassword = async (req, res, next) => {
         if (!decodedID.email) return next();
 
         const exists = await userService.checkExistUser(decodedID.email);
+
         if (!exists) {
             return next();
         }

@@ -18,20 +18,23 @@
     </div>
 
 </div>
-<input type="hidden" id="user-cart" value="<%= JSON.stringify(cart) %>">
+
 <% if(user){ %>
+    <% if(options.load_cart){ %>
+        <input type="hidden" id="user-cart" value="<%= JSON.stringify(cart) %>">
+        <script>
+            const cart = JSON.parse($('#user-cart').val()).cart.cart_detail;
+            $('#user-cart').remove();
+            let existedCart = window.localStorage.getItem("cart");
+            existedCart = JSON.parse(existedCart) || [];
 
-    <script>
-
-        const cart = JSON.parse($('#user-cart').val());
-        let existedCart = window.localStorage.getItem("cart");
-        existedCart = JSON.parse(existedCart) || [];
-
-        if(existedCart.length !== 0){
-            existedCart = [...existedCart, ...cart]
-        }else{
-            existedCart = cart;
-        }
-        window.localStorage.setItem("cart", JSON.stringify(existedCart));
-    </script>
+            if (existedCart.length !== 0) {
+                existedCart = [...existedCart, ...cart]
+            } else {
+                existedCart = cart;
+            }
+            window.localStorage.setItem("cart", JSON.stringify(existedCart));
+            window.history.pushState("","Home ",'/');
+        </script>
+    <% } %>
 <% } %>

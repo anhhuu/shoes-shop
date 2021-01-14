@@ -488,6 +488,7 @@ socket.emit("join-room", `comments/${$('[name="idProduct"]').val()}`);
 
 socket.on(`comments/${$('[name="idProduct"]').val()}`, ({name, message, date}) => {
 
+    //TODO:
     renderSingleComment(name, message, date);
 });
 

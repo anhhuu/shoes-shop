@@ -23,10 +23,13 @@ module.exports.checkBuyProduct = async (req,res,next)=>{
                 isBuyed = true;
             }
 
-        })
+        });
+
+
         if (isBuyed){
             return next();
         }
+
         return res.status(500).send({message:'Please buy product before!!!'});
     }
     return res.status(500).send({message:'Please buy sign before!!!'});

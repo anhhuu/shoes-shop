@@ -66,6 +66,12 @@
     font-family: "Open Sans", Helvetica, sans-serif;
 }
 
+@media (max-width: 1000px) {
+    .frame{
+        position: relative;
+    }
+}
+
 .center {
     position: absolute;
     top: 50%;

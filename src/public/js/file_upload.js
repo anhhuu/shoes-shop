@@ -32,9 +32,9 @@ function renderCropModal(data) {
             reader.onloadend = function () {
                 const base64data = reader.result;
                 $('#avt').prop('src', base64data);
+                $("button[name='uploadbutton']").prop('disabled', false);
             }
         });
-
     })
 }
 

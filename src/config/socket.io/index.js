@@ -5,6 +5,7 @@ const io = require('socket.io')(http);
 
 io.on('connection', (socket) => {
     console.log("An user connected ");
+
     socket.on("join-room",(roomName)=>{
         socket.join(roomName);
     })
@@ -15,6 +16,7 @@ io.on('connection', (socket) => {
     socket.on('comments', (comment) => {
         io.emit(`comments/${comment.productID}`,comment);
     });
+
 });
 
 module.exports = {

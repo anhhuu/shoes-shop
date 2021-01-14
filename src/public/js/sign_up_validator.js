@@ -14,6 +14,11 @@ function showError(input, message) {
 
     const small = formControl.querySelector('small');
     small.innerText = message
+
+    setTimeout(()=>{
+        small.innerText = '';
+        formControl.className = 'form--control';
+    },3000);
 }
 
 function showSuccess(input) {
@@ -60,22 +65,23 @@ form.addEventListener('submit', function (e) {
 
     e.preventDefault();
     const required = checkRequired(true, first_name, last_name, email, password, password2, address, phone_number);
-    let length = checkLength(first_name, 5, 15)
-    length =  checkLength(last_name, 5, 15) && length ;
-    length =  checkLength(password, 8, 25) && length;
 
+    let length = checkLength(first_name, 2, 15)
+    length =  checkLength(last_name, 2, 15) && length ;
+    length =  checkLength(password, 8, 25) && length;
     if(length){
         checkLength(password2, 8, 25);
     }
-
     const passwordMatch = checkPasswordMatch(password, password2);
     if (
         required && length &&  passwordMatch
     ) {
         this.submit();
-
     } else {
         $('#submit-message').html('Can not submit')
+        setTimeout(()=>{
+            $('#submit-message').html('')
+        }, 2000)
     }
 
 

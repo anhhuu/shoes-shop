@@ -10,11 +10,20 @@
         </ul>
     </nav>
 </div>
-<div class="logo">
-    <h1><a class="navbar-brand" href="/">
-            <span>HDH</span> <i>Shoes</i></a></h1>
-</div>
-<div class="nav-menu d-flex" >
+
+
+<a href="/" style="z-index:10000;">
+    <div class="logo">
+        <h1>
+            <a class="navbar-brand" href="/">
+                <span>HDH</span> <i>Shoes</i>
+            </a>
+        </h1>
+    </div>
+</a>
+
+
+<div class="nav-menu d-flex">
 
     <div class="spacer"></div>
     <div class="nav-controller-buttons">
@@ -29,7 +38,7 @@
 
             >
                 <a class="dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                   data-bs-toggle="dropdown" aria-expanded="false">
                     <span style="color: white"><i class="fa fa-user" aria-hidden="true"></i></span>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -42,8 +51,8 @@
                     integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
                     crossorigin="anonymous"></script>
         <% } else{ %>
-            <div id="user-avatar" >
-                <a href="#" ><i class="fa fa-sign-in" aria-hidden="true"></i></a>
+            <div id="user-avatar">
+                <a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
             </div>
         <% } %>
     </div>
@@ -52,8 +61,8 @@
 </div>
 
 <script>
-    $('#user-avatar').click(function(e){
-       window.location.replace('/users/login')
+    $('#user-avatar').click(function (e) {
+        window.location.replace('/users/login')
     })
 </script>
 <!-- //nav bar -->

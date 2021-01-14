@@ -24,16 +24,51 @@ router.get('/invoices', protect, usersController.getInvoicesController);
 router.post('/signup', usersController.signup);
 
 //[POST] /users/login
-router.post('/login',
-    passport.authenticate('local'),
-    async (req, res, next) => {
-        if (req.user) {
-            res.locals.cart = await cartService.getCart(req.user._id);
-            res.redirect('/')
-        } else {
-            next();
-        }
-    });
+// router.post('/login',
+//     passport.authenticate('local'),
+//     async (req, res, next) => {
+//         if (req.user) {
+//             res.locals.cart = await cartService.getCart(req.user._id);
+//             res.redirect('/')
+//         } else {
+//             next();
+//         }
+//     }
+// );
+
+router.post('/login', async (req, res, next) => {
+        passport.authenticate('local',
+            (error, user, info) => {
+
+                if (user) {
+                    req.logIn(user, function (err) {
+
+                        if (err) {
+                            return next(err);
+                        }
+                        cartService
+                            .getCart(user._id)
+                            .then(cart => {
+                                res.locals.cart = cart
+
+                                return res.redirect('/?load_cart=true')
+                            }).catch(err => next(err));
+                    });
+
+                } else {
+                    if (info) {
+                        next(info.message || 'Authenticate fail');
+
+                    } else {
+                        next({
+                            message: 'Cannot login'
+                        })
+                    }
+                }
+            }
+        )(req, res, next);
+    }
+);
 
 //[GET] /users/logout
 router.get('/logout', usersController.logout);

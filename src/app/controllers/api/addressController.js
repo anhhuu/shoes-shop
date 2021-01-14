@@ -79,7 +79,9 @@ module.exports.getAllAddress = async (req, res, next) => {
         const addresses = await addressService.getAllFullAddressesByUserID(userID);
         res.json(addresses);
     } catch (e) {
-        next();
+        next({
+            message: "Cannot get all address"
+        });
     }
 
 }
@@ -92,8 +94,9 @@ module.exports.userAddAnAddress = async (req, res, next) => {
         const address = await addressService.save(phoneNumber, fullName, note, userID, provinceID, districtID, wardID);
         res.json(address);
     } catch (e) {
-        console.log(e);
-        next();
+        next({
+            message: "Cannot add this address"
+        });
     }
 }
 
@@ -107,7 +110,9 @@ module.exports.getDistricts = async (req, res, next) => {
         res.json(districts);
 
     } catch (e) {
-        next();
+        next({
+            message: "Cannot get  districts"
+        });
     }
 }
 
@@ -120,7 +125,9 @@ module.exports.getWards = async (req, res, next) => {
         res.json(wards);
 
     } catch (e) {
-        next();
+        next({
+            message: "Cannot get wards"
+        });
     }
 }
 
@@ -136,6 +143,8 @@ module.exports.deleteAnAddress = async (req, res, next) => {
         });
 
     } catch (e) {
-        next();
+        next({
+            message: "Cannot delete an address"
+        });
     }
 }

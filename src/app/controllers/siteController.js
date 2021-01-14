@@ -9,7 +9,7 @@ module.exports.index = async (req, res, next) => {
 
     try {
 
-
+        const { load_cart } = req.query;
         let galleryProducts = await parseCaching(getCache("galleryProducts"));
 
         if (!galleryProducts) {
@@ -58,7 +58,8 @@ module.exports.index = async (req, res, next) => {
                 new_products: newProducts,
                 best_seller_products: bestSellers,
                 flash_sell_products: flashSellProducts,
-                brands: brandList
+                brands: brandList,
+                load_cart
             }
 
         });

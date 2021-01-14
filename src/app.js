@@ -53,7 +53,7 @@ app.use(passport.session());
 
 app.use(async (req, res, next) => {
     res.locals.user = req.user;
-    if(req.user){
+    if (req.user) {
         res.locals.cart = await getCart(req.user._id);
     }
     next();
@@ -71,14 +71,12 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (err, req, res, next) {
     // set locals, only providing error in development
-    res.locals.message = err.message;
-    console.log(err);
-
+    res.locals.message = err.message || err;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
 
     // render the error page
     res.status(err.status || 500);
-    debugError(err);
+    // debugError(err);
     res.render('site/404', {
         title: '404',
         pageName: '404'
