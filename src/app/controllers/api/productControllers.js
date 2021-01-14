@@ -96,7 +96,7 @@ module.exports.getProductRelatedController = async (req, res, next) => {
         let brandID = req.query.brandID;
         let price = req.query.price;
 
-        console.log(req.query)
+        // console.log(req.query)
         const result = await getProductRelated(categoryID, brandID, price);
 
         res.json(result)
@@ -122,14 +122,14 @@ module.exports.getBrands = async (req, res,next) => {
 module.exports.saveCommentController = async (req, res) => {
     let productid = req.body.productID;
     let commentGuest = JSON.parse(req.body.comment);
-    console.log(req.body)
-    console.log(commentGuest)
+    // console.log(req.body)
+    // console.log(commentGuest)
 
     try {
         await commentService.saveComment(productid, commentGuest);
         res.status(201).send()
     } catch (e) {
-        console.log(e);
+        // console.log(e);
         res.status(500).send();
     }
 
@@ -143,7 +143,7 @@ module.exports.getComments = async (req, res) => {
         let comments = await commentService.getComment(prodID);
         res.json(comments);
     } catch (e) {
-        console.log(e)
+        // console.log(e)
         res.status(500);
     }
 }
@@ -151,12 +151,12 @@ module.exports.getComments = async (req, res) => {
 module.exports.saveRatingController = async (req,res)=>{
     const rating = JSON.parse(req.body.rating);
     const user_id = req.user._id;
-    console.log(rating)
+    // console.log(rating)
     try{
         await ratingService.saveRating(user_id, rating);
         res.status(201).send("Rating successfully")
     }catch (e) {
-        console.log(e)
+        // console.log(e)
         res.status(500).send("Rating fail");
     }
 }
@@ -169,7 +169,7 @@ module.exports.getReview = async (req, res) => {
 
         res.json(reviews);
     } catch (e) {
-        console.log(e)
+        // console.log(e)
         res.status(500).send("Get review fail");
     }
 }
@@ -184,7 +184,7 @@ module.exports.updateQtyController = async (req, res)=>{
         res.status(203).send()
     }
     catch (e) {
-        console.log(e)
+        // console.log(e)
         res.status(500).send()
     }
 

@@ -11,7 +11,7 @@ module.exports.getProvincesController = async (req, res) => {
         const provinces = await provinceService.getProvinces();
         res.json(provinces);
     } catch (e) {
-        console.log(e)
+        // console.log(e)
         res.status(500).send();
     }
 }
@@ -39,11 +39,11 @@ module.exports.postAddressController = async (req, res) => {
     try {
         const addressInfo = JSON.parse(req.body.addressInfo);
         const userid = req.user._id;
-        console.log(addressInfo)
+        // console.log(addressInfo)
         await postNewAddress(userid, addressInfo);
         res.status(201).send();
     } catch (e) {
-        console.log(e)
+        // console.log(e)
         res.status(500).send()
     }
 }
@@ -55,7 +55,7 @@ module.exports.getAddressController = async (req, res) => {
         const address = await getAddress(userid);
         res.json(address);
     } catch (e) {
-        console.log(e)
+        // console.log(e)
         res.status(500).send()
     }
 }
@@ -67,7 +67,7 @@ module.exports.getAddressByIDController = async (req, res) => {
         const address = await getAddressByID(addrid);
         res.json(address);
     } catch (e) {
-        console.log(e)
+        // console.log(e)
         res.status(500).send()
     }
 }

@@ -43,8 +43,7 @@ app.use(session({
         dbName: process.env.DB_NAME
     }),
     cookie: {
-        // sameSite: 'lax',
-        maxAge: 7 * 24 * 60 * 60 * 1000, //7 ngay
+        maxAge: 7 * 24 * 60 * 60 * 1000,
     }
 }));
 

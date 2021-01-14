@@ -58,8 +58,9 @@ module.exports.getBrandsImageURL = () => {
     return new Promise((resolve, reject) => {
         brandMongooseModel.find({})
             .then(result => {
-                resolve(result.map(({_id, images_url}) => ({
+                resolve(result.map(({_id, images_url, brand_url}) => ({
                     _id,
+                    brand_url,
                     image_url: images_url.length > 0 ? images_url[0] : ''
                 })));
             })

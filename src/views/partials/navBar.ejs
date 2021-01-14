@@ -33,13 +33,12 @@
         </div>
         <%- include('./searchBar.ejs') %>
         <% if(user){ %>
-            <div
-                    class="dropdown mobile-nav-button user-avatar d-flex justify-content-center align-items-center"
-
-            >
+            <div class="dropdown mobile-nav-button user-avatar" >
                 <a class="dropdown-toggle" type="button" id="dropdownMenuButton"
-                   data-bs-toggle="dropdown" aria-expanded="false">
-                    <span style="color: white"><i class="fa fa-user" aria-hidden="true"></i></span>
+                   data-bs-toggle="dropdown" aria-expanded="false" >
+                    <span style="color: white"><i class= "" aria-hidden="true">
+                            <img src="<%=user.avatar_image_url%>" alt="" width="36" height="36">
+                        </i></span>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <li><a class="dropdown-item" href="/users/invoices">Invoice Management</a></li>
@@ -66,3 +65,4 @@
     })
 </script>
 <!-- //nav bar -->
+<script src="/js/nav_bar_script.js"></script>

@@ -4,8 +4,9 @@ const cartController = require('../../app/controllers/api/cartController.js')
 const {protect} = require("../../middleware/auth");
 
 
-//[GET] /products
+//[GET] /
 router.post('/',protect, cartController.saveCart);
+
 router.get('/',protect, cartController.getCart);
 
 

@@ -80,11 +80,11 @@ module.exports.getInvoices = async (req, res) =>{
         result.pages = pages;
         res.json(result)
     }catch (e) {
-        console.log(e)
+        // console.log(e)
         res.send("Get invoices fails")
     }
 }
-module.exports.getInvoice = async (req, res) =>{
+module.exports.getInvoice = async (req, res,next) =>{
     try{
         const invoiceID =req.params.id;
         const user_id = req.query.user_id;
@@ -105,14 +105,15 @@ module.exports.getInvoice = async (req, res) =>{
 
         res.json(invoice)
     }catch (e) {
-        console.log(e)
+        // console.log(e)
+        next('Cannot get invoice');
     }
 }
 
 module.exports.updateProfile = async(req, res) => {
 
     const { email, first_name, last_name, password, avatar_image_url, phone_number, address } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
     try {
         const result = await updateUserProfile(last_name, first_name, email, phone_number, password, address, avatar_image_url)
@@ -142,7 +143,7 @@ module.exports.deleteInvoice = async (req, res)=>{
         const delInvoice = await invoiceService.deleteInvoice(req.user._id,invoiceID)
         res.status(205).send("Delete is successfully");
     }catch (e) {
-        console.log(e);
+        // console.log(e);
         res.status(500).send("Delete is fail");
     }
 }

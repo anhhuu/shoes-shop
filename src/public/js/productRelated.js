@@ -3,7 +3,7 @@ $(document).ready(function (){
     const productID = $('[name="idProduct"]').val();
 
     $.get('/api/products/'+productID,function (data){
-        console.log(data)
+        // console.log(data)
         $.get('/api/products/product-related',{categoryID: data.product.category_id,
             brandID: data.product.brand_id,
             price: data.product.price.price_value},function (productsRelated){

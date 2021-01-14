@@ -65,7 +65,7 @@ module.exports.index = async (req, res, next) => {
         });
 
     } catch (e) {
-        console.log(e)
+        console.log('Error when loading index page');
         next();
     }
 
@@ -73,8 +73,6 @@ module.exports.index = async (req, res, next) => {
 }
 
 module.exports.getAboutPage = (req, res, next) => {
-    console.log("Run")
-
     res.render('site/about', {
         title: 'HDH Shoes',
         pageName: 'About',

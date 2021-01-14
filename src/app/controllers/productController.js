@@ -1,13 +1,11 @@
 const productService = require('../models/services/productService')
 const brandService = require('../models/services/brandService')
-const categoryService =  require('../models/services/categoryService')
+const categoryService = require('../models/services/categoryService')
 const sizeService = require('../models/services/sizeService');
-module.exports.showProducts = async(req, res, next) => {
+module.exports.showProducts = async (req, res, next) => {
     let limit = 24;
-    let page = req.query.page;
-
+    let {page} = req.query;
     let brandChecked = req.query.brand;
-
     if (!page) {
         page = 1;
     }
@@ -17,7 +15,6 @@ module.exports.showProducts = async(req, res, next) => {
     let currentPage = page;
     let brands = await brandService.getList();
 
-    console.log(brands)
 
     if (brandChecked) {
         let brand = await brandService.getByURL(brandChecked);
@@ -58,14 +55,14 @@ module.exports.showProducts = async(req, res, next) => {
     }
 }
 
-module.exports.showProduct = async(req, res, next) => {
+module.exports.showProduct = async (req, res, next) => {
     product_url = req.params.url;
     let product = await productService.getByURL(product_url);
     let brand = await brandService.getByID(product.brand_id);
     let category = await categoryService.getByID(product.category_id)
     let result = [];
 
-    for(let size of  product.product_detail){
+    for (let size of product.product_detail) {
         let sizeClass = sizeService.getByID(size.size_id)
         result.push(sizeClass);
 
@@ -73,10 +70,9 @@ module.exports.showProduct = async(req, res, next) => {
 
     result = await Promise.all(result)
     let fullName = ''
-    if (req.user){
-        fullName=req.user.first_name +' '+ req.user.last_name;
+    if (req.user) {
+        fullName = req.user.first_name + ' ' + req.user.last_name;
     }
-
 
     res.render('shop/productDetail', {
         title: 'HDH Shoes',
@@ -84,21 +80,8 @@ module.exports.showProduct = async(req, res, next) => {
         product: product,
         brand: brand,
         category: category,
-        color:product.color,
+        color: product.color,
         size: result,
-        user_name:fullName
+        user_name: fullName
     })
-}
-
-module.exports.getProductController = async (req,res)=>{
-    let productID = req.params.ID;
-    let product = await productService.getByID(productID)
-    res(product);
-}
-
-module.exports.showCheckout = async (req, res,next)=>{
-    const request = req.body;
-
-    console.log(request);
-
 }

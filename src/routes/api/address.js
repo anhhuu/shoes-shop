@@ -4,10 +4,14 @@ const addressCotroller = require('../../app/controllers/api/addressController')
 const addressController = require('../../app/controllers/api/addressController');
 const {protect} = require("../../middleware/auth");
 
+//[GET] /api/address/
 
-//[GET] /products
 router.get('/',addressCotroller.getAddressController);
+
+//[POST] /api/address/
 router.post('/',addressCotroller.postAddressController);
+
+//[GET] /api/address/province
 router.get('/province',addressCotroller.getProvincesController);
 
 
