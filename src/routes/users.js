@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const usersController = require('../app/controllers/usersController');
 const passport = require("../config/passport");
-const { protect } = require("../middleware/auth");
+const {protect} = require("../middleware/auth");
+const cartService = require('../app/models/services/cartService');
 
 //[GET] /users/login
 router.get('/login', usersController.getLoginPage);
@@ -24,23 +25,27 @@ router.post('/signup', usersController.signup);
 
 //[POST] /users/login
 router.post('/login',
-    passport.authenticate('local', { successRedirect:'/',failureRedirect: '/users/login' }),(req, res) =>{
-        if (req.user){
-                res.json({user_id: req.user._id})
+    passport.authenticate('local'),
+    async (req, res, next) => {
+        if (req.user) {
+            res.locals.cart = JSON.stringify(cart);
+            res.redirect('/')
+        } else {
+            next();
         }
-    } );
+    });
 
 //[GET] /users/logout
 router.get('/logout', usersController.logout);
 
 // [POST] /users/forgot-password
-router.post('/forgot-password',usersController.forgotPassword);
+router.post('/forgot-password', usersController.forgotPassword);
 
 //[POST] /users/reset-password
-router.post('/reset-password',usersController.postResetPassword);
+router.post('/reset-password', usersController.postResetPassword);
 
 //[GET] /user/reset-password/:token
-router.get('/reset-password/:token',usersController.resetPassword);
+router.get('/reset-password/:token', usersController.resetPassword);
 
 //[GET] /users/verification/:hashedID
 router.get('/verification/:token', usersController.verification);

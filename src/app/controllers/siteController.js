@@ -9,10 +9,11 @@ module.exports.index = async (req, res, next) => {
 
     try {
 
-        const cachedHTML = await getCache('homePage');
 
-        if(cachedHTML){
-            return res.send(cachedHTML);
+        const cachedHTML = await getCache('homePage');
+        console.log(cachedHTML);
+        if (cachedHTML) {
+            return res.send(cachedHTML.html);
         }
 
         let galleryProducts = await parseCaching(getCache("galleryProducts"));
@@ -67,7 +68,7 @@ module.exports.index = async (req, res, next) => {
             }
 
         }, (error, html) => {
-            client.set("homePage",html,"EX",30,(...msg)=>{
+            client.set("homePage", JSON.stringify({html}), "EX", 30, (...msg) => {
                 console.log(msg);
                 console.log("Cached");
             })

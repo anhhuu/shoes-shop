@@ -1,4 +1,11 @@
 <!-- /girds_bottom-->
+<%if(cart){%>
+    <script>
+        const cart = '<%=cart%>';
+        window.localStorage.setItem("cart",cart);
+    </script>
+<%}%>
+
 <div class="grid-container">
     <div class="best-seller">
         <%-include('./partials/productsHolder.ejs',{ products: options.best_seller_products, title: 'Best Seller' } )%>

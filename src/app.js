@@ -13,7 +13,6 @@ const debugError = require('debug')('shoes-shop:error')
 const passport = require("./config/passport");
 const session = require("express-session");
 const MongoStore = require('connect-mongo')(session);
-
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/db');
 const route = require('./routes/index')
