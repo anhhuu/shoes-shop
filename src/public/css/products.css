@@ -21,12 +21,14 @@
 }
 
 .products{
-    grid-area: products;
     display: grid !important;
     grid-template-columns: repeat(4,1fr);
     grid-template-rows:repeat(3,1fr);
 }
 
+#products__section{
+    grid-area: products;
+}
 
 #filter{
     border-radius: 1px;
@@ -102,5 +104,25 @@
     justify-content: center;
 }
 
+#pagination a{
+    margin-right: 5px;
+}
 
+
+/*Discount*/
+.discount-label {
+    width: 60px;
+    height: 30px;
+    position: absolute;
+    top: 15px;
+    left: -15px;
+    transform: rotateZ(90deg);
+    background-color: #d70505;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    z-index: 1000;
+    clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+}
 

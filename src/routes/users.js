@@ -24,8 +24,11 @@ router.post('/signup', usersController.signup);
 
 //[POST] /users/login
 router.post('/login',
-    passport.authenticate('local', { successRedirect: '/users/profile',
-        failureRedirect: '/users/login' }));
+    passport.authenticate('local', { successRedirect:'/',failureRedirect: '/users/login' }),(req, res) =>{
+        if (req.user){
+                res.json({user_id: req.user._id})
+        }
+    } );
 
 //[GET] /users/logout
 router.get('/logout', usersController.logout);

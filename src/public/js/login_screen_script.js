@@ -28,6 +28,15 @@ function replaceDOMHandler() {
     login = !login
 
 }
+$('#form').submit(function (event){
+    $.post('/users/login', function (data){
+        console.log(data)
+        if (data.user_id){
+            event.preventDefault()
+        }
+    })
+
+})
 
 $(window).ready(function () {
     loginDOM = $('.form-container').html();

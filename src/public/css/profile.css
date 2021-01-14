@@ -162,3 +162,7 @@
     max-height: 100px;
     transform: scale(2.0);
 }
+
+.modal-open {
+    padding-right: 0px !important;
+}

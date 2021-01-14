@@ -1,3 +1,17 @@
+
+$('#logout').click(function (){
+    (window.localStorage.getItem("cart")?JSON.parse(window.localStorage.getItem("cart")):window.localStorage.setItem("cart",JSON.stringify([])));
+    const cart=JSON.parse(window.localStorage.getItem("cart"));
+    $.post('/api/cart/',{cart_items:JSON.stringify(cart)}).done(function (data){
+        console.log(data)
+        console.log("Successfully")
+        window.localStorage.setItem("cart", JSON.stringify([]));
+    }).fail(function (){
+        console.log("fail")
+    })
+
+})
+
 const cartContent = document.querySelector(".cart-detail");
 class UI {
     setCartValues(cart) {
@@ -58,11 +72,7 @@ class UI {
         return buttonsDOM.find(button => button.dataset.id === id);
     }
 }
-const showCartFake = function (id){
-    const cartContentFake = document.getElementById(id);
-    cartContentFake.classList.add("cart-show");
-    console.log("ShowFake");
-}
+
 
 let btnCart = document.getElementById("btn-cart");
     btnCart.addEventListener("click",()=>{
@@ -78,4 +88,3 @@ btnCont.addEventListener("click",()=>{
 })
 
 //button checkout
-

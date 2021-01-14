@@ -23,121 +23,181 @@
 
                     </tbody>
                 </table>
-            </div>
-            <div class="checkout-left">
-                <div class="col-md-4">
-                    <div class="row mb-5">
-                        <div class="card w-100">
-                            <div class="card-header">Choose address to delivery</div>
-                            <div class="card-body mx-3">
-                                <div class="row mb-3"> Address: <span id="show-address-delivery"><%=user.phone_number%>,<%=user.first_name + user.last_name%>,<%=user.address%></span></div>
-
-                                <div class="row mb-3">Choose other address:
-                                    <select name="Choose address" id="select-address-delivery" class="w-100" style="height: fit-content">
-                                        <option value="" > </option>
-                                        <%user.list_address.map(addr=>{%>
-                                        <option value="<%=addr._id%>" > <%=addr.phone_number%>,<%=addr.full_name%>,<%=addr.address_text%></option>
-                                        <%})%>
-                                    </select>
-                                </div>
-                                <div class="row mb-3">Total Service Charges <i>-</i> <span>$55.00</span></div>
-                                <div class="row mb-3">Total <i>-</i> <span>$1405.00</span></div>
-                            </div>
-                        </div>
-                    </div>
-
+                <link rel="stylesheet" href="/css/address.css">
+                <div id="body-address-page">
                     <div class="row">
-                        <div class="card">
-                            <div class="card-header">Choose payment methods</div>
-                            <div class="card-body mx-3">
-                                <div class="row mb-3"> Payment method: <span id="show-payment-method"> COD</span></div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div id="user-shipping-address">
+                                    <h4 class="w-100 text-center py-3 px-5 mb-3 card-address-title"
+                                        style="color: white">Your address list</h4>
+                                    <div class="d-flex my-2  px-4">
+                                        <h5>Receiver's name: </h5>
+                                        <div style="flex:1;"></div>
+                                        <h5></h5>
+                                    </div>
+                                    <div class="d-flex my-2  px-4">
+                                        <h5>Ward: </h5>
+                                        <div style="flex:1;"></div>
+                                        <h5></h5>
+                                    </div>
+                                    <div class="d-flex my-2  px-4">
+                                        <h5>District: </h5>
+                                        <div style="flex:1;"></div>
+                                        <h5></h5>
+                                    </div>
+                                    <div class="d-flex my-2  px-4">
+                                        <h5>Province: </h5>
+                                        <div style="flex:1;"></div>
+                                        <h5></h5>
+                                    </div>
 
-                                <div class="row mb-3">Choose other address:
-                                    <select name="Choose payments methods" id="select-payment-method" class="w-100" style="height: fit-content">
-                                        <option value="" > </option>
-                                        <option value="COD" >COD</option>
-                                        <option value="Credit Card" >Credit Card</option>
-                                        <option value="Online Payment" >Online Payment</option>
+                                    <div class="d-flex my-2  px-4">
+                                        <h5>Address: </h5>
+                                        <div style="flex:1;"></div>
+                                        <h5></h5>
+                                    </div>
+                                </div>
 
+                                <form action="" class="select-container">
+                                    <select id="select-address-delivery" class="select-css" name="user-address" required="">
                                     </select>
+                                </form>
+
+                            </div>
+
+                            <div class="card mt-5">
+                                <div id="chose-payment-method">
+                                    <div class="card">
+                                        <div class="card-header "></div>
+                                        <h4 class="w-100 text-center py-3 px-5 mb-3 card-address-title"
+                                            style="color: white">Choose payment methods</h4>
+                                        <div class="card-body" style="padding-bottom: 0">
+                                            <div class="d-flex my-2  px-4">
+                                                <h5>Payment method: </h5>
+                                                <div style="flex:1;"></div>
+                                                <h5 id="show-payment-method">COD</h5>
+                                            </div>
+                                            <div class="row select-container">
+                                                <select name="Choose payments methods" id="select-payment-method"
+                                                        class="w-100 select-css" style="height: fit-content">
+                                                    <option value="">Choose payment method</option>
+                                                    <option value="COD">COD</option>
+                                                    <option value="Credit Card">Credit Card</option>
+                                                    <option value="Online Payment">Online Payment</option>
+
+                                                </select>
+                                            </div>
+                                            <div>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <!--                User address-->
 
+                        <div class="col">
+                            <div class="card p-5"><h4>Add a New
+                                    Address</h4>
+                                <form id="add-address-form" action="#" method="post">
+                                    <section>
+                                        <div class="information-wrapper">
+                                            <div class="controls"><label class="control-label">Full name: </label>
+                                                <input
+                                                        id="fullName"
+                                                        class="form-control py-4" type="text" name="name"
+                                                        placeholder="Full name" required="">
+                                            </div>
+                                            <div class="controls"><label class="control-label">Mobile
+                                                    number:</label>
+                                                <input
+                                                        class="form-control py-4" type="number" name="phoneNumber"
+                                                        required=""
+                                                        id="phoneNumber"
+                                                        placeholder="Mobile number">
+                                            </div>
+                                            <div class="controls"><label
+                                                        class="control-label">Province/City: </label>
+                                                <select
+                                                        id="provinceOrCity"
+                                                        class="select-css w-100 mw-100" name="provinceOrCity"
+                                                        required="">
+                                                    <option></option>
+                                                    <% provinces.forEach(province=>{ %>
+                                                        <option value="<%= province._id %>"><%= province.name %></option>
+                                                    <% }) %>
+                                                </select>
+                                            </div>
 
-                </div>
-                <div class="col-md-8 address_form">
-                    <h4>Add a new Details</h4>
-                    <form action="#" method="post" class="creditly-card-form agileinfo_form" id="add-new-delivery">
-                        <section class="creditly-wrapper wrapper">
-                            <div class="information-wrapper">
-                                <div class="first-row form-group">
-                                    <div class="controls">
-                                        <label class="control-label">Full name: </label>
-                                        <input class="billing-address-name form-control"
-                                               value="<%= user.first_name %> <%= user.last_name %>" type="text"
-                                               name="name" id="fullname-user" placeholder="Full name" required>
-                                    </div>
-                                    <div class="card_number_grids">
-                                        <div class="card_number_grid_left">
+                                            <div class="controls"><label class="control-label">District: </label>
+                                                <select
+                                                        class="select-css" name="district"
+                                                        id="district"
+                                                        required="">
+
+                                                </select>
+                                            </div>
+
+                                            <div class="controls"><label class="control-label">Ward: </label>
+                                                <select
+                                                        id="ward"
+                                                        class="select-css" name="ward" required="">
+                                                </select>
+                                            </div>
+
                                             <div class="controls">
-                                                <label class="control-label">Mobile number:</label>
-                                                <input class="form-control" type="text" value="<%= user.phone_number %>"
-                                                       placeholder="Mobile number" id="phone-user" required>
+                                                <label
+                                                        class="control-label">Address:
+                                                </label>
+                                                <input
+                                                        id="address"
+                                                        class="form-control" type="text" name="address" required=""
+                                                        placeholder="Address">
+                                            </div>
+                                            <div class="controls">
+                                                <label for="note"
+                                                       class="control-label">Note:
+                                                </label>
+                                                <input
+                                                        id="note"
+                                                        class="form-control" type="text" name="note"
+                                                        placeholder="Note">
+                                            </div>
+
+                                        </div>
+                                        <span class="text-success"></span>
+                                        <div class="row">
+                                            <div class="d-flex flex-column col">
+                                                <button class="btn btn-primary" type="submit">Add New Address
+                                                </button>
                                             </div>
                                         </div>
 
-                                        <div class="controls">
-                                            <label class="control-label">Province: </label>
-                                            <select class="form-control p-0 w-100" id="select-province" required>
-                                                <option value=""></option>
-                                                <% provinces.map(province=>{ %>
-                                                <option value="<%= province._id %>"><%= province.name %></option>
-                                                <% }) %>
-                                            </select>
+                                    </section>
 
-                                        </div>
-                                        <div class="">
-                                            <label class="control-label">District: </label>
-                                            <select class="form-control p-0 w-100" id="select-district" required>
-
-                                            </select>
-                                        </div>
-                                        <div class="">
-                                            <label class="control-label">Wards: </label>
-                                            <select class="form-control p-0 w-100" id="select-ward" required>
-
-                                            </select>
-                                        </div>
+                                    <div class="d-flex justify-content-between px-2 row">
+                                        <div class="checkout-right-basket align-self-start"><a
+                                                    class="direction-button-back" href="/">Back
+                                                Step<span aria-hidden="true"></span></a></div>
+                                        <div class="col"></div>
+                                        <div class="checkout-right-basket align-self-start"><a
+                                                    class="direction-button" id="order" href="/">Make a
+                                                Payment <span aria-hidden="true"></span></a></div>
                                     </div>
-                                    <div class="controls">
-                                        <label class="control-label">Address:</label>
-                                        <input class="form-control" type="text"
-                                               placeholder="Address" id="address-user" required>
-                                    </div>
-                                    <div class="controls">
-                                        <label class="control-label">Note:</label>
-                                        <textarea class="form-control w-100 " type="text" value=""
-                                                  placeholder="Note" id="user-note" style="max-height: 150px;min-height: 150px"></textarea>
-                                    </div>
-                                    <button class="submit check_out">Delivery to this Address</button>
-                                </div>
+                                </form>
                             </div>
-                        </section>
-                    </form>
-                    <div class="checkout-right-basket">
-                        <button class="btn" id="order">ORDER </button>
+                        </div>
                     </div>
                 </div>
-
-                <div class="clearfix"></div>
-
-
-                <div class="clearfix"></div>
             </div>
+
         </div>
     </div>
+
+    <script src="/js/address.js"></script>
+
 </div>
 <!-- //top products -->
 

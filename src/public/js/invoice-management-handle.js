@@ -22,41 +22,20 @@ const showDetailInvoice = function (invoiceID){
     })
 }
 
-const deleteInvoice = function(invoiceID){
+const deleteInvoice = function(invoiceID, pageCur){
     $.ajax({
             url: '/api/users/invoices/'+invoiceID+'/delete',
             type:'PUT',
             success: function (result) {
                 console.log("Successfully")
-
-                let html =''
-                $.get('/api/users/invoices', function(data){
-                    data.invoices.map((invoice,index)=>{
-                        const priceFormat = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(invoice.totalFee)
-                        const dateFormat = (new Date(invoice.createdAt)).toLocaleString();
-                        html+=`<tr>
-                            <th scope="row">${index+1}</th>
-                            <td>${invoice._id}</td>
-                            <td id="${invoice.address_info_id}">${invoice.address_text}</td>
-                            <td>${invoice.status}</td>
-                            <td>${invoice.payment_method}</td>
-                            <td><p>${priceFormat}</p></td>
-                            <td>${dateFormat}</td>`
-
-                            if(invoice.status==='UNVERIFIED'){
-                                html+= `<td><button class=" btn btn-danger fa-trash fa w-100 h-100" onclick=""></button></td>`}
-                            else{
-                                html+=` <td><button class=" btn btn-danger fa-trash fa w-100 h-100 " disabled></button></td>`
-                        }
-
-                           html+= `<td><button class="btn btn-primary" data-toggle="modal" data-target="#idCenter" onclick="showDetailInvoice('${invoice._id}')">Detail </button></td>
-                        </tr>`
-                    })
-                    $('#body-invoices').html(html);
-                })
+                const page= pageCur|| 1;
+                console.log(page)
+                pagination(+page);
             }
         }
     )
+
+
 }
 
 const pagination = function (page){
@@ -78,7 +57,7 @@ const pagination = function (page){
                             <td>${dateFormat}</td>`
 
             if(invoice.status==='UNVERIFIED'){
-                html+= `<td><button class=" btn btn-danger fa-trash fa w-100 h-100" onclick=""></button></td>`}
+                html+= `<td><button class=" btn btn-danger fa-trash fa w-100 h-100" onclick="deleteInvoice('${invoice._id}','${+page}')"></button></td>`}
             else{
                 html+=` <td><button class=" btn btn-danger fa-trash fa w-100 h-100 " disabled></button></td>`
             }
@@ -94,7 +73,7 @@ const pagination = function (page){
             html +=
                 `<nav aria-label="Page navigation" class="mb-5">
             <ul class="pagination justify-content-center mb-5">               
-                <li class="page-item"><a class="page-link active" >${page}</a></li>`
+                <li class="page-item"><a class="page-link active" id="page-cur" >${page}</a></li>`
 
             if (+page + 1 <= +pages) {
                 html += `<li class="page-item"><a class="page-link" onclick="pagination('${+page + 1}')" >${+page + 1}</a></li>`
@@ -127,7 +106,7 @@ const pagination = function (page){
                     html += `<li className="page-item"><a className="page-link" onclick="pagination(${+page - 1})" >${+page - 1}</a></li>`
                 }
 
-                html += `<li class="page-item"><a class="page-link active"  onclick="pagination('${page}')">${page}</a></li>
+                html += `<li class="page-item"><a class="page-link active" id="page-cur" onclick="pagination('${page}')">${page}</a></li>
                 </ul>
         </nav>`
             } else {
@@ -138,7 +117,7 @@ const pagination = function (page){
                     <a class="page-link" onclick="pagination('${+page - 1}')" >Previous</a>
                 </li>
                 <li class="page-item"><a class="page-link" onclick="pagination('${+page - 1}')">${+page - 1}</a></li>
-                <li class="page-item"><a class="page-link active" >${page}</a></li>
+                <li class="page-item"><a class="page-link active" id="page-cur" >${page}</a></li>
                 <li class="page-item"><a class="page-link" onclick="pagination('${+page + 1}')">${+page + 1}</a></li>
                 <li class="page-item">
                     <a class="page-link" >Next</a>

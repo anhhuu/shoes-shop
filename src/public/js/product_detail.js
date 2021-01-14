@@ -59,37 +59,6 @@ $('input:radio[name="rating"]').change(
         //     })
         // }
     });
-//jquery review
-$('#review-form').submit(function (event){
-    event.preventDefault()
-    const rate = $('[name = "rating"]:checked').val();
-    const  fullname = $('#usernamereivew').val();
-    const review = $('#reviewcontent').val();
-    const productID = $('[name="idProduct"]').val();
-
-    let rating = {};
-    rating.fullName=fullname;
-    rating.product_id=productID;
-    rating.rate=rate;
-    rating.review = review;
-
-
-    $.post('/api/products/review', { rating: JSON.stringify(rating)}).done(function (data){
-        console.log(data)
-        /*if ($('#show-review').text!=="Ẩn đánh giá"){
-            $.get('/api/products/comment/'+productID,function (data){
-                renderComment(data.comments.reverse());
-            })
-            $('#show-review').text("Ẩn đánh giá")
-            $('#reviewcontent').val('');
-        }*/
-        $.get('/api/products/review/'+productID,function (review){
-            renderReview(review.reverse());
-            console.log(review)
-        })
-    })
-
-})
 
 //Jquery comment
 $('#comment-form').submit(function (event){
@@ -234,9 +203,6 @@ $('#show-comments').click(function (event){
 
 })
 
-// const choosePageComment = function (poductID, pageComment){
-//     loadComment(productID,pageComment)
-// }
 
 //Render when load page
 const loadComment = function (productID, pageComment){
@@ -246,6 +212,41 @@ const loadComment = function (productID, pageComment){
         renderComment(data.comments.reverse(),pageComment);
     })
 }
+
+//jquery review
+$('#review-form').submit(function (event){
+    event.preventDefault()
+    const rate = $('[name = "rating"]:checked').val();
+    const  fullname = $('#usernamereivew').val();
+    const review = $('#reviewcontent').val();
+    const productID = $('[name="idProduct"]').val();
+
+    let rating = {};
+    rating.fullName=fullname;
+    rating.product_id=productID;
+    rating.rate=rate;
+    rating.review = review;
+
+
+    $.post('/api/products/review', { rating: JSON.stringify(rating)}).done(function (data){
+        console.log(data)
+        /*if ($('#show-review').text!=="Ẩn đánh giá"){
+            $.get('/api/products/comment/'+productID,function (data){
+                renderComment(data.comments.reverse());
+            })
+            $('#show-review').text("Ẩn đánh giá")
+            $('#reviewcontent').val('');
+        }*/
+        $('#message-rate').text("Rating successfully")
+        const productID = $('[name="idProduct"]').val();
+
+        loadReview(productID);
+    }).fail(function(xhr, status, error) {
+        console.log(xhr.responseJSON.message);
+        $('#message-rate').text(xhr.responseJSON.message)
+    });
+
+})
 
 //render reviews
 const renderReview =  function (reviewArr, pageReview, pages) {
@@ -467,22 +468,6 @@ $('#add-to-cart').submit(function (event){
 
     })
 })
-//Product detail
-// $('#product-detail').click(function (){
-//     let URL = '/api/products/'
-//     const productID = $('[name="idProduct"]').val();
-//
-//     URL += productID;
-//     let html=``;
-//     $.get(URL, function (data){
-//         data.product.images_detail_url.map((data)=>{
-//             html +=``
-//         })
-//         $('#p-detail-content').html(html);
-//     })
-//
-// })
-
 
 //function use to delete cartitem
 //had a problem

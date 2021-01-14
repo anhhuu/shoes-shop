@@ -63,6 +63,7 @@ module.exports.getInvoicesController = async (req, res) => {
     const promises = invoices.map(invoice => {
         return addressService.getAddressByID(invoice.address_info_id)
     });
+
     let data = [];
 
     await invoices.reduce(async (prev, cur) => {
@@ -72,7 +73,6 @@ module.exports.getInvoicesController = async (req, res) => {
         }
         return {address_text: (await addressService.getAddressByID(cur.address_info_id)), ...cur}
     }, Promise.resolve())
-
 
     const addresses = await Promise.all(promises);
     invoices = invoices.map((val, index) => {

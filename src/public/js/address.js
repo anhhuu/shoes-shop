@@ -6,7 +6,10 @@ class Addresses {
     }
 
     renderOptionsAddress() {
-        $('#address-select').html(this.data.reduce((acc, dat) => acc + `<option value="${dat._id}">${dat.note}</option>`, ''))
+        $('#select-address-delivery').html(this.data.reduce((acc, dat) => acc + `
+            <option value="${dat._id}">
+                ${dat.address_text}</option>
+            `, ''))
         if (this.data.length > 0) {
             if(!this.currentSelected){
                 this.renderAddressSideBar(0);
@@ -14,7 +17,7 @@ class Addresses {
                 this.renderAddressSideBar(this.currentSelected);
             }
         }
-        $('#address-select').change(()=>{
+        $('#select-address-delivery').change(()=>{
             const index = this.data.findIndex( option=>option._id === $('#address-select').val());
             this.currentSelected = index;
             this.renderAddressSideBar(index);
@@ -25,7 +28,7 @@ class Addresses {
     renderAddressSideBar(position){
         $('#user-shipping-address').html(
             `
-                <h4 class="w-100 text-center py-3 px-5 mb-3 bg-success" style="color: white">
+                <h4 class="w-100 text-center py-3 px-5 mb-3  card-address-title" style="color: white">
                             Your address list</h4>
                <div class="d-flex my-2  px-4 align-items-baseline">
                     <h5>Receiver's name: </h5>
@@ -51,7 +54,7 @@ class Addresses {
                 <div class="d-flex my-2  px-4">
                     <h5>Address: </h5>
                     <div style="flex:1;"></div>
-                    <h5>${this.data[position].note}</h5>
+                    <h5>${this.data[position].address_text}</h5>
                 </div>
             `
         )
@@ -97,11 +100,13 @@ $(window).ready(function () {
         const data = {
             "phoneNumber": $('#phoneNumber').val(),
             "fullName": $("#fullName").val(),
-            "note": $("#address").val(),
+            "address_text": $("#address").val(),
+            "note": $("#note").val(),
             "userID": $("#userID").val(),
             "provinceID": $("#provinceOrCity").val(),
             "districtID": $("#district").val(),
-            "wardID": $('#ward').val()
+            "wardID": $('#ward').val(),
+
         };
         const settings = {
             "url": "/api/address/save-address",
