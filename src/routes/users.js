@@ -28,7 +28,7 @@ router.post('/login',
     passport.authenticate('local'),
     async (req, res, next) => {
         if (req.user) {
-            res.locals.cart = JSON.stringify(cart);
+            res.locals.cart = await cartService.getCart(req.user._id);
             res.redirect('/')
         } else {
             next();

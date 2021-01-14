@@ -16,6 +16,7 @@ const MongoStore = require('connect-mongo')(session);
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/db');
 const route = require('./routes/index')
+const {getCart} = require('./app/models/services/cartService');
 
 db.connect();
 
@@ -50,8 +51,11 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
     res.locals.user = req.user;
+    if(req.user){
+        res.locals.cart = await getCart(req.user._id);
+    }
     next();
 });
 

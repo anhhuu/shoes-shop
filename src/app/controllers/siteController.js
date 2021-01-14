@@ -10,12 +10,6 @@ module.exports.index = async (req, res, next) => {
     try {
 
 
-        const cachedHTML = await getCache('homePage');
-        console.log(cachedHTML);
-        if (cachedHTML) {
-            return res.send(cachedHTML.html);
-        }
-
         let galleryProducts = await parseCaching(getCache("galleryProducts"));
 
         if (!galleryProducts) {
@@ -67,12 +61,6 @@ module.exports.index = async (req, res, next) => {
                 brands: brandList
             }
 
-        }, (error, html) => {
-            client.set("homePage", JSON.stringify({html}), "EX", 30, (...msg) => {
-                console.log(msg);
-                console.log("Cached");
-            })
-            res.send(html);
         });
 
     } catch (e) {

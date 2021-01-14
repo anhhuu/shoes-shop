@@ -1,28 +1,40 @@
 <!-- /girds_bottom-->
-<%if(cart){%>
-    <script>
-        const cart = '<%=cart%>';
-        window.localStorage.setItem("cart",cart);
-    </script>
-<%}%>
 
 <div class="grid-container">
     <div class="best-seller">
-        <%-include('./partials/productsHolder.ejs',{ products: options.best_seller_products, title: 'Best Seller' } )%>
+        <%- include('./partials/productsHolder.ejs',{ products: options.best_seller_products, title: 'Best Seller' } ) %>
     </div>
     <div class="new-product">
-        <%-include('./partials/productsHolder.ejs',{ products: options.new_products, title: 'New Products' } )%>
+        <%- include('./partials/productsHolder.ejs',{ products: options.new_products, title: 'New Products' } ) %>
     </div>
     <div class="flash-sell">
-        <%-include('./partials/productsHolder.ejs',{products: options.flash_sell_products, title: 'Flash Sell' } )%>
+        <%- include('./partials/productsHolder.ejs',{products: options.flash_sell_products, title: 'Flash Sell' } ) %>
     </div>
     <div class="brands-list-carousel">
-        <%-include('./partials/brandCarousel.ejs')%>
+        <%- include('./partials/brandCarousel.ejs') %>
     </div>
     <div class="home-page-footer">
         <%- include('./partials/footer.ejs') %>
     </div>
 
 </div>
+<input type="hidden" id="user-cart" value="<%= JSON.stringify(cart) %>">
+<% if(user){ %>
+
+    <script>
+
+        const cart = JSON.parse($('#user-cart').val());
+        let existedCart = window.localStorage.getItem("cart");
+        existedCart = JSON.parse(existedCart) || [];
+
+        if(existedCart.length !== 0){
+            existedCart = [...existedCart, ...cart]
+        }else{
+            existedCart = cart;
+        }
+
+        window.localStorage.setItem("cart", JSON.stringify(existedCart));
 
 
+    </script>
+<% } %>
