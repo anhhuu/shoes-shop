@@ -12,79 +12,95 @@ $('#logout').click(function (){
 
 })
 
-const cartContent = document.querySelector(".cart-detail");
-class UI {
-    setCartValues(cart) {
-        let tempTotal = 0;
-        let itemsTotal = 0;
-        cart.map(item => {
-            tempTotal += item.price * item.amount;
-            itemsTotal += item.amount;
-        });
-        cartTotal.innerText = parseFloat(tempTotal.toFixed(2));
-        cartItems.innerText = itemsTotal;
-    }
-    addCartItem(item) {
-        const div = document.createElement("div");
-        div.classList.add("cart-item");
-        div.innerHTML = `<img src=${item.image} alt="product" />
-            <div>
-              <h4>${item.title}</h4>
-              <h5>$${item.price}</h5>
-              <span class="remove-item" data-id=${item.id}>remove</span>
-            </div>
-            <div>
-              <i class="fas fa-chevron-up" data-id=${item.id}></i>
-              <p class="item-amount">${item.amount}</p>
-              <i class="fas fa-chevron-down" data-id=${item.id}></i>
-            </div>`;
-        cartContent.appendChild(div);
-    }
-    showCart() {
-        (window.localStorage.getItem("cart")?JSON.parse(window.localStorage.getItem("cart")):window.localStorage.setItem("cart",JSON.stringify([])));
-        const cart=JSON.parse(window.localStorage.getItem("cart"));
+const showCart = function() {
+    (window.localStorage.getItem("cart")?JSON.parse(window.localStorage.getItem("cart")):window.localStorage.setItem("cart",JSON.stringify([])));
+    const cart=JSON.parse(window.localStorage.getItem("cart"));
+    convertHTML(cart)
+    console.log("Show");
+}
+//jQuery use to update and show cart
+$('#add-to-cart').submit(function (event) {
+    event.preventDefault();
+    let URL = '/api/products/'
+    const productID = $('[name="idProduct"]').val();
+    const sizeID = $('[name = "size"]:checked').val();
+    const color = $('[name = "color"]:checked').val();
+    const qty = $('[name = "qty"]').val();
 
-        cartContent.classList.add("cart-show");
-        convertHTML(cart)
-        console.log("Show");
-    }
+    URL += productID + '?size=' + sizeID;
 
-    populateCart(cart) {
-        cart.forEach(item => this.addCartItem(item));
-    }
-    hideCart() {
-        cartContent.classList.remove("cart-show");
-        console.log("Hidden")
-    }
+    (window.localStorage.getItem("cart") ? JSON.parse(window.localStorage.getItem("cart")) : window.localStorage.setItem("cart", JSON.stringify([])));
+    const cart = JSON.parse(window.localStorage.getItem("cart"));
 
-    clearCart() {
-        let cartItems = cart.map(item => item.id);
-        cartItems.forEach(id => this.removeItem(id));
-        console.log(cartContent.children);
-
-        while (cartContent.children.length > 0) {
-            cartContent.removeChild(cartContent.children[0]);
+    $.get(URL, function (data) {
+        let isHas = false;
+        cart.map((dataCart) => {
+            if (dataCart.product._id === data.product._id && dataCart.size._id === data.size._id) {
+                dataCart.qty += +qty;
+                isHas = true
+            }
+            console.log(typeof dataCart.product._id)
+        })
+        if (!isHas) {
+            cart.push({product: data.product, size: data.size, qty: +qty});
         }
-        this.hideCart();
-    }
 
-    getSingleButton(id) {
-        return buttonsDOM.find(button => button.dataset.id === id);
-    }
+        window.localStorage.setItem("cart",JSON.stringify(cart))
+        //window.alert("Successfully add item!")
+
+        convertHTML(cart);
+        $('#message').html(
+            ' <div class="alert alert-danger alert-dismissible fade show" role="alert">\n' +
+            '        Thêm vào giỏ hàng thành công!' +
+            '        <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+            '            <span aria-hidden="true">&times;</span>\n' +
+            '        </button>\n' +
+            '    </div>').animate({opacity: '1'}, "slow");
+
+        setTimeout( function (){$('#message').animate({opacity: '0.1'}, "slow").html('')},1000)
+
+    })
+})
+
+const removeCartItem = function (idProd, idSize) {
+
+    const cart = JSON.parse(window.localStorage.getItem("cart"));
+    const index = cart.findIndex(x => x.product._id === idProd && x.size._id === idSize)
+    console.log(index);
+    cart.splice(index, 1)
+    console.log(cart)
+    window.localStorage.setItem("cart", JSON.stringify(cart))
+
+    convertHTML(cart);
+
 }
 
 
-let btnCart = document.getElementById("btn-cart");
-    btnCart.addEventListener("click",()=>{
-    console.log("Hello")
-    const ui = new UI();
-    return ui.showCart();
-})
+const convertHTML = function (cart) {
+    let html = ``;
+    let totalFee = 0;
+    cart.map((dataCart) => {
+        totalFee += dataCart.product.price.price_value * dataCart.qty*(1-dataCart.product.discount);
+        html += ` <tr id="${dataCart.product._id}">
+                                        <td><img src=${dataCart.product.image_show_url}  style="width: 50px; height: 50px"/> </td>
+                                        <td>${dataCart.product.name}</td>
+                                        <td>${dataCart.size.text}</td>
+                                        <td>In stock</td>
+                                        <td><input class="form-control" type="text" value="${dataCart.qty}" width="50px" /></td>
+                                        <td class="text-right">${Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(dataCart.product.price.price_value*(1-dataCart.product.discount))}</td>
+                                        <td class="text-right"><button class="btn btn-sm btn-danger" onclick="removeCartItem('${dataCart.product._id}','${dataCart.size._id}')"><i class="fa fa-trash"></i> </button> </td>
+                                    </tr>`
+    })
+    html += ` 
 
-let btnCont = document.getElementById("continue");
-btnCont.addEventListener("click",()=>{
-    const ui = new UI();
-    ui.hideCart();
-})
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><strong>Total</strong></td>
+                                    <td class="text-right"><strong>${Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(totalFee)}</strong></td>
+                                </tr>`
+    $("#cart-table").html(html)
+}
 
-//button checkout

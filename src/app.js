@@ -1,11 +1,11 @@
 const createError = require('http-errors');
-const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const {app, http, io, express} = require('./config/socket.io');
 
-const app = express();
+
 app.use(cors());
 
 const debugHttp = require('debug')('shoes-shop:http')
@@ -13,10 +13,10 @@ const debugError = require('debug')('shoes-shop:error')
 const passport = require("./config/passport");
 const session = require("express-session");
 const MongoStore = require('connect-mongo')(session);
-
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/db');
 const route = require('./routes/index')
+const {getCart} = require('./app/models/services/cartService');
 
 const { flash } = require('express-flash-message');
 
@@ -53,12 +53,16 @@ app.use(flash({ sessionKeyName: 'flashMessage' }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
     res.locals.user = req.user;
+    if(req.user){
+        res.locals.cart = await getCart(req.user._id);
+    }
     next();
 });
 
 route(app);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -83,4 +87,32 @@ app.use(function (err, req, res, next) {
     });
 });
 
-module.exports = app;
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+const port = normalizePort(process.env.PORT || '5000');
+app.set('port', port);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+    const port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
+
+    if (port >= 0) {
+        // port number
+        return port;
+    }
+
+    return false;
+}
+
+module.exports = http;

@@ -18,10 +18,15 @@ const Product = new Schema({
     description: { type: String },
     product_detail: { type: Object },
     brand_id: { type: Schema.Types.ObjectId, ref: "Brand" },
-    category_id: { type: Schema.Types.ObjectId, ref: "Category" }
+    category_id: { type: Schema.Types.ObjectId, ref: "Category" },
+    views: {type: Number, default:0},
+    purchase_count:{type: Number, default:0},
+    rating_avg:{type: Number, default:0}
+
+
 }, {
     timestamps: true,
 });
 
 Product.index({ name: 'text' });
-module.exports = mongoose.model('Product', Product);
+module.exports = mongoose.model('Shoes', Product);

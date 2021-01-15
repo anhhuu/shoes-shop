@@ -65,12 +65,33 @@ function getProducts(pageOrURL, options) {
             $('#products__section').removeClass("products");
             $('#products__section').addClass('d-flex justify-content-center align-items-center w-100 h-100');
             return $('#products__section').html(alert);
-        }else{
+        } else {
             $('#products__section').removeClass('d-flex justify-content-center align-items-center w-100 h-100');
             $('#products__section').addClass('products');
         }
 
         const result = data.products.map(function (item) {
+            let priceHTML = ``
+            if (Math.floor(item.discount * 100) === 0) {
+
+                priceHTML =
+                    `<div>
+                        <span class="money ">${(new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}))
+                            .format(Math.floor(item.price.price_value * (1 - item.discount) / 1000) * 1000).toString()}
+                        </span>
+                    </div>`
+
+            } else {
+                priceHTML = `
+                    <div class="d-flex">
+                        
+                         <span class="money mr-3">
+                                ${(new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}))
+                        .format(Math.floor(item.price.price_value * (1 - item.discount) / 1000) * 1000).toString()} 
+                        </span>
+                        <p><span > ${item.price.string_price}</span></p>
+                    </div>`
+            }
             return `
            <div class="product-men">
                  <div class="product-shoe-info shoe">
@@ -78,7 +99,7 @@ function getProducts(pageOrURL, options) {
                             <div class="men-thumb-item">         
                                         
                                         ${item.discount > 0 ?
-                                            `<div class="discount-label red text-center">
+                `<div class="discount-label red text-center">
                                                <span>${Math.floor(item.discount * 100)} %</span>
                                            </div>` : ''
             }           
@@ -103,10 +124,7 @@ function getProducts(pageOrURL, options) {
                                             <div class="grid_meta">
                                                 <div class="product_price">
                                                     <div class="grid-price ">
-                                                    <span class="money ">
-                                                        ${item.price.string_price}
-                                                        
-                                                    </span>
+                                                    ${priceHTML}
                                                     </div>
                                                 </div>
                                             </div>

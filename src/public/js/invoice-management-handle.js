@@ -8,12 +8,12 @@ const showDetailInvoice = function (invoiceID){
         data.invoice_items.map((item,index)=>{
             html+=`    <tr>
                             <th scope="row">${index+1}</th>
-                            <td class="text-center"><img src="${item.product.image_show_url}" alt="" width="100" height="100"></td>
-                            <td class="text-center">${item.product.name}</td>
+                            <td class="text-center"><a href="/products/${item.product.product_url}" target="_blank"><img src="${item.product.image_show_url}" alt="" width="100" height="100"></a></td>
+                            <td class="text-center"><a href="/products/${item.product.product_url}" target="_blank">${item.product.name}</a></td>
                             <td class="text-center">${item.size}</td>
                             <td class="text-center">${item.qty}</td>
-                            <td class="text-center">${item.product.price.string_price}</td>
-                            <td class="text-center"><p>${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.qty*item.product.price.price_value)}</p></td>
+                            <td class="text-center">${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.product.price.price_value*(1-item.product.discount))}</td>
+                            <td class="text-center"><p>${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.qty*item.product.price.price_value*(1-item.product.discount))}</p></td>
                         </tr>
                         `
         })

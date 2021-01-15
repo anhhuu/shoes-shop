@@ -2,9 +2,12 @@ const cartService = require('../../models/services/cartService')
 
 module.exports.saveCart = async (req, res)=>{
     try{
-        console.log("save controll")
         let user_id = req.user._id;
         let cart_items = JSON.parse(req.body.cart_items);
+        console.log('--------------')
+        console.log(cart_items)
+        console.log('--------------')
+
         await cartService.saveCart(user_id,cart_items);
         res.status(200).send("Successfully");
     }catch (e) {
