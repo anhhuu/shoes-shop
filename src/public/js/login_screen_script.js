@@ -30,7 +30,7 @@ function replaceDOMHandler() {
 }
 $('#form').submit(function (event){
     $.post('/users/login', function (data){
-        console.log(data)
+
         if (data.user_id){
             event.preventDefault()
         }

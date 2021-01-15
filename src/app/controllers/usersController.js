@@ -1,7 +1,7 @@
-const {createUser} = require("../models/services/userService");
+const { createUser } = require("../models/services/userService");
 const debug = require('debug')('user-controllers');
 const jwt = require('jsonwebtoken');
-const {sendMail} = require("../../config/mailjet");
+const { sendMail } = require("../../config/mailjet");
 const userService = require("../models/services/userService");
 const invoiceService = require("../models/services/invoiceService");
 const addressService = require("../models/services/address_InfoService");
@@ -16,7 +16,7 @@ module.exports.getLoginPage = (req, res) => {
     res.render('users/login', {
         title: 'Login',
         pageName: 'Login',
-        options: {message}
+        options: { message }
     });
 
 }
@@ -29,36 +29,34 @@ module.exports.getSignUpPage = (req, res) => {
     res.render('users/signup', {
         title: 'Sign Up',
         pageName: 'Sign Up',
-        options: {email: queryEmail, message}
+        options: { email: queryEmail, message }
     })
 }
 
-module.exports.getProfile = async (req, res,next) => {
+module.exports.getProfile = async(req, res, next) => {
 
-    try{
-        console.log(req.user);
+    try {
+        // console.log(req.user);
         const addresses = await addressService.getAllFullAddressesByUserID(req.user._id);
 
-        console.log(addresses)
+        // console.log(addresses)
         res.render('users/profile', {
-            title: 'User profile',
+            title: 'User Profile - HDH Shoes',
             pageName: 'Profile',
-            options:{
+            options: {
                 addresses
             }
         });
-    }catch (e){
+    } catch (e) {
         next();
     }
-
-
 }
 
-module.exports.getInvoicesController = async (req, res) => {
+module.exports.getInvoicesController = async(req, res) => {
     const page = req.query.page || 1;
     const limit = req.query.limit || 1;
-    console.log(limit)
-    let invoices = await invoiceService.getInvoices(req.user._id,page,limit);
+    // console.log(limit)
+    let invoices = await invoiceService.getInvoices(req.user._id, page, limit);
     const pages = invoices.pages;
     const promises = invoices.map(invoice => {
         return addressService.getAddressByID(invoice.address_info_id)
@@ -66,12 +64,12 @@ module.exports.getInvoicesController = async (req, res) => {
 
     let data = [];
 
-    await invoices.reduce(async (prev, cur) => {
+    await invoices.reduce(async(prev, cur) => {
         const solve = await prev;
         if (solve) {
             data.push(solve);
         }
-        return {address_text: (await addressService.getAddressByID(cur.address_info_id)), ...cur}
+        return { address_text: (await addressService.getAddressByID(cur.address_info_id)), ...cur }
     }, Promise.resolve())
 
     const addresses = await Promise.all(promises);
@@ -83,7 +81,7 @@ module.exports.getInvoicesController = async (req, res) => {
     });
     invoices.pages = pages;
     res.render('users/invoiceManagement', {
-        title: 'Invoice Management',
+        title: 'Invoice Management - HDH Shoes',
         pageName: 'Invoice Management',
         invoices
     });
@@ -96,10 +94,10 @@ module.exports.logout = (req, res) => {
 }
 
 
-module.exports.signup = async (req, res, next) => {
+module.exports.signup = async(req, res, next) => {
 
     try {
-        const {first_name, last_name, password, email, phone_number, address} = req.body;
+        const { first_name, last_name, password, email, phone_number, address } = req.body;
         const user = await createUser({
             first_name,
             last_name,
@@ -114,7 +112,7 @@ module.exports.signup = async (req, res, next) => {
         if (user) {
             const userEmail = user.email;
 
-            const token = await jwt.sign({email: userEmail}, process.env.JWT_SECRET, {expiresIn: '1h'},);
+            const token = await jwt.sign({ email: userEmail }, process.env.JWT_SECRET, { expiresIn: '1h' }, );
             const link = `${process.env.WEB_URL}/users/verification/${token}`
             sendMail(link, userEmail, 'Activate your account', 'Verify account');
             res.redirect(`/users/signup?email=${email}`);
@@ -125,11 +123,11 @@ module.exports.signup = async (req, res, next) => {
 
     } catch (e) {
         res.redirect('/users/signup');
-        console.log(e);
+        // console.log(e);
     }
 }
 
-module.exports.verification = async (req, res, next) => {
+module.exports.verification = async(req, res, next) => {
 
     try {
 
@@ -149,7 +147,7 @@ module.exports.verification = async (req, res, next) => {
 
 }
 
-module.exports.checkAuthentication = async (req, res, next) => {
+module.exports.checkAuthentication = async(req, res, next) => {
     if (req.isAuthenticated()) {
         next();
     } else {
@@ -157,9 +155,9 @@ module.exports.checkAuthentication = async (req, res, next) => {
     }
 }
 
-module.exports.forgotPassword = async (req, res, next) => {
+module.exports.forgotPassword = async(req, res, next) => {
     try {
-        const {email} = req.body;
+        const { email } = req.body;
         if (!email) {
             next();
         }
@@ -170,9 +168,9 @@ module.exports.forgotPassword = async (req, res, next) => {
             sendMail(link, email, 'Reset your password', 'Click to reset');
 
             res.render('users/forgot-password', {
-                title: 'Forgot password',
+                title: 'Forgot Password',
                 pageName: "Forgot Password",
-                options: {email, confirm: false}
+                options: { email, confirm: false }
             });
 
         } else {
@@ -186,7 +184,7 @@ module.exports.forgotPassword = async (req, res, next) => {
 }
 
 
-module.exports.resetPassword = async (req, res, next) => {
+module.exports.resetPassword = async(req, res, next) => {
 
     try {
         const token = req.params.token;
@@ -202,7 +200,7 @@ module.exports.resetPassword = async (req, res, next) => {
         }
 
         res.render('users/forgot-password', {
-            title: 'Forgot password',
+            title: 'Forgot Password',
             pageName: 'Forgot Password',
             options: {
                 email: decodedID.email,
@@ -218,14 +216,14 @@ module.exports.resetPassword = async (req, res, next) => {
 
 }
 
-module.exports.postResetPassword = async (req, res, next) => {
+module.exports.postResetPassword = async(req, res, next) => {
 
     try {
-        const {password, token} = req.body;
+        const { password, token } = req.body;
 
         if (!token || !password) return next();
 
-        const {email} = await jwt.verify(token, process.env.JWT_SECRET);
+        const { email } = await jwt.verify(token, process.env.JWT_SECRET);
         if (!email) return next();
 
         const user = await userService.updateUserPassword(email, password);
@@ -233,7 +231,7 @@ module.exports.postResetPassword = async (req, res, next) => {
 
         if (user) {
             res.render('users/forgot-password', {
-                title: 'Forgot password',
+                title: 'Forgot Password',
                 pageName: 'Forgot Password',
                 options: {
                     email,
@@ -254,8 +252,6 @@ module.exports.postResetPassword = async (req, res, next) => {
                 }
             });
         }
-
-
     } catch (e) {
         next();
     }

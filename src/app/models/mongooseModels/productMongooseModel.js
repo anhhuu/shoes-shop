@@ -2,13 +2,13 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 const Product = new Schema({
-    SKU: {type: String},
-    name: {type: String},
-    product_url: {type: String},
+    SKU: { type: String },
+    name: { type: String },
+    product_url: { type: String },
     price: {
-        string_price: {type: String},
-        price_value: {type: Number},
-        price_currency: {type: String},
+        string_price: { type: String },
+        price_value: { type: Number },
+        price_currency: { type: String },
     },
     flash_sell: { type: Boolean },
     discount: { type: Number },
@@ -17,13 +17,14 @@ const Product = new Schema({
     color: { type: String },
     description: { type: String },
     product_detail: { type: Object },
+    rating_avg: { type: Number },
+    views: { type: Number },
+    purchase_count: { type: Number },
     brand_id: { type: Schema.Types.ObjectId, ref: "Brand" },
     category_id: { type: Schema.Types.ObjectId, ref: "Category" },
-    views: {type: Number, default:0},
-    purchase_count:{type: Number, default:0},
-    rating_avg:{type: Number, default:0}
-
-
+    views: { type: Number, default: 0 },
+    purchase_count: { type: Number, default: 0 },
+    rating_avg: { type: Number, default: 0 }
 }, {
     timestamps: true,
 });

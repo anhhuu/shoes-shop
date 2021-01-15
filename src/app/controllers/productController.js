@@ -3,9 +3,9 @@ const brandService = require('../models/services/brandService')
 const categoryService = require('../models/services/categoryService')
 const sizeService = require('../models/services/sizeService');
 
-module.exports.showProducts = async (req, res, next) => {
+module.exports.showProducts = async(req, res, next) => {
     let limit = 24;
-    let {page} = req.query;
+    let { page } = req.query;
     let brandChecked = req.query.brand;
     if (!page) {
         page = 1;
@@ -29,7 +29,7 @@ module.exports.showProducts = async (req, res, next) => {
         }
 
         res.render('shop/products', {
-            title: 'HDH Shoes',
+            title: 'Products - HDH Shoes',
             pageName: 'Shop',
             products: products,
             brands: brands,
@@ -47,7 +47,7 @@ module.exports.showProducts = async (req, res, next) => {
             brandChecked: brandChecked
         }
         res.render('shop/products', {
-            title: 'HDH Shoes',
+            title: 'Products - HDH Shoes',
             pageName: 'Shop',
             products: products,
             brands: brands,
@@ -56,12 +56,14 @@ module.exports.showProducts = async (req, res, next) => {
     }
 }
 
-module.exports.showProduct = async (req, res, next) => {
+module.exports.showProduct = async(req, res, next) => {
+    console.log('AAAA');
+
     const product_url = req.params.url;
     let product = await productService.getByURL(product_url);
 
     product.product_detail = product.product_detail.filter(size => !size.is_deleted);
-    console.log(product);
+    // console.log(product);
 
     let brand = await brandService.getByID(product.brand_id);
     let category = await categoryService.getByID(product.category_id)
@@ -80,7 +82,7 @@ module.exports.showProduct = async (req, res, next) => {
     }
 
     res.render('shop/productDetail', {
-        title: 'HDH Shoes',
+        title: `${product.name} - HDH Shoes`,
         pageName: 'Product',
         product: product,
         brand: brand,

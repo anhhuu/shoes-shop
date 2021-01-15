@@ -13,7 +13,7 @@ module.exports.checkout = async(req, res) => {
     // console.log(userInfo)
     userInfo.list_address = await addressService.getAddress(req.user._id);
     res.render('checkout/checkout', {
-        title: 'HDH Shoes',
+        title: 'Checkout - HDH Shoes',
         pageName: 'Shop',
         user: userInfo,
         provinces: province
@@ -26,7 +26,7 @@ module.exports.createInvoice = async(req, res) => {
 
     try {
         const userID = req.user._id;
-        console.log(userID)
+        // console.log(userID)
         const addressInfoID = req.body.addressInfoID;
         const invoiceItems = JSON.parse(req.body.items);
         const paymentMethod = req.body.paymentMethod;
@@ -44,17 +44,17 @@ module.exports.createInvoice = async(req, res) => {
         }
 
         for (let key of Object.keys(data)) {
-           const result = await productService.decreaseProductRemain(key, data[key]);
+            const result = await productService.decreaseProductRemain(key, data[key]);
 
-           if (result.message){
-               return res.status(500).send("Create Fail");
+            if (result.message) {
+                return res.status(500).send("Create Fail");
 
-           }
+            }
         }
         await invoiceService.postNewInvoice(userID, addressInfoID, invoiceItems, paymentMethod, totalFee);
         return res.status(201).send("Create Successfully");
     } catch (e) {
-        console.log(e);
+        // console.log(e);
         return res.status(500).send("Create Fail");
     }
 }
@@ -64,7 +64,7 @@ module.exports.getAddressManagementPage = async(req, res, next) => {
     try {
         const provinces = await provinceService.getAllProvinces();
         res.render('checkout/address', {
-            title: 'HDH Shoes',
+            title: 'AddressManagement - HDH Shoes',
             pageName: 'Shop',
             options: {
                 provinces

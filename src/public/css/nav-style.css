@@ -167,7 +167,7 @@ body {
 	flex-wrap: wrap;
 	width: 100vw;
 	position: absolute;
-	top: 6%;
+	top: 2%;
 	align-items: center;
 	justify-content: space-around;
 	z-index: 9999;
@@ -180,7 +180,7 @@ body {
 }
 .logo{
 	position: absolute;
-	top: 5%;
+	top: 1%;
 	left: 2%;
 	z-index: 9999;
 }

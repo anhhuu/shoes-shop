@@ -1,11 +1,11 @@
 const productService = require('../models/services/productService');
 const brandService = require('../models/services/brandService');
 const getCache = require('../../config/redis');
-const {parseCaching} = require("../../utils/parseCaching");
-const {client} = require('../../config/redis');
+const { parseCaching } = require("../../utils/parseCaching");
+const { client } = require('../../config/redis');
 
 const debug = require('debug')('HomePage');
-module.exports.index = async (req, res, next) => {
+module.exports.index = async(req, res, next) => {
 
     try {
 
@@ -14,8 +14,7 @@ module.exports.index = async (req, res, next) => {
 
         if (!galleryProducts) {
             galleryProducts = await productService.getList(3, 12);
-            client.set("galleryProducts", JSON.stringify(galleryProducts), "EX", +process.env.CACHE_TIME_TTL, () => {
-            });
+            client.set("galleryProducts", JSON.stringify(galleryProducts), "EX", +process.env.CACHE_TIME_TTL, () => {});
 
         }
 
@@ -23,31 +22,27 @@ module.exports.index = async (req, res, next) => {
 
         if (!bestSellers) {
             bestSellers = await productService.getBestSellerProducts();
-            client.set("bestSellers", JSON.stringify(bestSellers), "EX", +process.env.CACHE_TIME_TTL, () => {
-            });
+            client.set("bestSellers", JSON.stringify(bestSellers), "EX", +process.env.CACHE_TIME_TTL, () => {});
 
         }
 
         let newProducts = await parseCaching(getCache("newProducts"));
         if (!newProducts) {
             newProducts = await productService.getNewProducts(1, 10);
-            client.set("newProducts", JSON.stringify(newProducts), "EX", +process.env.CACHE_TIME_TTL, () => {
-            });
+            client.set("newProducts", JSON.stringify(newProducts), "EX", +process.env.CACHE_TIME_TTL, () => {});
         }
 
         let flashSellProducts = await parseCaching(getCache("flashSellProducts"));
         if (!flashSellProducts) {
             flashSellProducts = await productService.getProductsOnSale(1, 5);
-            client.set("flashSellProducts", JSON.stringify(flashSellProducts), "EX", +process.env.CACHE_TIME_TTL, () => {
-            });
+            client.set("flashSellProducts", JSON.stringify(flashSellProducts), "EX", +process.env.CACHE_TIME_TTL, () => {});
         }
 
         let brandList = await parseCaching(getCache("brandList"));
 
         if (!brandList) {
             brandList = await brandService.getBrandsImageURL();
-            client.set("brandList", JSON.stringify(brandList), "EX", +process.env.CACHE_TIME_TTL, () => {
-            });
+            client.set("brandList", JSON.stringify(brandList), "EX", +process.env.CACHE_TIME_TTL, () => {});
 
         }
 
@@ -76,7 +71,7 @@ module.exports.index = async (req, res, next) => {
 
 module.exports.getAboutPage = (req, res, next) => {
     res.render('site/about', {
-        title: 'HDH Shoes',
+        title: 'About - HDH Shoes',
         pageName: 'About',
         products: []
     });
@@ -85,12 +80,12 @@ module.exports.getAboutPage = (req, res, next) => {
 module.exports.getContactPage = (req, res, next) => {
     console.log("Run")
     res.render('site/contact', {
-        title: 'HDH Shoes',
+        title: 'Contact - HDH Shoes',
         pageName: 'Contact'
     });
 }
 
-module.exports.search = async (req, res, next) => {
+module.exports.search = async(req, res, next) => {
 
     const keyword = req.query.keyword;
     let searchResultTitle = 'Không tìm thấy bất kỳ kết quả nào với từ khóa "' + keyword + '".';
@@ -112,7 +107,7 @@ module.exports.search = async (req, res, next) => {
     }
 
     res.render('site/searchResult', {
-        title: 'HDH Shoes',
+        title: 'Search - HDH Shoes',
         pageName: 'Search',
         products: products,
         numOfPage: numOfPage,

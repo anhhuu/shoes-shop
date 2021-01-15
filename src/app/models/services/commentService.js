@@ -8,21 +8,21 @@ module.exports.saveComment = async(idProduct,comment) => {
         let commentsProd = await commentMongooseModel.findOne({ product_id: idProduct});
 
         if (commentsProd) {
-            console.log("has comment")
-            console.log(idProduct)
-            console.log(comment)
+            // console.log("has comment")
+            // console.log(idProduct)
+            // console.log(comment)
             await commentMongooseModel.findOneAndUpdate({product_id: idProduct}, {$push: {comments: comment}})
 
 
         } else {
-            console.log("No comment")
+            // console.log("No comment")
             let commentArr = [];
             commentArr.unshift(comment)
             let commentDoc = new commentMongooseModel({
                 product_id: idProduct,
                 comments: commentArr,
             });
-            console.log(commentDoc);
+            // console.log(commentDoc);
             await commentDoc.save(function (err) {
                 if (err) return console.log(err);
                 // saved!
@@ -39,12 +39,12 @@ module.exports.saveComment = async(idProduct,comment) => {
 
 module.exports.getComment = async (prodID)=>{
     try{
-        console.log(prodID)
+        // console.log(prodID)
         const comments = await commentMongooseModel .findOne({product_id: prodID})
 
         return comments;
     }catch (e) {
-        console.log(e)
-        // return e;
+        // console.log(e)
+        return e;
     }
 }

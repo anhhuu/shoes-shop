@@ -7,8 +7,8 @@ const rating = new Schema({
     rate: { type: Number, require: true},
     user_full_name: {type: String, require: true},
     review: { type: String},
+    img:{type:String},
     is_delete: {type: Boolean, require: true },
-
 }, {
     timestamps: true,
 });

@@ -16,10 +16,10 @@ module.exports.checkBuyProduct = async (req,res,next)=>{
         let isBuyed = false;
         invoices.map(invoice=>{
             let buyproduct = invoice.invoice_items.findIndex(product=>product.product_id===rating.product_id)
-            console.log(buyproduct);
+
             if (buyproduct!==-1){
                 // return next();
-                console.log("Has Buyed")
+                // console.log("Has Buyed")
                 isBuyed = true;
             }
 

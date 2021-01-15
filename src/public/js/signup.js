@@ -1,5 +1,5 @@
 $('form[action]').submit(function(e){
     e.preventDefault();
-    console.log('Run default');
+    // console.log('Run default');
 
 })

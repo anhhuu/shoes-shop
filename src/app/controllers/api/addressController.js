@@ -11,7 +11,7 @@ module.exports.getProvincesController = async (req, res) => {
         const provinces = await provinceService.getProvinces();
         res.json(provinces);
     } catch (e) {
-        // console.log(e)
+
         res.status(500).send();
     }
 }

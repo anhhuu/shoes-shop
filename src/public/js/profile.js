@@ -72,7 +72,7 @@ function handleSettingBtnClick() {
     $('#password').blur(handleCompleteTypingPassword)
     readOnly = !readOnly;
 
-    console.log(readOnly);
+    // console.log(readOnly);
 
 }
 

@@ -31,7 +31,7 @@ module.exports.getInvoices = async (user_id, page, limit)=>{
             const count = await invoiceMongooseModel.countDocuments({user_id:user_id, is_delete:false});
             const pages = count%limit>0?Math.floor(count/limit)+1:count/limit;
             invoices.pages = pages
-            console.log(invoices)
+            // console.log(invoices)
             return invoices;
         }
         else{
@@ -57,7 +57,7 @@ module.exports.getInvoice = async (user_id, invoice_id)=>{
 
 module.exports.deleteInvoice = async (user_id, invoice_id)=>{
     try {
-        console.log(invoice_id)
+        // console.log(invoice_id)
         const invoice =await invoiceMongooseModel.findOneAndUpdate({_id:invoice_id},{is_delete:true,status:"CANCELED"});
         return invoice
     }catch (e){

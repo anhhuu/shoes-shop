@@ -61,8 +61,9 @@ saveData = async() => {
             product.price = product.price.old_price;
         }
         product.discount = discount;
-        console.log('discount: ' + discount);
-        console.log('price: ' + product.price.price_value);
+        products.rating_avg = 0;
+        products.views = 0;
+        products.purchase_count = 0;
         product.product_detail = product_detail;
         product.description = "";
 
@@ -70,9 +71,9 @@ saveData = async() => {
         product.brand_id = brand._id;
 
         productService.save(product);
-        console.log('Running....' + Math.round((i + 1) / products.length * 100) + '%');
+        // console.log('Running....' + Math.round((i + 1) / products.length * 100) + '%');
     }
-    console.log('Done!!.......');
+    // console.log('Done!!.......');
 }
 
 const db = require('../config/db');

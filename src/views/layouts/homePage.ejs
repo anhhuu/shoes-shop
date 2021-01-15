@@ -1,54 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>HDH Shoes</title>
+    <title><%= title %> </title>
     <%- include('../partials/head.ejs') %>
     <link rel="stylesheet" href="/css/home-page.css">
 </head>
 
 <body>
-<!-- banner -->
-<%- include('../partials/navBar.ejs') %>
-<div class="home-page-carousel-container">
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img class="d-block w-100" src="/images/banner1.jpg" alt="First slide">
-                <%-include('../partials/shopNowOverlay.ejs')%>
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="/images/banner2.jpg" alt="Second slide">
-                <%-include('../partials/shopNowOverlay.ejs')%>
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="/images/banner3.jpg" alt="Third slide">
-                <%-include('../partials/shopNowOverlay.ejs')%>
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="/images/banner4.jpg" alt="Fourth slide">
-                <%-include('../partials/shopNowOverlay.ejs')%>
+    <!-- banner -->
+    <%- include('../partials/navBar.ejs') %>
+    <div class="home-page-carousel-container">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="d-block w-100" src="/images/banner1.jpg" alt="First slide">
+                    <%-include('../partials/shopNowOverlay.ejs')%>
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="/images/banner2.jpg" alt="Second slide">
+                    <%-include('../partials/shopNowOverlay.ejs')%>
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="/images/banner3.jpg" alt="Third slide">
+                    <%-include('../partials/shopNowOverlay.ejs')%>
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="/images/banner4.jpg" alt="Fourth slide">
+                    <%-include('../partials/shopNowOverlay.ejs')%>
+                </div>
             </div>
         </div>
-</div>
 
-<script>
-    $('.carousel').carousel({
-        interval: 4000,
-        pause: false
-    })
-</script>
-<!-- //banner -->
-<%- body %>
-<a href="#home" id="toTop" class="scroll" style="display: block;"> <span id="toTopHover" style="opacity: 1;">
-        </span></a>
-<%- include('../partials/footerScript.ejs') %>
-    <script type="text/javascript" src="/js/cart-handle.js"></script>
-</div>
+        <script>
+            $('.carousel').carousel({
+                interval: 4000,
+                pause: false
+            })
+        </script>
+        <!-- //banner -->
+        <%- body %>
+        <a href="#home" id="toTop" class="scroll" style="display: block;"> <span id="toTopHover" style="opacity: 1;">
+            </span></a>
+        <%- include('../partials/footerScript.ejs') %>
+        <script type="text/javascript" src="/js/cart-handle.js"></script>
+    </div>
 </body>
 
 </html>

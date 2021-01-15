@@ -147,3 +147,13 @@ module.exports.deleteInvoice = async (req, res)=>{
         res.status(500).send("Delete is fail");
     }
 }
+module.exports.getImage = async (req, res)=>{
+
+    try{
+        const img = req.user.avatar_image_url;
+        res.json({img}).send("Get image success")
+    }catch (e) {
+        // console.log(e);
+        res.status(500).send("Get image is fail");
+    }
+}
