@@ -54,7 +54,7 @@ $(window).ready(function () {
 
 
 function showError(message, selector) {
-    console.log($(selector));
+    // console.log($(selector));
 
     $(selector).css('visibility', 'visible').html(message)
     setTimeout(() => {

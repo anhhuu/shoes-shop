@@ -11,12 +11,12 @@ module.exports.saveCart = async (id, cartItems) => {
             let cartDoc = await cartMongooseModel.findOneAndUpdate({user_id: id}, {cart_detail: cartItems});
             return cartDoc;
         } else {
-            console.log(cartItems)
+            // console.log(cartItems)
             let cartDoc = new cartMongooseModel({
                 user_id: id,
                 cart_detail: cartItems
             });
-            console.log(cartDoc);
+            // console.log(cartDoc);
             await cartDoc.save(function (err) {
                 if (err) return console.log(err);
                 // saved!

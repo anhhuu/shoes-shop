@@ -5,7 +5,7 @@ module.exports.getProvinces = async ()=>{
         const provinces = await provinceMongooseModel.find({});
         return provinces
     }catch (e) {
-        console.log(e)
+        // console.log(e)
     }
 }
 module.exports.getAllProvinces = ()=>{

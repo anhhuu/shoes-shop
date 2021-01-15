@@ -259,7 +259,7 @@ $(window).load(function () {
                 timerHandler = setTimeout(() => {
                     userOptions = getUserOptions();
                     getProducts(1, userOptions)
-                    console.log('complete');
+                    // console.log('complete');
                 }, 1500);
 
             }

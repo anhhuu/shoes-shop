@@ -61,7 +61,7 @@ module.exports.showProduct = async (req, res, next) => {
     let product = await productService.getByURL(product_url);
 
     product.product_detail = product.product_detail.filter(size => !size.is_deleted);
-    console.log(product);
+    // console.log(product);
 
     let brand = await brandService.getByID(product.brand_id);
     let category = await categoryService.getByID(product.category_id)

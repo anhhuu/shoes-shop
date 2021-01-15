@@ -26,7 +26,7 @@ module.exports.createInvoice = async(req, res) => {
 
     try {
         const userID = req.user._id;
-        console.log(userID)
+        // console.log(userID)
         const addressInfoID = req.body.addressInfoID;
         const invoiceItems = JSON.parse(req.body.items);
         const paymentMethod = req.body.paymentMethod;
@@ -54,7 +54,7 @@ module.exports.createInvoice = async(req, res) => {
         await invoiceService.postNewInvoice(userID, addressInfoID, invoiceItems, paymentMethod, totalFee);
         return res.status(201).send("Create Successfully");
     } catch (e) {
-        console.log(e);
+        // console.log(e);
         return res.status(500).send("Create Fail");
     }
 }

@@ -36,10 +36,10 @@ module.exports.getSignUpPage = (req, res) => {
 module.exports.getProfile = async (req, res,next) => {
 
     try{
-        console.log(req.user);
+        // console.log(req.user);
         const addresses = await addressService.getAllFullAddressesByUserID(req.user._id);
 
-        console.log(addresses)
+        // console.log(addresses)
         res.render('users/profile', {
             title: 'User profile',
             pageName: 'Profile',
@@ -57,7 +57,7 @@ module.exports.getProfile = async (req, res,next) => {
 module.exports.getInvoicesController = async (req, res) => {
     const page = req.query.page || 1;
     const limit = req.query.limit || 1;
-    console.log(limit)
+    // console.log(limit)
     let invoices = await invoiceService.getInvoices(req.user._id,page,limit);
     const pages = invoices.pages;
     const promises = invoices.map(invoice => {
@@ -125,7 +125,7 @@ module.exports.signup = async (req, res, next) => {
 
     } catch (e) {
         res.redirect('/users/signup');
-        console.log(e);
+        // console.log(e);
     }
 }
 

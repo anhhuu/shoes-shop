@@ -32,7 +32,7 @@ let base64ToBlob =  function (base64, mime)
 
 export let uploadFile = function (onSuccessCallBack,onErrorCallback){
 
-    console.log('Uploading')
+    // console.log('Uploading')
     let image = $('#avt').attr('src');
     let  base64ImageContent = image.replace(/^data:image\/(png|jpg);base64,/, "");
     let  blob = base64ToBlob(base64ImageContent, 'image/png');

@@ -28,10 +28,7 @@
             $('#user-cart').remove();
             let existedCart = window.localStorage.getItem("cart");
             existedCart = JSON.parse(existedCart) || [];
-            console.log("existedCart")
-            console.log(existedCart)
-            console.log("cart");
-            console.log(cart);
+
 
 
             let result = []
@@ -44,8 +41,7 @@
                         isHas = true
                         result.push(cartItems)
                     }
-                    console.log("dataCart at")
-                    console.log(dataCart)
+
 
                 })
 

@@ -3,8 +3,7 @@ $('#logout').click(function (){
     (window.localStorage.getItem("cart")?JSON.parse(window.localStorage.getItem("cart")):window.localStorage.setItem("cart",JSON.stringify([])));
     const cart=JSON.parse(window.localStorage.getItem("cart"));
     $.post('/api/cart/',{cart_items:JSON.stringify(cart)}).done(function (data){
-        console.log(data)
-        console.log("Successfully")
+
         window.localStorage.setItem("cart", JSON.stringify([]));
     }).fail(function (){
         console.log("fail")
@@ -47,7 +46,7 @@ $('#add-to-cart').submit(function (event) {
         if (!isHas) {
             cart.push({product: data.product, size: data.size, qty: +qty});
         }
-        console.log(cart)
+
         convertHTML(cart);
         if (isSuccess){
             window.localStorage.setItem("cart",JSON.stringify(cart))
@@ -81,25 +80,23 @@ const showCart = function() {
     (window.localStorage.getItem("cart")?JSON.parse(window.localStorage.getItem("cart")):window.localStorage.setItem("cart",JSON.stringify([])));
     const cart=JSON.parse(window.localStorage.getItem("cart"));
     convertHTML(cart)
-    console.log("Show");
+
 }
 const removeCartItem = function (idProd, idSize) {
 
     const cart = JSON.parse(window.localStorage.getItem("cart"));
     const index = cart.findIndex(x => x.product._id === idProd && x.size._id === idSize)
-    console.log(index);
+
     cart.splice(index, 1)
-    console.log(cart)
+
     window.localStorage.setItem("cart", JSON.stringify(cart))
     convertHTML(cart);
 
 }
 const plusItemCart = function (idProd, idSize) {
-    console.log("ggg")
+
     const cart = JSON.parse(window.localStorage.getItem("cart"));
     const index = cart.findIndex(x => x.product._id === idProd && x.size._id === idSize)
-    console.log(idSize)
-    console.log(index)
 
     $.get('/api/products/'+idProd, function (data){
         let success = false;
@@ -109,7 +106,7 @@ const plusItemCart = function (idProd, idSize) {
                     cart[index].qty += 1;
                     window.localStorage.setItem("cart", JSON.stringify(cart))
                     let id  = 'qty-cart-'+ cart[index].product._id+cart[index].size._id;
-                    console.log("Hello")
+
                     // $(`input[id="${id}"]`).val(cart[index].qty)
                     convertHTML(cart)
                     success = true;

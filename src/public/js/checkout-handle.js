@@ -62,7 +62,7 @@ $('#order').click(function () {
     if (paymentMethod === '' || addressDeliveryID === '' || carts.length === 0) {
         let alertStr = carts.length === 0 ? "Cart is not empty" : '' + addressDeliveryID === '' ? "Address Delivery is not empty" : '' + paymentMethod === '' ? "Payment method is not empty" : '';
         window.alert(alertStr)
-        console.log(alertStr)
+        // console.log(alertStr)
     } else {
         $.post('/checkout/createInvoice', {
             addressInfoID: addressDeliveryID,

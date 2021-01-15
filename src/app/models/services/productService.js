@@ -160,7 +160,7 @@ module.exports.queryByFilter = async (page, limit, brandURL, discount, keyword, 
         let brandID;
         try {
             brandID = (await brandService.getByURL(brandURL))._id;
-            console.log(brandID);
+            // console.log(brandID);
         } catch (e) {
 
         }
@@ -267,7 +267,7 @@ module.exports.decreaseProductRemain = async (productID, sizes) => {
                 }
 
             }
-            console.log(size)
+            // console.log(size)
             return size;
         });
 
@@ -289,7 +289,7 @@ module.exports.decreaseProductRemain = async (productID, sizes) => {
 
 
     } catch (e) {
-        console.log(e)
+        // console.log(e)
     }
 }
 module.exports.getBestSellerProducts = () => {

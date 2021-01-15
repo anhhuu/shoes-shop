@@ -31,12 +31,6 @@ $('input:radio[name="size"]').change(
     });
 let comments = [];
 
-//jquery review
-$('#review-form').submit(function (event) {
-    event.preventDefault()
-    const rate = $('[name = "rating"]:checked').val();
-
-})
 
 //Jquery comment
 $('#comment-form').submit(function (event) {
@@ -44,15 +38,29 @@ $('#comment-form').submit(function (event) {
     const nameGuest = $('#guestname').val();
     const commentContent = $('#content-comment').val();
     const productID = $('[name="idProduct"]').val();
+    $.get('/api/users/image', function (data){
 
-    let comment = {};
-    comment.guest_name = nameGuest;
-    comment.comment_content = commentContent;
-    comment.createdAt = new Date();
+        let comment = {};
+        comment.img = data.img
+        comment.guest_name = nameGuest;
+        comment.comment_content = commentContent;
+        comment.createdAt = new Date();
 
-    $.post('/api/products/comment', {productID: productID, comment: JSON.stringify(comment)}).done(function (data) {
-        commentSocket($("#guestname").val(), $("#content-comment").val(), comment.createdAt)
+        $.post('/api/products/comment', {productID: productID, comment: JSON.stringify(comment)}).done(function (data) {
+            commentSocket($("#guestname").val(), $("#content-comment").val(), comment.createdAt)
+        })
+    }).fail(function (){
+        let comment = {};
+        comment.guest_name = nameGuest;
+        comment.img =comment.img?comment.img:"//bizweb.dktcdn.net/thumb/1024x1024/100/339/085/products/stan-smith-shoes-white-cq2206-01-standard.jpg?v=1545145114263"
+        comment.comment_content = commentContent;
+        comment.createdAt = new Date();
+
+        $.post('/api/products/comment', {productID: productID, comment: JSON.stringify(comment)}).done(function (data) {
+            commentSocket($("#guestname").val(), $("#content-comment").val(), comment.createdAt)
+        })
     })
+
 
 
 })
@@ -64,19 +72,19 @@ const renderComment = function (commentArr, pageComment) {
     const page = +pageComment > 1 ? +pageComment : 1 || 1;
     const limit = 5;
     const pages = commentArr.length % limit > 0 ? Math.floor(commentArr.length / limit) + 1 : Math.floor(commentArr.length / limit)
-    console.log(pages)
+    // console.log(pages)
     const pageStart = (page - 1) * limit;
     const pageEnd = page * limit
 
     for (let index = pageStart; index < pageEnd && index < commentArr.length; index++) {
         const date = (new Date(commentArr[index].createdAt)).toLocaleString()
-        console.log(commentArr[index])
+        // console.log(commentArr[index])
         html += `<div class="card mb-5">
                     <div class="card-header" style="display: inline">
 
-                        <img style="width: 40px; height: 40px; border-radius: 50%; border: #0a0a0a solid; display: inline"
-                             src="//bizweb.dktcdn.net/thumb/1024x1024/100/339/085/products/stan-smith-shoes-white-cq2206-01-standard.jpg?v=1545145114263"
-                             alt="avatar">
+                        <img class="avatar-comment"
+                             src="${commentArr[index].img}"
+                               alt="avatar">
 
                         <h4 class="card-title" style="display: inline">
                             ${commentArr[index].guest_name}
@@ -153,11 +161,10 @@ const renderComment = function (commentArr, pageComment) {
 $('#show-comments').click(function (event) {
     event.preventDefault()
     const comment = $('#show-comments');
-    console.log("show");
+    // console.log("show");
     if (comment.text() === "View comment") {
         const productID = $('[name="idProduct"]').val();
-        console.log("productID")
-        console.log(productID)
+
         loadComment(productID)
         comment.text('Hidden comment')
     } else {
@@ -171,8 +178,7 @@ $('#show-comments').click(function (event) {
 
 //Render when load page
 const loadComment = function (productID, pageComment) {
-    console.log("pageComment");
-    console.log(pageComment);
+
     $.get('/api/products/comment/' + productID, function (data) {
         renderComment(data.comments.reverse(), pageComment);
     })
@@ -186,30 +192,102 @@ $('#review-form').submit(function (event) {
     const review = $('#reviewcontent').val();
     const productID = $('[name="idProduct"]').val();
 
-    let rating = {};
-    rating.fullName = fullname;
-    rating.product_id = productID;
-    rating.rate = rate;
-    rating.review = review;
+
+    $.get('/api/users/image', function (data){
+
+        let rating = {};
+        rating.img = data.img
+        rating.fullName = fullname;
+        rating.product_id = productID;
+        rating.rate = rate;
+        rating.review = review;
+
+        $.post('/api/products/review', {rating: JSON.stringify(rating)}).done(function (data) {
+            /*if ($('#show-review').text!=="Hidden reviews"){
+                $.get('/api/products/comment/'+productID,function (data){
+                    renderComment(data.comments.reverse());
+                })
+                $('#show-review').text("Hidden reviews")
+                $('#reviewcontent').val('');
+            }*/
+
+            const productID = $('[name="idProduct"]').val();
+
+            $('#message-rate').html(
+                `<div class="alert alert-success alert-dismissible show w-100 text-center " role="alert">
+                       Successfully
+                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>`).animate({opacity: '1'}, "slow");
+
+            setTimeout( function (){$('#message-rate').animate({opacity: '0.1'}, "slow").html('')},1000)
+            loadReview(productID);
+
+        })
+            .fail(function (xhr, status, error) {
+
+                $('#message-rate').html(
+                    `<div class="alert alert-danger alert-dismissible show  w-100 text-center" role="alert">
+                 ${xhr.responseJSON.message}
+                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>`).animate({opacity: '1'}, "slow");
+
+                setTimeout( function (){$('#message-rate').animate({opacity: '0.1'}, "slow").html('')},1000)
+
+            });
+    }).fail(function (xhr, status, error){
+        let rating = {};
+        rating.img = data.img
+        rating.fullName = fullname;
+        rating.product_id = productID;
+        rating.rate = rate;
+        rating.review = review;
+        rating.img =rating.img?rating.img:"//bizweb.dktcdn.net/thumb/1024x1024/100/339/085/products/stan-smith-shoes-white-cq2206-01-standard.jpg?v=1545145114263"
 
 
-    $.post('/api/products/review', {rating: JSON.stringify(rating)}).done(function (data) {
-        console.log(data)
-        /*if ($('#show-review').text!=="Hidden reviews"){
-            $.get('/api/products/comment/'+productID,function (data){
-                renderComment(data.comments.reverse());
-            })
-            $('#show-review').text("Hidden reviews")
-            $('#reviewcontent').val('');
-        }*/
-        $('#message-rate').text("Rating successfully")
-        const productID = $('[name="idProduct"]').val();
+        $.post('/api/products/review', {rating: JSON.stringify(rating)}).done(function (data) {
 
-        loadReview(productID);
-    }).fail(function (xhr, status, error) {
-        console.log(xhr.responseJSON.message);
-        $('#message-rate').text(xhr.responseJSON.message)
-    });
+            /*if ($('#show-review').text!=="Hidden reviews"){
+                $.get('/api/products/comment/'+productID,function (data){
+                    renderComment(data.comments.reverse());
+                })
+                $('#show-review').text("Hidden reviews")
+                $('#reviewcontent').val('');
+            }*/
+            const productID = $('[name="idProduct"]').val();
+
+            loadReview(productID);
+            $('#message-rate').html(
+                `<div class="alert alert-success alert-dismissible show w-100 text-center" role="alert">
+                 Successfully
+                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>`).animate({opacity: '1'}, "slow");
+
+            setTimeout( function (){$('#message-rate').animate({opacity: '0.1'}, "slow").html('')},1000)
+        })
+            .fail(function (xhr, status, error) {
+                console.log(xhr.responseJSON.message);
+
+                $('#message-rate').html(
+                    `<div class="alert alert-danger alert-dismissible fade show  w-100 text-center" role="alert">
+                 ${xhr.responseJSON.message}
+                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>`).animate({opacity: '1'}, "slow");
+
+                setTimeout( function (){$('#message-rate').animate({opacity: '0.1'}, "slow").html('')},1000)
+            });
+    })
+
+
+
+
 
 })
 
@@ -219,20 +297,19 @@ const renderReview = function (reviewArr, pageReview, pages) {
     const productID = $('[name="idProduct"]').val();
     const page = +pageReview > 1 ? +pageReview : 1 || 1;
     const limit = 2;
-    console.log(page)
-    console.log(reviewArr)
+
     const pageStart = (page - 1) * limit;
     const pageEnd = page * limit
 
     for (let index = 0; index < pageEnd && index < reviewArr.length; index++) {
         const date = (new Date(reviewArr[index].createdAt)).toLocaleString()
-        console.log(reviewArr[index]);
+
 
         html += `<div class="card mb-5">
                     <div class="card-header" style="display: inline">
 
-                        <img style="width: 40px; height: 40px; border-radius: 50%;  display: inline"
-                             src="//bizweb.dktcdn.net/thumb/1024x1024/100/339/085/products/stan-smith-shoes-white-cq2206-01-standard.jpg?v=1545145114263"
+                        <img class="avatar-comment"
+                             src="${reviewArr[index].img}"
                              alt="avatar">
 
                         <h4 class="card-title" style="display: inline">
@@ -320,8 +397,7 @@ const renderReview = function (reviewArr, pageReview, pages) {
 }
 //load reviews
 const loadReview = function (productID, pageReview) {
-    console.log("pageReview");
-    console.log(pageReview);
+
     $.get('/api/products/review/' + productID, {page: pageReview}, function (data) {
         renderReview(data.reviews, pageReview, data.pages);
     })
@@ -333,8 +409,7 @@ $('#show-review').click(function (event) {
     console.log("show");
     if (reviews.text() === "View reviews") {
         const productID = $('[name="idProduct"]').val();
-        console.log("productID")
-        console.log(productID)
+
         loadReview(productID)
         reviews.text('Hidden reviews')
     } else {
@@ -347,12 +422,8 @@ $('#show-review').click(function (event) {
 //plus the qty of product
 $('#plus-qty').click(function () {
     let qty = $('[name="qty"]').val();
-    console.log(qty)
     const remain = $('#remain').text();
-    console.log("remain")
-    console.log(remain)
 
-    console.log(+qty <= +remain)
 
     if (+qty <= +remain) {
 
@@ -363,7 +434,7 @@ $('#plus-qty').click(function () {
 //minus the qty of product
 $('#minus-qty').click(function () {
     let qty = $('[name="qty"]').val();
-    console.log(qty)
+
     if (qty > 1) {
         $('[name="qty"]').val(+qty - 1);
     }
@@ -409,9 +480,8 @@ function renderSingleComment(name, message, date) {
   <div class="card mb-5">
                     <div class="card-header" style="display: inline">
 
-                        <img style="width: 40px; height: 40px; border-radius: 50%; border: #0a0a0a solid; display: inline"
-                             src="//bizweb.dktcdn.net/thumb/1024x1024/100/339/085/products/stan-smith-shoes-white-cq2206-01-standard.jpg?v=1545145114263"
-                             alt="avatar">
+                        <img src="${commentArr[index].img}"
+                        alt="avatar">
 
                         <h4 class="card-title" style="display: inline">
                             ${name}

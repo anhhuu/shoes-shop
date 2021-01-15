@@ -1,10 +1,9 @@
 
 const showDetailInvoice = function (invoiceID){
-    console.log(invoiceID)
     $('#body-invoice-detail').html('')
     $.get('/api/users/invoices/'+invoiceID, function(data){
         let html=``;
-        console.log(data)
+
         data.invoice_items.map((item,index)=>{
             html+=`    <tr>
                             <th scope="row">${index+1}</th>
@@ -27,7 +26,7 @@ const showDetailInvoice = function (invoiceID){
                         </tr>
                         `
         })
-        console.log(html)
+
         $('#body-invoice-detail').html(html).animate({height:'show'},"slow")
     })
 }
@@ -47,9 +46,7 @@ const deleteInvoice = function(invoiceID, pageCur){
             url: '/api/users/invoices/'+invoiceID+'/delete',
             type:'PUT',
             success: function (result) {
-                console.log("Successfully")
                 const page= pageCur|| 1;
-                console.log(page)
                 pagination(+page);
             }
         }
@@ -63,7 +60,7 @@ const pagination = function (page){
     $.get('/api/users/invoices',{page:page, limit:1}, function(data){
         let html=``;
         let pages = data.pages
-        console.log(data)
+
         data.invoices.map((invoice,index)=>{
             const priceFormat = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
                 .format(invoice.totalFee)
@@ -91,7 +88,7 @@ const pagination = function (page){
         $('#body-invoices').html(html);
 
         html=``;
-        console.log(html)
+
         if (+page === 1) {
             html +=
                 `<nav aria-label="Page navigation" class="mb-5">

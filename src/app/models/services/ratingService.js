@@ -8,20 +8,21 @@ module.exports.saveRating = async(userid,rating) => {
         let ratingDb = await ratingMongooseModel.findOne({ user_id: userid, product_id:rating.product_id});
 
         if (ratingDb) {
-            console.log("Has rating")
+            // console.log("Has rating")
 
             await ratingMongooseModel.findOneAndUpdate({ user_id: userid, product_id:rating.product_id},
-                {rate: rating.rate,review: rating.review,});
+                {rate: rating.rate,review: rating.review,img: rating.img});
 
 
         } else {
-            console.log("No comment")
+            // console.log("No comment")
             const review = new ratingMongooseModel({
                 user_id:userid,
                 product_id: rating.product_id,
                 user_full_name:rating.fullName,
                 rate: rating.rate,
                 review: rating.review,
+                img: rating.img
             })
             review.save()
         }
@@ -38,7 +39,7 @@ module.exports.saveRating = async(userid,rating) => {
 module.exports.getReviews = async (prodID,page)=>{
     try{
         const limit = 1;
-        console.log(prodID)
+        // console.log(prodID)
         const reviews = await ratingMongooseModel.find({product_id: prodID}).limit(limit).skip((page-1)*limit).sort({createdAt:-1})
         const count = await ratingMongooseModel.countDocuments({product_id: prodID});
         const pages = count%limit>0?Math.floor(count/limit)+1:count/limit;
@@ -48,7 +49,7 @@ module.exports.getReviews = async (prodID,page)=>{
 
         return result;
     }catch (e) {
-        console.log(e)
+        // console.log(e)
         return e;
     }
 }
