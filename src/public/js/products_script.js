@@ -30,10 +30,6 @@ function resetProducts() {
 function getProducts(pageOrURL, options) {
     let URL = BASE_URL;
 
-    console.log('USER OPTIONS')
-    console.log(JSON.stringify(options));
-    console.log('END');
-
     if (typeof pageOrURL !== 'string') {
         if (pageOrURL && pageOrURL > 1) {
             URL += getQueryString({page: pageOrURL});

@@ -10,7 +10,7 @@
             <% }else{ %>
             <div class="carousel-item mx-2">
                 <% } %>
-                <% for(let j = 0;j < 2 && j < options.brands.length;j++){ %>
+                <% for(let j = 0;j < 1 && j < options.brands.length;j++){ %>
                     <% let val = (j + i) % options.brands.length %>
                     <img src="<%= options.brands[val].image_url %>" alt=""
                          onclick="window.location.href=`/products?brand=<%= options.brands[val].brand_url %>`">
