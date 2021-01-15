@@ -138,8 +138,11 @@ function getProducts(pageOrURL, options) {
 
         let html = '';
         //Get next 4 pages;
-        const options = data.options;
-
+        let options = data.options;
+        options = {
+            ...options,
+            ...getUserOptions()
+        }
         html += `<a href="${BASE_URL}${getQueryString({...options, page: 1})}">&laquo;</a>`
 
         if (+options.currentPage - 3 > 1) {
