@@ -11,14 +11,14 @@
                 <h4>Your shopping cart contains: <span id="amount-product-cart"> </span>Products</h4>
                 <table class="timetable_sub" aria-readonly="true">
                     <thead>
-                    <tr>
-                        <th>SL No.</th>
-                        <th>Product</th>
-                        <th>Quality</th>
-                        <th>Product Name</th>
-                        <th>Size</th>
-                        <th>Price</th>
-                    </tr>
+                        <tr>
+                            <th>SL No.</th>
+                            <th>Product</th>
+                            <th>Quality</th>
+                            <th>Product Name</th>
+                            <th>Size</th>
+                            <th>Price</th>
+                        </tr>
                     </thead>
                     <tbody id="cart-in-checkout">
 
@@ -63,7 +63,7 @@
 
                                 <form action="" class="select-container">
                                     <select id="select-address-delivery" class="select-css" name="user-address"
-                                            required="">
+                                        required="">
                                     </select>
                                 </form>
 
@@ -83,7 +83,7 @@
                                             </div>
                                             <div class="row select-container">
                                                 <select name="Choose payments methods" id="select-payment-method"
-                                                        class="w-100 select-css" style="height: fit-content">
+                                                    class="w-100 select-css" style="height: fit-content">
                                                     <option value="">Choose payment method</option>
                                                     <option value="COD">COD</option>
                                                     <option value="Credit Card">Credit Card</option>
@@ -102,74 +102,56 @@
                         <!--                User address-->
 
                         <div class="col">
-                            <div class="card p-5"><h4>Add a New
+                            <div class="card p-5">
+                                <h4>Add a New
                                     Address</h4>
                                 <form id="add-address-form" action="#" method="post">
                                     <section>
                                         <div class="information-wrapper">
                                             <div class="controls"><label class="control-label">Full name: </label>
-                                                <input
-                                                        id="fullName"
-                                                        class="form-control py-4" type="text" name="name"
-                                                        placeholder="Full name"
-                                                        value="<%= user ? user.first_name + ' ' + user.last_name : '' %> "
-                                                        required="">
+                                                <input id="fullName" class="form-control py-4" type="text" name="name"
+                                                    placeholder="Full name"
+                                                    value="<%= account ? account.first_name + ' ' + account.last_name : '' %> "
+                                                    required="">
                                             </div>
                                             <div class="controls"><label class="control-label">Mobile
                                                     number:</label>
-                                                <input
-                                                        class="form-control py-4" type="number" name="phoneNumber"
-                                                        required=""
-                                                        value="<%= user ? user.phone_number : '' %>"
-                                                        id="phoneNumber"
-                                                        placeholder="Mobile number">
+                                                <input class="form-control py-4" type="number" name="phoneNumber"
+                                                    required="" value="<%= account ? account.phone_number : '' %>"
+                                                    id="phoneNumber" placeholder="Mobile number">
                                             </div>
-                                            <div class="controls"><label
-                                                        class="control-label">Province/City: </label>
-                                                <select
-                                                        id="provinceOrCity"
-                                                        class="select-css w-100 mw-100" name="provinceOrCity"
-                                                        required="">
+                                            <div class="controls"><label class="control-label">Province/City: </label>
+                                                <select id="provinceOrCity" class="select-css w-100 mw-100"
+                                                    name="provinceOrCity" required="">
                                                     <option></option>
                                                     <% provinces.forEach(province=>{ %>
-                                                        <option value="<%= province._id %>"><%= province.name %></option>
+                                                    <option value="<%= province._id %>"><%= province.name %></option>
                                                     <% }) %>
                                                 </select>
                                             </div>
 
                                             <div class="controls"><label class="control-label">District: </label>
-                                                <select
-                                                        class="select-css" name="district"
-                                                        id="district"
-                                                        required="">
+                                                <select class="select-css" name="district" id="district" required="">
 
                                                 </select>
                                             </div>
 
                                             <div class="controls"><label class="control-label">Ward: </label>
-                                                <select
-                                                        id="ward"
-                                                        class="select-css" name="ward" required="">
+                                                <select id="ward" class="select-css" name="ward" required="">
                                                 </select>
                                             </div>
 
                                             <div class="controls">
-                                                <label
-                                                        class="control-label">Address:
+                                                <label class="control-label">Address:
                                                 </label>
-                                                <input
-                                                        id="address"
-                                                        class="form-control" type="text" name="address" required=""
-                                                        placeholder="Address">
+                                                <input id="address" class="form-control" type="text" name="address"
+                                                    required="" placeholder="Address">
                                             </div>
                                             <div class="controls">
-                                                <label for="note"
-                                                       class="control-label">Note:
+                                                <label for="note" class="control-label">Note:
                                                 </label>
-                                                <input
-                                                        id="note"
-                                                        class="form-control" type="text" name="note"
-                                                        placeholder="Note">
+                                                <input id="note" class="form-control" type="text" name="note"
+                                                    placeholder="Note">
                                             </div>
 
                                         </div>
@@ -185,12 +167,11 @@
 
                                     <div class="d-flex justify-content-between px-2 row">
                                         <div class="checkout-right-basket align-self-start"><a
-                                                    class="direction-button-back" href="/">Back
+                                                class="direction-button-back" href="/">Back
                                                 Step<span aria-hidden="true"></span></a></div>
                                         <div class="col"></div>
                                         <div class="checkout-right-basket align-self-start">
-                                            <a
-                                                    class="direction-button" id="order" href="#">Make a
+                                            <a class="direction-button" id="order" href="#">Make a
                                                 Payment <span aria-hidden="true"></span></a></div>
                                     </div>
                                 </form>
