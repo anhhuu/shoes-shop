@@ -2,7 +2,7 @@
     padding: 10px;
     display: grid;
     grid-template-columns: minmax(200px, 350px) repeat(2,1fr);
-    grid-template-rows: minmax(150px,250px) auto;
+    grid-template-rows: minmax(100px,150px) auto;
     grid-auto-rows: fit-content(30%);
     grid-template-areas: "side-bar ad-pagination ad-pagination"
                             "side-bar products products"

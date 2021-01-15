@@ -49,7 +49,6 @@ $('#order').click(function () {
     const carts = JSON.parse(window.localStorage.getItem("cart"));
     const items = [];
     let totalFee = 0;
-
     carts.map(item => {
         let itemInfo = {};
         itemInfo.product_id = item.product._id;
@@ -75,8 +74,8 @@ $('#order').click(function () {
             window.localStorage.setItem("cart", JSON.stringify([]));
             //window.alert("Successfully Order");
             $('#message').html(
-                ' <div class="alert alert-danger alert-dismissible fade show" role="alert">\n' +
-                '        Đặt hàng thành công!' +
+                ' <div class="alert alert-success alert-dismissible fade show" role="alert">\n' +
+                '        Successfully!' +
                 '        <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
                 '            <span aria-hidden="true">&times;</span>\n' +
                 '        </button>\n' +
@@ -84,7 +83,15 @@ $('#order').click(function () {
             window.location.replace("/products")
 
 
-        })
+        }).fail(
+            $('#message').html(
+                ' <div class="alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                '        No enough amount to order!' +
+                '        <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                '            <span aria-hidden="true">&times;</span>\n' +
+                '        </button>\n' +
+                '    </div>')
+        )
     }
 
 

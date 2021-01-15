@@ -372,25 +372,6 @@ $('#minus-qty').click(function () {
 })
 
 
-const chooseSize = function (idSize, prod) {
-    const product = JSON.parse(prod);
-    const status = document.getElementById("status")
-    let size
-    product.product_detail.map((sizedata) => {
-        if (sizedata.size_id === idSize) {
-            size = sizedata;
-        }
-    })
-    if (size.remaining_amount > 0) {
-        status.innerHTML = "Còn hàng";
-        $('[name="qty"]').val(1);
-    } else {
-        status.innerHTML = "Hết hàng";
-        $('[name="qty"]').val(1);
-    }
-
-
-}
 
 
 
