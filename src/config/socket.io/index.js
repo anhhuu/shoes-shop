@@ -15,6 +15,7 @@ io.on('connection', (socket) => {
 
     socket.on('comments', (comment) => {
         io.emit(`comments/${comment.productID}`,comment);
+        console.log(comment);
     });
 
 });

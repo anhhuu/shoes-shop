@@ -47,7 +47,8 @@ $('#comment-form').submit(function (event) {
         comment.createdAt = new Date();
 
         $.post('/api/products/comment', {productID: productID, comment: JSON.stringify(comment)}).done(function (data) {
-            commentSocket($("#guestname").val(), $("#content-comment").val(), comment.createdAt)
+            commentSocket($("#guestname").val(), $("#content-comment").val(), comment.createdAt, comment.img);
+
         })
     }).fail(function (){
         let comment = {};
@@ -82,7 +83,7 @@ const renderComment = function (commentArr, pageComment) {
         html += `<div class="card mb-5">
                     <div class="card-header" style="display: inline">
 
-                        <img class="avatar-comment"
+                        <img class="avatar-comment" width="10" height="10"
                              src="${commentArr[index].img}"
                                alt="avatar">
 
@@ -309,6 +310,7 @@ const renderReview = function (reviewArr, pageReview, pages) {
                     <div class="card-header" style="display: inline">
 
                         <img class="avatar-comment"
+                     
                              src="${reviewArr[index].img}"
                              alt="avatar">
 
@@ -453,34 +455,35 @@ $('#minus-qty').click(function () {
 
 socket.emit("join-room", `comments/${$('[name="idProduct"]').val()}`);
 
-socket.on(`comments/${$('[name="idProduct"]').val()}`, ({name, message, date}) => {
+socket.on(`comments/${$('[name="idProduct"]').val()}`, ({name, message, date,imageURL}) => {
     const SeenComment = $('#show-comments');
     if (SeenComment.text()==='View comment'){
         loadComment($('[name="idProduct"]').val(),1);
         $('#show-comments').text('Hidden comment')
     }
     else{
-        renderSingleComment(name, message, date);
+        renderSingleComment(name, message, date,imageURL);
     }
 
 });
 
 
-function commentSocket(name, message, date) {
+function commentSocket(name, message, date, imageURL) {
     socket.emit(`comments`, {
         message: message,
         productID: $('[name="idProduct"]').val(),
         name: name,
-        date: (new Date(date)).toLocaleDateString()
+        date: (new Date(date)).toLocaleDateString(),
+        imageURL
     });
 }
 
-function renderSingleComment(name, message, date) {
+function renderSingleComment(name, message, date, imageURL) {
     $("#comments-product").prepend(`
   <div class="card mb-5">
                     <div class="card-header" style="display: inline">
 
-                        <img src="${commentArr[index].img}"
+                        <img class="avatar-comment" src="${imageURL}"
                         alt="avatar">
 
                         <h4 class="card-title" style="display: inline">

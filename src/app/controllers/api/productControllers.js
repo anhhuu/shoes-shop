@@ -123,14 +123,12 @@ module.exports.getBrands = async(req, res, next) => {
 module.exports.saveCommentController = async(req, res) => {
     let productid = req.body.productID;
     let commentGuest = JSON.parse(req.body.comment);
-    // console.log(req.body)
-    // console.log(commentGuest)
 
     try {
         await commentService.saveComment(productid, commentGuest);
         res.status(201).send()
     } catch (e) {
-        // console.log(e);
+        console.log(e);
         res.status(500).send();
     }
 
@@ -142,10 +140,11 @@ module.exports.getComments = async(req, res) => {
     try {
         const prodID = req.params.product_id;
         let comments = await commentService.getComment(prodID);
+        console.log(comments);
+
         res.json(comments);
     } catch (e) {
-        // console.log(e)
-        res.status(500);
+        res.status(500).send();
     }
 }
 

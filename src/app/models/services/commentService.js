@@ -8,12 +8,7 @@ module.exports.saveComment = async(idProduct,comment) => {
         let commentsProd = await commentMongooseModel.findOne({ product_id: idProduct});
 
         if (commentsProd) {
-            // console.log("has comment")
-            // console.log(idProduct)
-            // console.log(comment)
             await commentMongooseModel.findOneAndUpdate({product_id: idProduct}, {$push: {comments: comment}})
-
-
         } else {
             // console.log("No comment")
             let commentArr = [];
