@@ -63,8 +63,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Cart</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                <button type="button" id="btn-close-cart" class="close" data-dismiss="modal" aria-label="Close">
+                    &times;
                 </button>
             </div>
             <div class="modal-body">
@@ -83,10 +83,7 @@
                                     <th></th>
                                 </tr>
                                 </thead>
-                                <tbody id="cart-table">
-
-
-                                </tbody>
+                                <tbody id="cart-table"></tbody>
                             </table>
                         </div>
                     </div>
@@ -113,6 +110,9 @@
 <script>
     $('#user-avatar').click(function (e) {
         window.location.replace('/users/login')
+    })
+    $('#btn-close-cart').click(function (){
+        $('#my-cart').modal('hide');
     })
 </script>
 <!-- //nav bar -->

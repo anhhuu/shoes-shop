@@ -11,21 +11,22 @@ class Addresses {
                 ${dat.address_text}</option>
             `, ''))
         if (this.data.length > 0) {
-            if(!this.currentSelected){
+            if (!this.currentSelected) {
                 this.renderAddressSideBar(0);
-            }else{
+            } else {
                 this.renderAddressSideBar(this.currentSelected);
             }
         }
-        $('#select-address-delivery').change(()=>{
-            const index = this.data.findIndex( option=>option._id === $('#address-select').val());
+        $('.select-container').change(() => {
+            const index = this.data.findIndex(option => option._id === $('#select-address-delivery').val());
             this.currentSelected = index;
             this.renderAddressSideBar(index);
         });
 
     }
 
-    renderAddressSideBar(position){
+    renderAddressSideBar(position) {
+        let selectProduct = this.data[position];
         $('#user-shipping-address').html(
             `
                 <h4 class="w-100 text-center py-3 px-5 mb-3  card-address-title" style="color: white">
@@ -33,28 +34,28 @@ class Addresses {
                <div class="d-flex my-2  px-4 align-items-baseline">
                     <h5>Receiver's name: </h5>
                     <div style="flex:1;"></div>
-                    <h5>${this.data[position].full_name}</h5>
+                    <h5>${selectProduct['full_name']}</h5>
                 </div>
                 <div class="d-flex my-2  px-4">
                     <h5>Ward: </h5>
                     <div style="flex:1;"></div>
-                    <h5>${this.data[position].ward}</h5>
+                    <h5>${selectProduct['ward']}</h5>
                 </div>
                 <div class="d-flex my-2  px-4">
                     <h5>District: </h5>
                     <div style="flex:1;"></div>
-                    <h5>${this.data[position].district}</h5>
+                    <h5>${selectProduct['district']}</h5>
                 </div>
                 <div class="d-flex my-2  px-4">
                     <h5>Province: </h5>
                     <div style="flex:1;"></div>
-                    <h5>${this.data[position].province}</h5>
+                    <h5>${selectProduct['province']}</h5>
                 </div>
 
                 <div class="d-flex my-2  px-4">
                     <h5>Address: </h5>
                     <div style="flex:1;"></div>
-                    <h5>${this.data[position].address_text}</h5>
+                    <h5>${selectProduct['address_text']}</h5>
                 </div>
             `
         )
@@ -112,20 +113,43 @@ $(window).ready(function () {
             "url": "/api/address/save-address",
             "method": "POST",
             type: "application/json",
-            data
+            data,
+            success: function () {
+
+            },
+            error: function () {
+                showMessage('Added an address', true)
+            }
 
         };
+        $.ajax(settings);
 
-        $.ajax(settings).done(function (response) {
-           addresses.updateData();
-        });
     })
-
 
 });
 
 //address-select
 //user-shipping-address
+
+function showMessage(message, error = true) {
+    $('#message').show();
+
+    if (error) {
+        $('#message').addClass('alert-danger')
+            .html(message);
+    } else {
+        $('#message').addClass('alert-success')
+            .html(message);
+    }
+
+    setTimeout(() => {
+        $('#message')
+            .html()
+            .hide()
+            .removeClass('alert-danger')
+            .removeClass('alert-success');
+    }, 1500)
+}
 
 function fetchData(URL) {
     return fetch(URL).then(result => result.json());

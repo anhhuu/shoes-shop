@@ -23,12 +23,12 @@ p h4{
     margin-bottom: 3px;
 }
 
-.img-detail{
-    display: grid !important;
-    grid-template-columns: repeat(2,1fr);
-    grid-gap: 5px;
-    margin: 0 auto !important;
-}
+/*.img-detail{*/
+/*    display: grid !important;*/
+/*    grid-template-columns: repeat(2,1fr);*/
+/*    grid-gap: 5px;*/
+/*    margin: 0 auto !important;*/
+/*}*/
 
 .img-detail img{
     width: 100%;

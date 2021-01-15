@@ -38,23 +38,23 @@ router.post('/signup', usersController.signup);
 
 router.post('/login', async (req, res, next) => {
         passport.authenticate('local',
-            (error, user, info) => {
+
+            await (async (error, user, info) => {
 
                 if (user) {
-                    req.logIn(user, function (err) {
-
-                        if (err) {
-                            return next(err);
+                    req.logIn(user, async function (err) {
+                        try{
+                            if (err) {
+                                return next(err);
+                            }
+                            res.locals.cart = await cartService.getCart(user._id)
+                            return res.redirect('/?load_cart=true')
+                        }catch (e){
+                            return next({
+                                message: e
+                            })
                         }
-                        cartService
-                            .getCart(user._id)
-                            .then(cart => {
-                                res.locals.cart = cart
-
-                                return res.redirect('/?load_cart=true')
-                            }).catch(err => next(err));
                     });
-
                 } else {
                     if (info) {
                         next(info.message || 'Authenticate fail');
@@ -66,7 +66,7 @@ router.post('/login', async (req, res, next) => {
                     }
                 }
             }
-        )(req, res, next);
+        ))(req, res, next);
     }
 );
 

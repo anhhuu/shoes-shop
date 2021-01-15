@@ -44,9 +44,7 @@ module.exports.getAddressByID = async (addrID)=>{
 }
 module.exports.getAllFullAddressesByUserID = async (userID) => {
     try{
-        //TODO:
-        // let addresses = await addressMongooseModel.find({user_id: userID, isDeleted: false}).lean()
-        let addresses = await addressMongooseModel.find({user_id: userID,}).lean()
+        let addresses = await addressMongooseModel.find({user_id: userID, isDeleted: false}).lean()
         let provinces = addresses.map(address => provinceService.getProvinceByID(address.province_id));
         let districts = addresses.map(address => districtService.getDistrictByID(address.district_id));
         let wards = addresses.map(address => wardService.getWardByID(address.ward_id));
@@ -77,7 +75,7 @@ module.exports.save = async (phoneNumber, fullName,  note, userID, provinceID, d
         const districtName = (await districtService.getDistrictByID(districtID)).name;
         const wardName = (await wardService.getWardByID(wardID)).name;
 
-        const addressText = `${note}, ${wardName}, ${districtName}, ${provinceName}`;
+        const addressText = `${wardName}, ${districtName}, ${provinceName}`;
 
         return addressMongooseModel.create({
             phone_number: phoneNumber,

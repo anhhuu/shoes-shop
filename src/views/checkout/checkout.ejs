@@ -111,13 +111,16 @@
                                                 <input
                                                         id="fullName"
                                                         class="form-control py-4" type="text" name="name"
-                                                        placeholder="Full name" required="">
+                                                        placeholder="Full name"
+                                                        value="<%= user ? user.first_name + ' ' + user.last_name : '' %> "
+                                                        required="">
                                             </div>
                                             <div class="controls"><label class="control-label">Mobile
                                                     number:</label>
                                                 <input
                                                         class="form-control py-4" type="number" name="phoneNumber"
                                                         required=""
+                                                        value="<%= user ? user.phone_number : '' %>"
                                                         id="phoneNumber"
                                                         placeholder="Mobile number">
                                             </div>
@@ -170,7 +173,7 @@
                                             </div>
 
                                         </div>
-                                        <span class="text-success"></span>
+                                        <div class="alert" id="message" role="alert"></div>
                                         <div class="row">
                                             <div class="d-flex flex-column col">
                                                 <button class="btn btn-primary" type="submit">Add New Address
@@ -203,13 +206,5 @@
     <script src="/js/address.js"></script>
 
 </div>
-<!-- //top products -->
 
-<!-- products highlight -->
-
-<!-- //products highlight -->
-
-<!-- /newsletter-->
-<%- include('../partials/letterSignup.ejs') %>
-<!-- //newsletter-->
 <script type="text/javascript" src="/js/checkout-handle.js"></script>

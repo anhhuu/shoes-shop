@@ -8,5 +8,6 @@ const client = redis.createClient({
     password: process.env.PASSWORD_REDIS
 })
 const getAsync = promisify(client.get).bind(client);
+
 module.exports = getAsync;
 module.exports.client = client;

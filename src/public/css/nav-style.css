@@ -199,7 +199,9 @@ body {
 .nav-menu .dropdown-toggle:after{
     border: 0;
 }
-
+.container.overlay-open::after{
+	visibility: hidden;
+}
 a.dropdown-item:hover{
-	background-color: red !important;
+	background-color: #ec4c4c !important;
 }
