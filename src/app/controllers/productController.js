@@ -2,6 +2,7 @@ const productService = require('../models/services/productService')
 const brandService = require('../models/services/brandService')
 const categoryService = require('../models/services/categoryService')
 const sizeService = require('../models/services/sizeService');
+
 module.exports.showProducts = async (req, res, next) => {
     let limit = 24;
     let {page} = req.query;
@@ -56,8 +57,12 @@ module.exports.showProducts = async (req, res, next) => {
 }
 
 module.exports.showProduct = async (req, res, next) => {
-    product_url = req.params.url;
+    const product_url = req.params.url;
     let product = await productService.getByURL(product_url);
+
+    product.product_detail = product.product_detail.filter(size => !size.is_deleted);
+    console.log(product);
+
     let brand = await brandService.getByID(product.brand_id);
     let category = await categoryService.getByID(product.category_id)
     let result = [];

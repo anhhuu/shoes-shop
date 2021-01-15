@@ -60,7 +60,10 @@
                                     <h4 class="mt-1 w-100">Price: </h4>
                                 </div>
                                 <div class="col-sm mt-1">
-                                    <h4 class="item-price"><%= (new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}))
+                                    <h4 class="item-price"><%= (new Intl.NumberFormat('vi-VN', {
+                                            style: 'currency',
+                                            currency: 'VND'
+                                        }))
                                                 .format(Math.floor(product.price.price_value * (1 - product.discount) / 1000) * 1000).toString() %></h4>
                                 </div>
                             </div>
@@ -70,8 +73,12 @@
                                     <h4 class="mt-1 w-100">Price: </h4>
                                 </div>
                                 <div class="col-sm mt-1 ">
-                                    <h4 class="price-detail"><%= (new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}))
-                                                .format(Math.floor(product.price.price_value * (1 - product.discount) / 1000) * 1000).toString() %></h4><p><span ><%= product.price.string_price %></span></p>
+                                    <h4 class="price-detail"><%= (new Intl.NumberFormat('vi-VN', {
+                                            style: 'currency',
+                                            currency: 'VND'
+                                        }))
+                                                .format(Math.floor(product.price.price_value * (1 - product.discount) / 1000) * 1000).toString() %></h4>
+                                    <p><span><%= product.price.string_price %></span></p>
 
                                 </div>
                             </div>
@@ -86,7 +93,7 @@
                         </div>
                         <div class="row my-4">
                             <div class="col-sm-2 mr-3">
-                                <h4 class="mt-1 w-100" >Status: </h4>
+                                <h4 class="mt-1 w-100">Status: </h4>
                             </div>
                             <div class="col-sm mt-1">
                                 <h4 id="status"></h4>
@@ -118,6 +125,10 @@
                                     <div class="col-sm-2 mr-3">
                                         <h4 class="mt-1 w-100" style="display: inline">Size: </h4>
                                     </div>
+
+                                    <% if(size.length === 0 ){ %>
+                                        <div class="alert alert-warning" role="alert">Out of stock</div>
+                                    <% } %>
 
                                     <div class="col-sm-">
                                         <% size.map((data, index)=>{ %>
@@ -152,7 +163,7 @@
                                         <button class="align-center btn-add"
                                                 type="submit"
                                                 id="pd-add-to-cart"
-                                                >Add to cart
+                                        >Add to cart
                                         </button>
                                     </div>
                                 </div>
@@ -162,8 +173,6 @@
                             </div>
                         </form>
                     </div>
-
-
 
 
                 </div>
@@ -183,15 +192,16 @@
 
         </div>
 
-        <div class="img-detail" id="p-detail-content" class="card-body w-100" style="transition: height 2s!important; margin: 0 auto !important;">
+        <div class="img-detail" id="p-detail-content" class="card-body w-100"
+             style="transition: height 2s!important; margin: 0 auto !important;">
 
-            <%if(product.images_detail_url){%>
+            <% if(product.images_detail_url){ %>
                 <% product.images_detail_url.map((dataImage, index)=>{ %>
                     <img src="<%= dataImage %>" alt="image-<%= index %>" class="m-3 p-3">
                 <% }) %>
-            <%}else{%>
+            <% }else{ %>
                 <h4>Updating</h4>
-            <%}%>
+            <% } %>
 
         </div>
     </div>
@@ -207,7 +217,7 @@
             <form id="review-form" class="card-body">
                 <div>
                     <label for="#username" class="display-5" style="display: inline"> Customer</label>
-                    <div class="rating" >
+                    <div class="rating">
                         <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
                         <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
                         <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
@@ -216,8 +226,8 @@
                     </div>
                     <% if(user_name !== ''){ %>
 
-                    <input class="form-control" type="text" value="<%= user_name %>" readonly id="usernamereivew"
-                           style="width: 100%">
+                        <input class="form-control" type="text" value="<%= user_name %>" readonly id="usernamereivew"
+                               style="width: 100%">
                     <% }else{ %>
                         <input class="form-control" type="text" placeholder="Enter Customer Name" id="usernamereivew"
                                style="width: 100%">
@@ -234,7 +244,7 @@
 
             </form>
             <a href="#review-product" id="show-review" class="d-flex justify-content-center mt-5">View reviews</a>
-            <div class="d-flex justify-content-center mt-2" id="message-rate"> </div>
+            <div class="d-flex justify-content-center mt-2" id="message-rate"></div>
             <div class="mt-3 p-3" id="review-product">
 
             </div>
@@ -257,8 +267,8 @@
                         <label for="#guestname" class="display-5" style="display: inline"> Customer</label>
 
                         <% if(user_name !== ''){ %>
-                        <input class="form-control" type="text" value="<%= user_name %>" readonly id="guestname"
-                               style="width: 100%">
+                            <input class="form-control" type="text" value="<%= user_name %>" readonly id="guestname"
+                                   style="width: 100%">
                         <% }else{ %>
                             <input class="form-control" type="text" placeholder="Enter username"
                                    id="guestname"
@@ -318,7 +328,6 @@
 
 
 </div>
-
 
 
 <!-- /newsletter-->

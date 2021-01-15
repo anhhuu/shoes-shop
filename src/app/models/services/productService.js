@@ -34,6 +34,7 @@ module.exports.getList = async (page, limit) => {
             limit = 12;
         }
 
+
         let products = await productMongooseModel.find({is_deleted: false}).skip(limit * page - limit)
             .limit(limit);
         if (products.length) {
@@ -77,6 +78,8 @@ module.exports.getListByBrandID = async (page, limit, brand_id) => {
         if (!limit) {
             limit = 12;
         }
+
+
         return await productMongooseModel
             .find({brand_id: brand_id, is_deleted: false}).skip(limit * page - limit)
             .limit(limit).lean();
