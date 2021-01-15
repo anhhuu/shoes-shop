@@ -1,4 +1,5 @@
 import _ from '/js/file_upload.js';
+
 const MIN_LENGTH_PASSWORD = 8;
 
 const UPDATE_USER_INFO_URL = '/api/users/update';
@@ -16,20 +17,21 @@ $(document).ready(function () {
     hideMessage();
 });
 
-function showMessage(message, error=true){
-    if(error){
-        $('#password-error-alert').attr('class','alert alert-danger');
-    }else{
-        $('#password-error-alert').attr('class','alert alert-success');
+function showMessage(message, error = true) {
+    if (error) {
+        $('#password-error-alert').attr('class', 'alert alert-danger');
+    } else {
+        $('#password-error-alert').attr('class', 'alert alert-success');
     }
 
     $('#password-error-alert').html(message);
     $('#password-error-alert').show();
 }
 
-function hideMessage(){
+function hideMessage() {
     $('#password-error-alert').hide();
 }
+
 function handleCloseModal() {
     $('#alert-modal').modal('hide');
 }
@@ -42,7 +44,14 @@ function handleDeleteAddress() {
         url: `/api/address/delete/${addressID}`,
         type: 'delete',
         success: function () {
-            $(`div[id=${addressID}]`).remove();
+            $(`div[id=${addressID}]`).css('z-index', '9999')
+                .addClass('animate__animated animate__hinge');
+            $(`div[id=${addressID}]`).on('animationend', function () {
+                $(this).hide(
+                    250, function () {
+                        $(this).remove();
+                    })
+            })
         },
         error: function () {
             $('#alert-modal').modal('show');
@@ -67,7 +76,7 @@ function handleSettingBtnClick() {
 
 }
 
-function handleCheckEqualPassword(){
+function handleCheckEqualPassword() {
     if ($('#password').val() !== $('#retype-password').val()) {
         showMessage('Passwords do not match please check again');
         $('#update-button-container button').prop('disabled', true);
@@ -77,10 +86,10 @@ function handleCheckEqualPassword(){
     }
 }
 
-function  handleCompleteTypingPassword(){
-    if($(this).val().length<MIN_LENGTH_PASSWORD){
+function handleCompleteTypingPassword() {
+    if ($(this).val().length < MIN_LENGTH_PASSWORD) {
         showMessage(`The password must have at least ${MIN_LENGTH_PASSWORD} characters`);
-        setTimeout(()=>hideMessage(),1000);
+        setTimeout(() => hideMessage(), 1000);
     }
 }
 
@@ -114,9 +123,9 @@ function handleUpdateUserInfo() {
     };
 
     $.ajax(settings).done(function (response) {
-        showMessage('Update user info success fully',false);
-        setTimeout(()=>{
+        showMessage('Update user info success fully', false);
+        setTimeout(() => {
             hideMessage();
-        },1000)
+        }, 1000)
     });
 }
