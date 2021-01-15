@@ -2,14 +2,16 @@ const express = require('express');
 const router = express.Router();
 const productController = require('../../app/controllers/api/productControllers');
 const productControllerAPI = require("../../app/controllers/api/productControllers");
+const auth = require("../../middleware/auth")
 
 //[GET] api/products
 router.get('/', productController.getProducts);
 router.get('/product-related', productControllerAPI.getProductRelatedController)
 router.get('/brands', productController.getBrands);
 router.post('/comment',productControllerAPI.saveCommentController);
+router.post('/review',auth.checkBuyProduct,productControllerAPI.saveRatingController);
 router.get('/comment/:product_id', productControllerAPI.getComments)
-router.get('/update', productControllerAPI.test);
+router.get('/review/:product_id', productControllerAPI.getReview)
 router.get('/:ID', productControllerAPI.getProduct);
 
 

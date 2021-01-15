@@ -36,10 +36,10 @@ module.exports.getSignUpPage = (req, res) => {
 module.exports.getProfile = async (req, res,next) => {
 
     try{
-        console.log(req.user);
+        // console.log(req.user);
         const addresses = await addressService.getAllFullAddressesByUserID(req.user._id);
 
-        console.log(addresses)
+        // console.log(addresses)
         res.render('users/profile', {
             title: 'User profile',
             pageName: 'Profile',
@@ -55,11 +55,15 @@ module.exports.getProfile = async (req, res,next) => {
 }
 
 module.exports.getInvoicesController = async (req, res) => {
-
-    let invoices = await invoiceService.getInvoices(req.user._id);
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 1;
+    // console.log(limit)
+    let invoices = await invoiceService.getInvoices(req.user._id,page,limit);
+    const pages = invoices.pages;
     const promises = invoices.map(invoice => {
         return addressService.getAddressByID(invoice.address_info_id)
     });
+
     let data = [];
 
     await invoices.reduce(async (prev, cur) => {
@@ -70,7 +74,6 @@ module.exports.getInvoicesController = async (req, res) => {
         return {address_text: (await addressService.getAddressByID(cur.address_info_id)), ...cur}
     }, Promise.resolve())
 
-
     const addresses = await Promise.all(promises);
     invoices = invoices.map((val, index) => {
         return {
@@ -78,10 +81,7 @@ module.exports.getInvoicesController = async (req, res) => {
             address_text: addresses[index].address_text,
         }
     });
-    console.log('---------------');
-    console.log(invoices);
-    console.log('---------------');
-
+    invoices.pages = pages;
     res.render('users/invoiceManagement', {
         title: 'Invoice Management',
         pageName: 'Invoice Management',
@@ -90,6 +90,7 @@ module.exports.getInvoicesController = async (req, res) => {
 }
 
 module.exports.logout = (req, res) => {
+
     req.logout();
     res.redirect('/');
 }
@@ -124,7 +125,7 @@ module.exports.signup = async (req, res, next) => {
 
     } catch (e) {
         res.redirect('/users/signup');
-        console.log(e);
+        // console.log(e);
     }
 }
 
@@ -195,6 +196,7 @@ module.exports.resetPassword = async (req, res, next) => {
         if (!decodedID.email) return next();
 
         const exists = await userService.checkExistUser(decodedID.email);
+
         if (!exists) {
             return next();
         }

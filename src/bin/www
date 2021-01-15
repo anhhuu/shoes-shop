@@ -3,33 +3,19 @@ const path = require('path');
 
 const result = require('dotenv').config({ path: path.join(__dirname,'..','.env') })
 if (result.error) {
-    console.log( result.error);
+    // console.log( result.error);
 }
 
 /**
  * Module dependencies.
  */
 
-const app = require('../app');
+const server = require('../app');
 const debug = require('debug')('shoes-shop:server');
-const http = require('http');
-
-/**
- * Get port from environment and store in Express.
- */
-
-const port = normalizePort(process.env.PORT || '5000');
-app.set('port', port);
-
-/**
- * Create HTTP server.
- */
-
-const server = http.createServer(app);
-
 /**
  * Listen on provided port, on all network interfaces.
  */
+const port = normalizePort(process.env.PORT || '5000');
 
 server.listen(port);
 server.on('error', onError);
@@ -54,6 +40,7 @@ function normalizePort(val) {
 
     return false;
 }
+
 
 /**
  * Event listener for HTTP server "error" event.

@@ -10,7 +10,7 @@ module.exports.checkout = async(req, res) => {
     userInfo.last_name = req.user.last_name;
     userInfo.phone_number = req.user.phone_number;
     userInfo.address = req.user.address;
-    console.log(userInfo)
+    // console.log(userInfo)
     userInfo.list_address = await addressService.getAddress(req.user._id);
     res.render('checkout/checkout', {
         title: 'HDH Shoes',
@@ -26,6 +26,7 @@ module.exports.createInvoice = async(req, res) => {
 
     try {
         const userID = req.user._id;
+        // console.log(userID)
         const addressInfoID = req.body.addressInfoID;
         const invoiceItems = JSON.parse(req.body.items);
         const paymentMethod = req.body.paymentMethod;
@@ -43,14 +44,18 @@ module.exports.createInvoice = async(req, res) => {
         }
 
         for (let key of Object.keys(data)) {
-            await productService.decreaseProductRemain(key, data[key]);
+           const result = await productService.decreaseProductRemain(key, data[key]);
 
+           if (result.message){
+               return res.status(500).send("Create Fail");
+
+           }
         }
         await invoiceService.postNewInvoice(userID, addressInfoID, invoiceItems, paymentMethod, totalFee);
-        res.status(201).send("Create Successfully");
+        return res.status(201).send("Create Successfully");
     } catch (e) {
-        console.log(e);
-        res.status(500).send("Create Fail");
+        // console.log(e);
+        return res.status(500).send("Create Fail");
     }
 }
 

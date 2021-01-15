@@ -2,8 +2,10 @@ const productService = require('../../models/services/productService')
 const brandService = require('../../models/services/brandService')
 const sizeService = require('../../models/services/sizeService')
 const commentService = require("../../models/services/commentService");
+const ratingService = require("../../models/services/ratingService");
 const {getProductRelated} = require("../../models/services/productService");
-
+const {client } = require('../../../config/redis');
+const getCache = require('../../../config/redis');
 /**
  *
  * @param req => req.query = {
@@ -18,7 +20,7 @@ const {getProductRelated} = require("../../models/services/productService");
  */
 module.exports.getProducts = async (req, res, next) => {
     try{
-        let limit = 12;
+        let limit = 24;
         let page = req.query.page ? +req.query.page : 1;
 
 
@@ -30,6 +32,7 @@ module.exports.getProducts = async (req, res, next) => {
 
         let numOfPage;
         let currentPage = page;
+
         const {products, count} = await productService.queryByFilter(page, limit, brandURL, discount, keyword, range,orderBy);
 
         numOfPage = Math.round(count / limit);
@@ -93,7 +96,7 @@ module.exports.getProductRelatedController = async (req, res, next) => {
         let brandID = req.query.brandID;
         let price = req.query.price;
 
-        console.log(req.query)
+        // console.log(req.query)
         const result = await getProductRelated(categoryID, brandID, price);
 
         res.json(result)
@@ -119,29 +122,55 @@ module.exports.getBrands = async (req, res,next) => {
 module.exports.saveCommentController = async (req, res) => {
     let productid = req.body.productID;
     let commentGuest = JSON.parse(req.body.comment);
-    console.log(req.body)
-    console.log(commentGuest)
+    // console.log(req.body)
+    // console.log(commentGuest)
 
     try {
         await commentService.saveComment(productid, commentGuest);
         res.status(201).send()
     } catch (e) {
-        console.log(e);
+        // console.log(e);
         res.status(500).send();
     }
 
 }
 
+
 module.exports.getComments = async (req, res) => {
 
     try {
         const prodID = req.params.product_id;
-        console.log(req.user)
         let comments = await commentService.getComment(prodID);
         res.json(comments);
     } catch (e) {
-        console.log(e)
+        // console.log(e)
         res.status(500);
+    }
+}
+
+module.exports.saveRatingController = async (req,res)=>{
+    const rating = JSON.parse(req.body.rating);
+    const user_id = req.user._id;
+    // console.log(rating)
+    try{
+        await ratingService.saveRating(user_id, rating);
+        res.status(201).send("Rating successfully")
+    }catch (e) {
+        // console.log(e)
+        res.status(500).send("Rating fail");
+    }
+}
+module.exports.getReview = async (req, res) => {
+
+    try {
+        const prodID = req.params.product_id;
+        const page = req.query.page?req.query.page:1;
+        let reviews = await ratingService.getReviews(prodID,page);
+
+        res.json(reviews);
+    } catch (e) {
+        // console.log(e)
+        res.status(500).send("Get review fail");
     }
 }
 
@@ -155,23 +184,9 @@ module.exports.updateQtyController = async (req, res)=>{
         res.status(203).send()
     }
     catch (e) {
-        console.log(e)
+        // console.log(e)
         res.status(500).send()
     }
 
 }
-module.exports.test = async (req, res)=>{
-    try{
-        const productID = req.query.product_id;
-        const size_id = req.query.size_id;
-        const qty = req.query.qty;
-        const result = await productService.decreaseProductRemain(productID,size_id,qty);
 
-        res.json(result)
-    }
-    catch (e) {
-        console.log(e)
-        res.status(500).send()
-    }
-
-}

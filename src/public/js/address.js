@@ -6,52 +6,56 @@ class Addresses {
     }
 
     renderOptionsAddress() {
-        $('#address-select').html(this.data.reduce((acc, dat) => acc + `<option value="${dat._id}">${dat.note}</option>`, ''))
+        $('#select-address-delivery').html(this.data.reduce((acc, dat) => acc + `
+            <option value="${dat._id}">
+                ${dat.address_text}</option>
+            `, ''))
         if (this.data.length > 0) {
-            if(!this.currentSelected){
+            if (!this.currentSelected) {
                 this.renderAddressSideBar(0);
-            }else{
+            } else {
                 this.renderAddressSideBar(this.currentSelected);
             }
         }
-        $('#address-select').change(()=>{
-            const index = this.data.findIndex( option=>option._id === $('#address-select').val());
+        $('.select-container').change(() => {
+            const index = this.data.findIndex(option => option._id === $('#select-address-delivery').val());
             this.currentSelected = index;
             this.renderAddressSideBar(index);
         });
 
     }
 
-    renderAddressSideBar(position){
+    renderAddressSideBar(position) {
+        let selectProduct = this.data[position];
         $('#user-shipping-address').html(
             `
-                <h4 class="w-100 text-center py-3 px-5 mb-3 bg-success" style="color: white">
+                <h4 class="w-100 text-center py-3 px-5 mb-3  card-address-title" style="color: white">
                             Your address list</h4>
                <div class="d-flex my-2  px-4 align-items-baseline">
                     <h5>Receiver's name: </h5>
                     <div style="flex:1;"></div>
-                    <h5>${this.data[position].full_name}</h5>
+                    <h5>${selectProduct['full_name']}</h5>
                 </div>
                 <div class="d-flex my-2  px-4">
                     <h5>Ward: </h5>
                     <div style="flex:1;"></div>
-                    <h5>${this.data[position].ward}</h5>
+                    <h5>${selectProduct['ward']}</h5>
                 </div>
                 <div class="d-flex my-2  px-4">
                     <h5>District: </h5>
                     <div style="flex:1;"></div>
-                    <h5>${this.data[position].district}</h5>
+                    <h5>${selectProduct['district']}</h5>
                 </div>
                 <div class="d-flex my-2  px-4">
                     <h5>Province: </h5>
                     <div style="flex:1;"></div>
-                    <h5>${this.data[position].province}</h5>
+                    <h5>${selectProduct['province']}</h5>
                 </div>
 
                 <div class="d-flex my-2  px-4">
                     <h5>Address: </h5>
                     <div style="flex:1;"></div>
-                    <h5>${this.data[position].note}</h5>
+                    <h5>${selectProduct['address_text']}</h5>
                 </div>
             `
         )
@@ -97,30 +101,57 @@ $(window).ready(function () {
         const data = {
             "phoneNumber": $('#phoneNumber').val(),
             "fullName": $("#fullName").val(),
-            "note": $("#address").val(),
+            "address_text": $("#address").val(),
+            "note": $("#note").val(),
             "userID": $("#userID").val(),
             "provinceID": $("#provinceOrCity").val(),
             "districtID": $("#district").val(),
-            "wardID": $('#ward').val()
+            "wardID": $('#ward').val(),
+
         };
         const settings = {
             "url": "/api/address/save-address",
             "method": "POST",
             type: "application/json",
-            data
+            data,
+            success: function () {
+                showMessage('Added an address', false);
+                addresses.renderOptionsAddress();
+            },
+            error: function () {
+                showMessage('Added address fail', true)
+            }
 
         };
+        $.ajax(settings);
 
-        $.ajax(settings).done(function (response) {
-           addresses.updateData();
-        });
     })
-
 
 });
 
 //address-select
 //user-shipping-address
+
+function showMessage(message, error = true) {
+    $('#message').show();
+
+    if (error) {
+        $('#message').addClass('alert-danger')
+            .html(message);
+    } else {
+        $('#message').addClass('alert-success')
+            .html(message);
+    }
+
+    setTimeout(() => {
+        $('#message')
+            .hide()
+            .removeClass('alert-danger')
+            .removeClass('alert-success')
+            .html()
+        ;
+    }, 1500)
+}
 
 function fetchData(URL) {
     return fetch(URL).then(result => result.json());

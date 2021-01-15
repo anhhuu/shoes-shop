@@ -4,10 +4,11 @@
 <link rel="stylesheet" href="/css/profile.css">
 <link rel="stylesheet" href="/crop/croppie.css">
 
+
 <div id="root-layout-container">
     <div class="row">
         <!--    User profile Dash board-->
-        <div class="col-md-9  py-5">
+        <div class="col-lg-8 col-md-12  py-5">
             <div id="user-info">
                 <div class="card ml-auto" style="width: 95%;">
                     <!--                //Card header-->
@@ -52,20 +53,23 @@
                                    value="<%= user && user.address %>"
                                    class="form-control form-control-alternative">
                             <div id="update-button-container" class="py-3 w-100">
-                                <div class="w-100">
+                                <div class="w-100" id="password-form">
                                     <div class="form-group d-block w-100">
                                         <label for="password">Password</label>
-                                        <input type="password" class="form-control" id="password" placeholder="Password">
+                                        <input type="password" class="form-control" id="password"
+                                               placeholder="Password">
                                     </div>
                                     <div class="form-group d-block w-100">
                                         <label for="retype-password">Retype password</label>
-                                        <input type="password" class="form-control" id="retype-password" placeholder="Retype password">
+                                        <input type="password" class="form-control" id="retype-password"
+                                               placeholder="Retype password">
                                         <small class="text-danger w-100" id="error-msg"></small>
                                     </div>
                                     <div id='password-error-alert' class="alert alert-danger" role="alert">
                                     </div>
                                 </div>
-                                <button id="btn-update-profile" class="btn btn-primary ml-auto">Update your profile</button>
+                                <button id="btn-update-profile" class="btn btn-primary ml-auto">Update your profile
+                                </button>
                             </div>
                         </div>
 
@@ -73,48 +77,52 @@
 
                     <hr>
                     <div id="user-shipping-address-section" class="p-4">
-                        <h4 class="w-100 text-center py-3 px-5 mb-3 card-header" style="color: black">Your address list</h4>
+                        <h4 class="w-100 text-center py-3 px-5 mb-3 card-header" style="color: black">Your address
+                            list</h4>
                         <% if(options.addresses.length > 0){ %>
                             <% options.addresses.forEach(address=>{ %>
-                                <div class="card">
-                                    <div id="user-shipping-address">
-                                        <div class="d-flex my-2  px-4">
-                                            <h5>Receiver's name: </h5>
-                                            <div style="flex:1;"></div>
-                                            <h5><%= address.full_name %></h5>
-                                        </div>
-                                        <div class="d-flex my-2  px-4">
-                                            <h5>Ward: </h5>
-                                            <div style="flex:1;"></div>
-                                            <h5><%= address.ward %></h5>
-                                        </div>
-                                        <div class="d-flex my-2  px-4">
-                                            <h5>District: </h5>
-                                            <div style="flex:1;"></div>
-                                            <h5><%= address.district %></h5>
-                                        </div>
-                                        <div class="d-flex my-2  px-4">
-                                            <h5>Province: </h5>
-                                            <div style="flex:1;"></div>
-                                            <h5><%= address.province %></h5>
-                                        </div>
+                            <% if(!address.isDeleted){ %>
+                            <div class="card" id="<%= address._id %>">
 
-                                        <div class="d-flex my-2  px-4">
-                                            <h5>Address: </h5>
-                                            <div style="flex:1;"></div>
-                                            <h5><%= address.note %></h5>
-                                        </div>
-                                        <div class="custom-form p-2">
-                                            <input type="hidden" value="<%= address._id %>">
-                                            <button class="btn btn-danger fa fa-trash w-100"  ></button>
-                                        </div>
+                                <div id="user-shipping-address">
+                                    <div class="d-flex my-2  px-4">
+                                        <h5>Receiver's name: </h5>
+                                        <div style="flex:1;"></div>
+                                        <h5><%= address.full_name %></h5>
+                                    </div>
+                                    <div class="d-flex my-2  px-4">
+                                        <h5>Ward: </h5>
+                                        <div style="flex:1;"></div>
+                                        <h5><%= address.ward %></h5>
+                                    </div>
+                                    <div class="d-flex my-2  px-4">
+                                        <h5>District: </h5>
+                                        <div style="flex:1;"></div>
+                                        <h5><%= address.district %></h5>
+                                    </div>
+                                    <div class="d-flex my-2  px-4">
+                                        <h5>Province: </h5>
+                                        <div style="flex:1;"></div>
+                                        <h5><%= address.province %></h5>
+                                    </div>
+
+                                    <div class="d-flex my-2  px-4">
+                                        <h5>Address: </h5>
+                                        <div style="flex:1;"></div>
+                                        <h5><%= address.note %></h5>
+                                    </div>
+                                    <div class="custom-form p-2">
+                                        <input type="hidden" value="<%= address._id %>">
+                                        <button class="btn btn-danger fa fa-trash w-100"></button>
                                     </div>
                                 </div>
+                            </div>
+                            <% } %>
                             <% }) %>
                         <% }else{ %>
-                                <div class="alert alert-info" role="alert">
-                                    There no addresses added
-                                </div>
+                            <div class="alert alert-info" role="alert">
+                                There no addresses added
+                            </div>
                         <% } %>
                     </div>
                 </div>
@@ -128,7 +136,7 @@
             <div class="card">
                 <div class="d-flex justify-content-center" id="user-avatar-container">
                     <img class="img-user-avt" id="avt"
-                         src=<%= user && user.avatar_image_url !== '' ? user.avatar_image_url : "/images/avatar.png" %>
+                         src="<%= user && user.avatar_image_url !== '' ? user.avatar_image_url : "/images/avatar.png" %>"
                          alt="user-avt">
                 </div>
 
@@ -140,11 +148,13 @@
                             </div>
 
                             <div class="dropzone">
-                                <img src="http://100dayscss.com/codepen/upload.svg" class="upload-icon"/>
+                                <img src="http://100dayscss.com/codepen/upload.svg" class="upload-icon"
+                                     alt="upload img"/>
                                 <input type="file" name="avatar" class="upload-input" id="upload-input"/>
                             </div>
 
-                            <button type=submit class="btn btn-primary" name="uploadbutton">Upload file</button>
+                            <button type=submit class="btn btn-primary" name="uploadbutton" disabled>Upload file
+                            </button>
                             <span class="text-danger" id="upload-message"></span>
                         </div>
                     </div>
@@ -154,14 +164,14 @@
         </div>
     </div>
 
-    <div class="modal fade" id="alert-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="alert-modal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Message</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Modal</h4>
                 </div>
                 <div class="modal-body">
                     Can not delete this address
@@ -172,11 +182,12 @@
             </div>
         </div>
     </div>
-    <div class="modal " id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal " id="myModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">User avatar preview</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="exit-button">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -188,7 +199,8 @@
                 </div>
                 <div class="modal-footer">
                     <button id="crop-image" class="btn btn-primary text-center ">Crop</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-close-preview">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-close-preview">Close
+                    </button>
                 </div>
             </div>
         </div>

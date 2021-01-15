@@ -3,16 +3,10 @@ const productMongooseModel = require('../mongooseModels/productMongooseModel');
 const { mongooseToObject } = require('../../../utils/mongooseToObject');
 const { multipleMongooseToObject } = require('../../../utils/mongooseToObject');
 const brandService = require('./brandService');
-const mongoose = require('mongoose')
 
 module.exports.getByID = async(id) => {
     try {
-        let product = await productMongooseModel.findOne({ _id: id });
-        if (product) {
-            product = mongooseToObject(product);
-        }
-
-        return product;
+        return await productMongooseModel.findOne({ _id: id }).lean();
     } catch (error) {
         throw error;
     }
@@ -22,10 +16,9 @@ module.exports.getByID = async(id) => {
 module.exports.getByURL = async(product_url) => {
     try {
         let product = await productMongooseModel.findOne({ product_url: product_url });
-        if (product) {
-            product = mongooseToObject(product);
-        }
 
+        product.views += 1;
+        await product.save();
         return product;
     } catch (error) {
         throw error;
@@ -42,7 +35,7 @@ module.exports.getList = async(page, limit) => {
             limit = 12;
         }
 
-        let products = await productMongooseModel.find().skip(limit * page - limit)
+        let products = await productMongooseModel.find({ is_deleted: false }).skip(limit * page - limit)
             .limit(limit);
         if (products.length) {
             products = multipleMongooseToObject(products);
@@ -64,12 +57,11 @@ module.exports.searchByName = async(page, limit, keyword) => {
             limit = 12;
         }
 
-        let products = await productMongooseModel.find({ $text: { $search: keyword } }).skip(limit * page - limit)
-            .limit(limit);
-        if (products.length) {
-            products = multipleMongooseToObject(products);
-        }
-        return products;
+        return await productMongooseModel.find({
+                $text: { $search: keyword },
+                is_deleted: false
+            }).skip(limit * page - limit)
+            .limit(limit).lean();
 
     } catch (error) {
         throw error;
@@ -86,12 +78,9 @@ module.exports.getListByBrandID = async(page, limit, brand_id) => {
         if (!limit) {
             limit = 12;
         }
-        let products = await productMongooseModel.find({ brand_id: brand_id }).skip(limit * page - limit)
-            .limit(limit);
-        if (products.length) {
-            products = multipleMongooseToObject(products);
-        }
-        return products;
+        return await productMongooseModel
+            .find({ brand_id: brand_id, is_deleted: false }).skip(limit * page - limit)
+            .limit(limit).lean();
 
     } catch (error) {
         throw error;
@@ -100,8 +89,7 @@ module.exports.getListByBrandID = async(page, limit, brand_id) => {
 
 module.exports.count = async() => {
     try {
-        let count = await productMongooseModel.countDocuments();
-        return count;
+        return await productMongooseModel.countDocuments({ is_deleted: false });
     } catch (error) {
         throw error;
     }
@@ -109,8 +97,7 @@ module.exports.count = async() => {
 
 module.exports.countSearchByName = async(keyword) => {
     try {
-        let count = await productMongooseModel.countDocuments({ $text: { $search: keyword } });
-        return count;
+        return await productMongooseModel.countDocuments({ $text: { $search: keyword }, is_deleted: false });
     } catch (error) {
         throw error;
     }
@@ -118,8 +105,7 @@ module.exports.countSearchByName = async(keyword) => {
 
 module.exports.countByBrandID = async(brand_id) => {
     try {
-        let count = await productMongooseModel.countDocuments({ brand_id: brand_id });
-        return count;
+        return await productMongooseModel.countDocuments({ brand_id: brand_id, is_deleted: false });
     } catch (error) {
         throw error;
     }
@@ -151,6 +137,7 @@ module.exports.save = async(productObject) => {
     } catch (error) {
         throw error;
     }
+
 }
 
 module.exports.queryByFilter = async(page, limit, brandURL, discount, keyword, range, orderBy) => {
@@ -174,7 +161,7 @@ module.exports.queryByFilter = async(page, limit, brandURL, discount, keyword, r
         let brandID;
         try {
             brandID = (await brandService.getByURL(brandURL))._id;
-            console.log(brandID);
+            // console.log(brandID);
         } catch (e) {
 
         }
@@ -182,11 +169,14 @@ module.exports.queryByFilter = async(page, limit, brandURL, discount, keyword, r
         const [start, end] = range.length === 2 ? range : [null, null];
 
 
-        let countQuery = productMongooseModel.find(keyword ? { $text: { $search: keyword } } : {})
+        let countQuery = productMongooseModel
+            .find({ is_deleted: false })
+            .find(keyword ? { $text: { $search: keyword } } : {})
             .find(brandID ? { brand_id: brandID } : {})
             .find(discountConditions && discountConditions.length > 0 ? { $or: discountConditions } : {})
 
         let productsQuery = productMongooseModel
+            .find({ is_deleted: false })
             .find(keyword ? { $text: { $search: keyword } } : {})
             .find(brandID ? { brand_id: brandID } : {})
             .find(discountConditions && discountConditions.length > 0 ? { $or: discountConditions } : {});
@@ -246,6 +236,7 @@ module.exports.getProductRelated = async(categoryID, brandID, price) => {
         let priceUpTo = +price + 500000;
         let productRelated = await productMongooseModel.find({
             $and: [
+                { is_deleted: false },
                 { brand_id: brandID },
                 { category_id: categoryID },
                 { "price.price_value": { $gte: priceDownTo, $lte: priceUpTo } }
@@ -261,45 +252,51 @@ module.exports.getProductRelated = async(categoryID, brandID, price) => {
 
 module.exports.decreaseProductRemain = async(productID, sizes) => {
     try {
-
-
+        let isSuccessfully = true
         const updateRemain = await productMongooseModel.findOne({ _id: productID }).lean();
 
         let product_detail = updateRemain.product_detail;
-
 
         product_detail = product_detail.map(size => {
             const index = sizes.findIndex(item => size.size_id.toString() === item.size_id);
 
             if (index >= 0) {
                 size.remaining_amount -= +sizes[index].qty;
+                if (size.remaining_amount < 0) {
+                    isSuccessfully = false;
+                }
+
             }
-            console.log(size)
+            // console.log(size)
             return size;
         });
 
-        const result = await productMongooseModel.findOneAndUpdate({ _id: productID }, {
-            product_detail
-        })
-
-
-        //     }
-        // })
-        return result
-
+        if (isSuccessfully) {
+            const result = await productMongooseModel.findOneAndUpdate({ _id: productID }, {
+                product_detail
+            })
+            return result
+        } else {
+            const result = { message: "Not enough product in stock" };
+            return result
+        }
 
     } catch (e) {
-        console.log(e)
+        throw error;
     }
 }
 module.exports.getBestSellerProducts = () => {
-    //TODO:
-    return this.getList(1, 12);
+    return productMongooseModel.find({ is_deleted: false })
+        .sort({
+            purchase_count: -1
+        }).limit(12).lean();
 }
 
 module.exports.getNewProducts = (page, limit) => {
     return productMongooseModel
-        .find({})
+        .find({
+            is_deleted: false
+        })
         .sort({ createdAt: -1 })
         .skip((page - 1) * limit)
         .limit(limit)
@@ -308,7 +305,9 @@ module.exports.getNewProducts = (page, limit) => {
 
 module.exports.getProductsOnSale = (page, limit) => {
     return productMongooseModel
-        .find({})
+        .find({
+            is_deleted: false
+        })
         .sort({ discount: -1 })
         .skip((page - 1) * limit)
         .limit(limit)

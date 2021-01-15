@@ -10,15 +10,14 @@ const  upload = multer({
 
 
 //[GET] /api/users
-router.get('/profile', userController.getUserProfile);
+router.get('/image',userController.getImage)
+router.get('/profile',protect, userController.getUserProfile);
 
 router.post('/upload',protect,upload.single('avatar'),userController.uploadAvatar);
-
-router.put('/update-profile',userController.updateProfile);
+router.put('/update-profile',protect, userController.updateProfile);
 router.get('/invoices', protect,userController.getInvoices);
-
 router.post('/update-avatar-image-url', protect, userController.updateUserAvatar);
-
 router.get('/invoices/:id', protect,userController.getInvoice);
 router.put('/invoices/:id/delete',  protect,userController.deleteInvoice)
+
 module.exports = router;

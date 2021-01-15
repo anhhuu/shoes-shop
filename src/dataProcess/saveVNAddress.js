@@ -35,7 +35,7 @@ saveData = async() => {
             }))
         }))
     }));
-    console.log('DONE!!!');
+    // console.log('DONE!!!');
 }
 
 const db = require('../config/db');

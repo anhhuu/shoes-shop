@@ -167,7 +167,7 @@ body {
 	flex-wrap: wrap;
 	width: 100vw;
 	position: absolute;
-	top: 5%;
+	top: 2%;
 	align-items: center;
 	justify-content: space-around;
 	z-index: 9999;
@@ -180,7 +180,7 @@ body {
 }
 .logo{
 	position: absolute;
-	top: 5%;
+	top: 1%;
 	left: 2%;
 	z-index: 9999;
 }
@@ -194,5 +194,14 @@ body {
 	}
 }
 .dropdown{
-	background-color:rgba(27, 25, 25, 0.27);;
+	/*background-color:rgba(27, 25, 25, 0.27);*/
+}
+.nav-menu .dropdown-toggle:after{
+    border: 0;
+}
+.container.overlay-open::after{
+	visibility: hidden;
+}
+a.dropdown-item:hover{
+	background-color: #ec4c4c !important;
 }

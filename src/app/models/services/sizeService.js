@@ -1,11 +1,11 @@
-const { Schema } = require('mongoose');
+const {Schema} = require('mongoose');
 
 const sizeMongooseModel = require('../mongooseModels/sizeMongooseModel');
-const { mongooseToObject } = require('../../../utils/mongooseToObject')
+const {mongooseToObject} = require('../../../utils/mongooseToObject')
 
-module.exports.getByID = async(id) => {
+module.exports.getByID = async (id) => {
     try {
-        let size = await sizeMongooseModel.findOne({ _id: id });
+        let size = await sizeMongooseModel.findOne({_id: id,});
         if (size) {
             size = mongooseToObject(size);
         }
@@ -16,9 +16,9 @@ module.exports.getByID = async(id) => {
     }
 }
 
-module.exports.getByVNSize = async(VNSize) => {
+module.exports.getByVNSize = async (VNSize) => {
     try {
-        let size = await sizeMongooseModel.findOne({ VN_size: VNSize });
+        let size = await sizeMongooseModel.findOne({VN_size: VNSize});
         if (size) {
             size = mongooseToObject(size);
         }
@@ -29,9 +29,9 @@ module.exports.getByVNSize = async(VNSize) => {
     }
 }
 
-module.exports.getByVNSizeAndBrandID = async(VNSize, brand_id) => {
+module.exports.getByVNSizeAndBrandID = async (VNSize, brand_id) => {
     try {
-        let size = await sizeMongooseModel.findOne({ VN_size: VNSize, brand_id: brand_id });
+        let size = await sizeMongooseModel.findOne({VN_size: VNSize, brand_id: brand_id});
         if (size) {
             size = mongooseToObject(size);
         }
@@ -42,7 +42,7 @@ module.exports.getByVNSizeAndBrandID = async(VNSize, brand_id) => {
     }
 }
 
-module.exports.save = async(sizeObject) => {
+module.exports.save = async (sizeObject) => {
     try {
         let size = new sizeMongooseModel({
             text: sizeObject.text,

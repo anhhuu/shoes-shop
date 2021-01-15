@@ -21,7 +21,10 @@ const Product = new Schema({
     views: { type: Number },
     purchase_count: { type: Number },
     brand_id: { type: Schema.Types.ObjectId, ref: "Brand" },
-    category_id: { type: Schema.Types.ObjectId, ref: "Category" }
+    category_id: { type: Schema.Types.ObjectId, ref: "Category" },
+    views: { type: Number, default: 0 },
+    purchase_count: { type: Number, default: 0 },
+    rating_avg: { type: Number, default: 0 }
 }, {
     timestamps: true,
 });

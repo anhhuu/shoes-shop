@@ -48,7 +48,10 @@ module.exports.uploadAvatar = async(req, res, next) => {
 
 module.exports.getInvoices = async (req, res) =>{
     try {
-        let invoices = await invoiceService.getInvoices(req.user._id);
+        const page = req.query.page || 1;
+        const limit = req.query.limit || 1;
+        let invoices = await invoiceService.getInvoices(req.user._id, page, +limit);
+        const pages = invoices.pages;
         const promises = invoices.map(invoice => {
             return addressService.getAddressByID(invoice.address_info_id)
         });
@@ -64,22 +67,24 @@ module.exports.getInvoices = async (req, res) =>{
 
 
         const addresses = await Promise.all(promises);
+
         invoices = invoices.map((val, index) => {
             return {
                 ...val,
                 address_text: addresses[index].address_text,
             }
         });
-        console.log('---------------');
-        console.log(invoices);
-        console.log('---------------');
-        res.json(invoices)
+
+        let result ={};
+        result.invoices = invoices;
+        result.pages = pages;
+        res.json(result)
     }catch (e) {
-        console.log(e)
+        // console.log(e)
         res.send("Get invoices fails")
     }
 }
-module.exports.getInvoice = async (req, res) =>{
+module.exports.getInvoice = async (req, res,next) =>{
     try{
         const invoiceID =req.params.id;
         const user_id = req.query.user_id;
@@ -97,18 +102,18 @@ module.exports.getInvoice = async (req, res) =>{
         product_detail.push(product)
 
         invoice.invoice_items=product_detail
-        console.log(invoice)
+
         res.json(invoice)
     }catch (e) {
-        console.log(e)
+        // console.log(e)
+        next('Cannot get invoice');
     }
 }
-
 
 module.exports.updateProfile = async(req, res) => {
 
     const { email, first_name, last_name, password, avatar_image_url, phone_number, address } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
     try {
         const result = await updateUserProfile(last_name, first_name, email, phone_number, password, address, avatar_image_url)
@@ -138,7 +143,17 @@ module.exports.deleteInvoice = async (req, res)=>{
         const delInvoice = await invoiceService.deleteInvoice(req.user._id,invoiceID)
         res.status(205).send("Delete is successfully");
     }catch (e) {
-        console.log(e);
+        // console.log(e);
         res.status(500).send("Delete is fail");
+    }
+}
+module.exports.getImage = async (req, res)=>{
+
+    try{
+        const img = req.user.avatar_image_url;
+        res.json({img}).send("Get image success")
+    }catch (e) {
+        // console.log(e);
+        res.status(500).send("Get image is fail");
     }
 }

@@ -20,16 +20,16 @@ module.exports.postNewAddress = async (userid, addressInfo) => {
 
 
     } catch (e) {
-        console.log(e)
+        throw e
     }
 }
 
 module.exports.getAddress = async (userid)=>{
     try{
-        const addressDelivery = addressMongooseModel.find({user_id:userid});
+        const addressDelivery = addressMongooseModel.find({user_id:userid, isDeleted: false});
         return addressDelivery;
     }catch (e) {
-        console.log(e)
+        throw e
     }
 }
 
@@ -39,13 +39,12 @@ module.exports.getAddressByID = async (addrID)=>{
         const addressDelivery = addressMongooseModel.findById(addrID);
         return addressDelivery;
     }catch (e) {
-        console.log(e)
+        throw e
     }
 }
 module.exports.getAllFullAddressesByUserID = async (userID) => {
     try{
-        // let addresses = await addressMongooseModel.find({user_id: userID, isDeleted: false}).lean()
-        let addresses = await addressMongooseModel.find({user_id: userID,}).lean()
+        let addresses = await addressMongooseModel.find({user_id: userID, isDeleted: false}).lean()
         let provinces = addresses.map(address => provinceService.getProvinceByID(address.province_id));
         let districts = addresses.map(address => districtService.getDistrictByID(address.district_id));
         let wards = addresses.map(address => wardService.getWardByID(address.ward_id));
@@ -69,3 +68,35 @@ module.exports.getAllFullAddressesByUserID = async (userID) => {
 
 }
 
+
+module.exports.save = async (phoneNumber, fullName,  note, userID, provinceID, districtID, wardID) => {
+    try {
+        const provinceName = (await provinceService.getProvinceByID(provinceID)).name;
+        const districtName = (await districtService.getDistrictByID(districtID)).name;
+        const wardName = (await wardService.getWardByID(wardID)).name;
+
+        const addressText = `${wardName}, ${districtName}, ${provinceName}`;
+
+        return addressMongooseModel.create({
+            phone_number: phoneNumber,
+            full_name: fullName,
+            address_text: addressText,
+            note,
+            user_id: userID,
+            province_id: provinceID,
+            district_id: districtID,
+            ward_id: wardID
+        });
+    } catch (e) {
+        throw e;
+    }
+
+}
+
+
+
+module.exports.deleteAnAddress = (id)=>{
+    return addressMongooseModel.findOneAndUpdate({_id: id},{
+        isDeleted: true
+    });
+}

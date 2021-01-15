@@ -2,7 +2,6 @@
     display: grid;
     width: 100vw;
     grid-template-columns: 1fr;
-    grid-template-rows:  repeat(4, auto) minmax(200px, 300px) minmax(400px, 500px);
     grid-template-areas:"best-seller"
                         "new-product"
                         "flash-sell"
@@ -41,7 +40,7 @@
     grid-gap: 15px;
     grid-auto-rows: minmax(500px, 1fr);
     width: 90%;
-    margin:  10px auto ;
+    margin: 10px auto;
 
 }
 
@@ -122,19 +121,20 @@
 
 .home-page-carousel-container:hover .img-overlay1 {
     opacity: 1;
-    transform: rotate3d(0,0.5,0,180deg);
+    transform: rotate3d(0, 0.5, 0, 180deg);
 }
 
- .product-image:hover .img-overlay{
+.product-image:hover .img-overlay {
     opacity: 1;
-    transform: rotate3d(0,0.5,0,180deg);
+    transform: rotate3d(0, 0.5, 0, 180deg);
 }
 
- .home-page-carousel-container:hover #shop-now-btn{
-    transform: rotate3d(0,0.5,0,180deg);
+.home-page-carousel-container:hover #shop-now-btn {
+    transform: rotate3d(0, 0.5, 0, 180deg);
 }
 
-.img-overlay, .img-overlay1{
+
+.img-overlay, .img-overlay1 {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -144,28 +144,58 @@
     width: 100%;
     opacity: 0;
     transition: .5s ease;
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0, 0, 0, 0.1);
 
 }
 
-#text-product-price{
+
+#text-product-price {
     color: #4dc2f8;
 }
 
-.home-page-carousel-container{
+.home-page-carousel-container {
     height: 750px;
 }
 
-.item{
+
+.item {
     height: 200px;
 }
 
-#carousel-brand img{
+#carousel-brand img {
+    width: 300px;
     height: 200px;
+    cursor: pointer;
 }
 
-#carousel-brand{
-    width: 70vw;
+#carousel-brand {
+    width: 800px;
     margin: 0 auto;
 
+}
+
+#multi-item-example {
+    background-color: #070202;
+}
+
+@media (max-width: 630px) {
+    #carousel-brand img {
+        width: 200px;
+        height: 100px;
+        cursor: pointer;
+    }
+
+    #carousel-brand {
+        width: 300px;
+        margin: 0 auto;
+
+    }
+    .img-overlay1{
+        display: flex;
+        align-items: flex-end !important;
+    }
+}
+
+.cross-through {
+    text-decoration: line-through #bd081c;
 }

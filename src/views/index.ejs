@@ -1,16 +1,17 @@
 <!-- /girds_bottom-->
+
 <div class="grid-container">
     <div class="best-seller">
-        <%-include('./partials/productsHolder.ejs',{ products: options.best_seller_products, title: 'Best Seller' } )%>
+        <%- include('./partials/productsHolder.ejs',{ products: options.best_seller_products, title: 'Best Seller' } ) %>
     </div>
     <div class="new-product">
-        <%-include('./partials/productsHolder.ejs',{ products: options.new_products, title: 'New Products' } )%>
+        <%- include('./partials/productsHolder.ejs',{ products: options.new_products, title: 'New Products' } ) %>
     </div>
     <div class="flash-sell">
-        <%-include('./partials/productsHolder.ejs',{products: options.flash_sell_products, title: 'Flash Sell' } )%>
+        <%- include('./partials/productsHolder.ejs',{products: options.flash_sell_products, title: 'Flash Sell' } ) %>
     </div>
     <div class="brands-list-carousel">
-        <%-include('./partials/brandCarousel.ejs')%>
+        <%- include('./partials/brandCarousel.ejs') %>
     </div>
     <div class="home-page-footer">
         <%- include('./partials/footer.ejs') %>
@@ -18,4 +19,41 @@
 
 </div>
 
+<% if(user){ %>
+<% if(options.load_cart){ %>
 
+<input type="hidden" id="user-cart" value="<%= JSON.stringify(cart) %>">
+<script>
+    const cart = JSON.parse($('#user-cart').val()).cart.cart_detail;
+    $('#user-cart').remove();
+    let existedCart = window.localStorage.getItem("cart");
+    existedCart = JSON.parse(existedCart) || [];
+
+    let result = []
+    cart.map((dataCart) => {
+        let isHas = false;
+        existedCart.map(cartItems => {
+
+            if (dataCart.product._id === cartItems.product._id && dataCart.size._id === cartItems.size
+                ._id) {
+                cartItems.qty += +dataCart.qty;
+                isHas = true
+                result.push(cartItems)
+            }
+        })
+
+        if (!isHas) {
+            result.push({
+                product: dataCart.product,
+                size: dataCart.size,
+                qty: +dataCart.qty
+            });
+        }
+
+    })
+
+    window.localStorage.setItem("cart", JSON.stringify(result));
+    window.history.pushState("", "Home ", '/');
+</script>
+<% } %>
+<% } %>

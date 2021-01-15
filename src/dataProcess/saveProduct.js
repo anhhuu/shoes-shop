@@ -71,9 +71,9 @@ saveData = async() => {
         product.brand_id = brand._id;
 
         productService.save(product);
-        console.log('Running....' + Math.round((i + 1) / products.length * 100) + '%');
+        // console.log('Running....' + Math.round((i + 1) / products.length * 100) + '%');
     }
-    console.log('Done!!.......');
+    // console.log('Done!!.......');
 }
 
 const db = require('../config/db');

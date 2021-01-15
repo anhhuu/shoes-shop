@@ -1,17 +1,19 @@
-<h2 class="py-5 text-center " id="brands-title"><strong>List Brands</strong></h2>
-<div id="multi-item-example" class="carousel slide carousel-multi-item product-card " data-ride="carousel" data-interval="2000">
+<div id="multi-item-example" class="carousel slide carousel-multi-item product-card " data-ride="carousel"
+     data-interval="2000">
 
     <!--Slides-->
-    <div class="carousel-inner "  role="listbox" id="carousel-brand">
-        <% for(let i = 0; i < 2;i++){ %>
+    <div class="carousel-inner " role="listbox" id="carousel-brand">
+        <% for(let i = 0; i < options.brands.length/2;i+=2){ %>
             <% if(i === 0 ) { %>
-        <div class="carousel-item active mx-2">
+                <div class="carousel-item active mx-4 text-center pt-3">
             <% }else{ %>
-            <div class="carousel-item mx-2">
-                <% } %>
-                <% for(let j = 0;j < 4 && j< options.brands.length;j++){ %>
-                    <img src="<%= options.brands[j].image_url %>" alt="" onclick="window.location.href='/products'">
-
+            <div class="carousel-item mx-4 text-center pt-3">
+           <% } %>
+                <% for(let j = i * 2;j < ((i + 1) * 2) && j < options.brands.length;j++){ %>
+                    <img src="<%= options.brands[j].image_url %>" alt=""
+                         class="mx-3"
+                         onclick="window.location.href=`/products?brand=<%= options.brands[j].brand_url %>`"
+                    >
                 <% } %>
             </div>
             <% } %>
@@ -21,3 +23,13 @@
     </div>
 
 </div>
+<script>
+    $(window).resize(function () {
+        const width = $(window).width();
+        const height = $(window).height();
+
+        if (width <= 630) {
+
+        }
+    })
+</script>

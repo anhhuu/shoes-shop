@@ -66,7 +66,11 @@ jQuery(document).ready(function($){
 			$('.cd-search').toggleClass('is-visible');
 			$('.cd-search-trigger').toggleClass('search-is-visible');
 			$('.cd-overlay').toggleClass('search-is-visible');
-			if($(window).width() > MqL && $('.cd-search').hasClass('is-visible')) $('.cd-search').find('input[type="search"]').focus();
+			if($(window)
+				.width() > MqL && $('.cd-search')
+				.hasClass('is-visible')) $('.cd-search')
+				.find('input[type="search"]')
+				.focus();
 			($('.cd-search').hasClass('is-visible')) ? $('.cd-overlay').addClass('is-visible') : $('.cd-overlay').removeClass('is-visible') ;
 		}
 	}
@@ -100,14 +104,12 @@ jQuery(document).ready(function($){
 
 	$('#cd-search').submit(function(e){
 		e.preventDefault();
-		const URL_SITE = window.location.href;
-
-		if(!URL_SITE.includes('products')){
-			//HOME PAGE
-			window.location.href += `products?keyword=${$('#cd-search input').val()}`
-		}else{
-
-		}
-
+		window.location.href += `products?keyword=${$('#cd-search input').val()}`
 	})
+
+	$(document).scroll(function (){
+		toggleSearch('close');
+	})
+
 });
+

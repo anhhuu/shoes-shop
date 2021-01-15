@@ -12,6 +12,8 @@ module.exports.getWards = async(district_id) => {
         const wards = await wardMongooseModel.find({ district_id: district_id });
         return wards
     } catch (e) {
-        console.log(e)
+        // console.log(e)
+        throw e;
     }
+
 }

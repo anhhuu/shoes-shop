@@ -3,7 +3,7 @@ $(document).ready(function (){
     const productID = $('[name="idProduct"]').val();
 
     $.get('/api/products/'+productID,function (data){
-        console.log(data)
+        // console.log(data)
         $.get('/api/products/product-related',{categoryID: data.product.category_id,
             brandID: data.product.brand_id,
             price: data.product.price.price_value},function (productsRelated){
@@ -23,7 +23,6 @@ $(document).ready(function (){
                 }
                 //content slider
                 for (let j=0; j<4 && typeof productsRelated[i*4+j] !=='undefined';j++){
-                    console.log(productsRelated[i*3+j])
                     html += `
                     <div class="col-md-3">
                         <div class="card mb-2">

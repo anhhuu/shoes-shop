@@ -1,6 +1,6 @@
 body a {
 	transition: 0.5s all;
-	-webkit-transition: 10s all;
+	-webkit-transition: 0.5s all;
 	-o-transition: 0.5s all;
 	-moz-transition: 0.5s all;
 	-ms-transition: 0.5s all;
@@ -66,11 +66,11 @@ td.invert-image a img {
 .close3 {
 	background: url('../images/close_1.jpg') no-repeat 0px 0px;
 	cursor: pointer;
-    width: 41px;
-    height: 39px;
-    position: absolute;
-    right: 36px;
-    top: -26px;
+	width: 41px;
+	height: 39px;
+	position: absolute;
+	right: 36px;
+	top: -26px;
 	-webkit-transition: color 0.2s ease-in-out;
 	-moz-transition: color 0.2s ease-in-out;
 	-o-transition: color 0.2s ease-in-out;
@@ -213,7 +213,7 @@ td.invert-image a img {
 }
 
 .checkout-right-basket a:hover {
-	    background: #fb383b;
+	background: #fb383b;
 }
 
 .checkout-right-basket a span {
@@ -547,9 +547,6 @@ select.form-control.option-w3ls {
 	margin-bottom: 10px;
 }
 
-.form-control {
-	border-radius: 0;
-}
 
 .btn-primary {
 	color: #fff;

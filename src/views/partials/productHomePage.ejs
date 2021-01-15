@@ -1,14 +1,16 @@
 <div class="product-container product-card">
     <% if(product.discount > 0){ %>
-    <div class="discount-label red text-center"><span><%= (product.discount * 100).toFixed(0) %>%</span></div>
+        <div class="discount-label red text-center"><span><%= (product.discount * 100).toFixed(0) %>%</span></div>
     <% } %>
     <div class="product-image">
         <img src="<%= product.image_show_url %>" alt="">
         <div class="img-overlay"></div>
     </div>
+
     <div class="product-information mt-5  d-flex justify-content-center  align-items-center flex-column">
-        <h5 class="my-3 text-center"><%= product.brand_id %></h5>
-        <h4 class="my-3 text-center text-danger w-100" style="overflow: hidden;text-overflow: ellipsis;"><%= product.name %></h4>
+<!--        <h5 class="my-3 text-center"><%= product.brand_id %></h5>-->
+        <h4 class="my-3 text-center text-danger w-100"
+            style="overflow: hidden;text-overflow: ellipsis;"><%= product.name %></h4>
         <div class="my-3">
             <span class="fa fa-star checked text-success"></span>
             <span class="fa fa-star checked text-success"></span>
@@ -16,7 +18,16 @@
             <span class="fa fa-star"></span>
             <span class="fa fa-star"></span>
         </div>
-        <h3 id="text-product-price"><%= product.price.string_price %></h3>
+        <h4 id="text-product-price"
+            class="<%= product.discount > 0 ? 'cross-through mb-3' : '' %>"><%= product.price.string_price %></h4>
+        <% if(product.discount > 0){ %>
+            <% let formated = Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(product.price.price_value * (1-+product.discount))
+            %>
+            <h3 id="text-product-price"><%= formated.slice(0, formated.length - 1) %> <span>&#8363;</span></h3>
+        <% } %>
         <button id="btn-see-more" class="btn btn-primary py-3 px-5 align-self-end"
                 onclick="window.location.href = `/products/${'<%= product.product_url %>'}`"
         >See more
