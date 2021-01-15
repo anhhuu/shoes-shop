@@ -33,11 +33,15 @@
         </div>
         <%- include('./searchBar.ejs') %>
         <% if(user){ %>
+
             <div class="dropdown mobile-nav-button user-avatar" >
                 <a class="dropdown-toggle" type="button" id="dropdownMenuButton"
                    data-bs-toggle="dropdown" aria-expanded="false" >
-                    <span style="color: white"><i class= "" aria-hidden="true">
-                            <img src="<%=user.avatar_image_url%>" alt="" width="36" height="36">
+                    <span style="color: white"><i aria-hidden="true">
+                            <img src="<%=!user.avatar_image_url?'/image/b1.png':user.avatar_image_url%>" style="width:36px; height: 36px"  alt="">
+                            <%if(!user.avatar_image_url){%>
+                                <span class="fa fas-user"/>
+                            <%}%>
                         </i></span>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">

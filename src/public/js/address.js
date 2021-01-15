@@ -115,10 +115,11 @@ $(window).ready(function () {
             type: "application/json",
             data,
             success: function () {
-
+                showMessage('Added an address', false);
+                addresses.renderOptionsAddress();
             },
             error: function () {
-                showMessage('Added an address', true)
+                showMessage('Added address fail', true)
             }
 
         };
@@ -144,10 +145,11 @@ function showMessage(message, error = true) {
 
     setTimeout(() => {
         $('#message')
-            .html()
             .hide()
             .removeClass('alert-danger')
-            .removeClass('alert-success');
+            .removeClass('alert-success')
+            .html()
+        ;
     }, 1500)
 }
 
