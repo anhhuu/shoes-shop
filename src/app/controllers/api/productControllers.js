@@ -3,8 +3,8 @@ const brandService = require('../../models/services/brandService')
 const sizeService = require('../../models/services/sizeService')
 const commentService = require("../../models/services/commentService");
 const ratingService = require("../../models/services/ratingService");
-const {getProductRelated} = require("../../models/services/productService");
-const {client } = require('../../../config/redis');
+const { getProductRelated } = require("../../models/services/productService");
+const { client } = require('../../../config/redis');
 const getCache = require('../../../config/redis');
 /**
  *
@@ -18,8 +18,8 @@ const getCache = require('../../../config/redis');
  * @param next
  * @returns {Promise<void>}
  */
-module.exports.getProducts = async (req, res, next) => {
-    try{
+module.exports.getProducts = async(req, res, next) => {
+    try {
         let limit = 24;
         let page = req.query.page ? +req.query.page : 1;
 
@@ -33,7 +33,7 @@ module.exports.getProducts = async (req, res, next) => {
         let numOfPage;
         let currentPage = page;
 
-        const {products, count} = await productService.queryByFilter(page, limit, brandURL, discount, keyword, range,orderBy);
+        const { products, count } = await productService.queryByFilter(page, limit, brandURL, discount, keyword, range, orderBy);
 
         numOfPage = Math.round(count / limit);
 
@@ -46,15 +46,16 @@ module.exports.getProducts = async (req, res, next) => {
             products,
             options: options,
         });
-    }catch (e){
+    } catch (e) {
         res.status(404)
         next();
     }
 
 }
 
-module.exports.showProduct = async (req, res, next) => {
-    try{
+module.exports.showProduct = async(req, res, next) => {
+    try {
+        //console.log('AAAA');
         let product_url = req.params.url;
         let product = await productService.getByURL(product_url);
         res.render('shop/productDetail', {
@@ -62,19 +63,19 @@ module.exports.showProduct = async (req, res, next) => {
             pageName: 'Product',
             product: product
         })
-    }catch (e){
+    } catch (e) {
         res.status(404);
         next();
     }
 }
 
-module.exports.getProduct = async (req, res,next) => {
-    try{
+module.exports.getProduct = async(req, res, next) => {
+    try {
         let productid = req.params.ID;
         let sizeID = req.query.size;
 
         let product = await productService.getByID(productid);
-        let size = await  sizeService.getByID(sizeID);
+        let size = await sizeService.getByID(sizeID);
 
         res.json({
             title: 'HDH Shoes',
@@ -82,14 +83,14 @@ module.exports.getProduct = async (req, res,next) => {
             product: product,
             size: size
         })
-    }catch (e) {
+    } catch (e) {
         res.status(404);
         next();
     }
 
 }
 
-module.exports.getProductRelatedController = async (req, res, next) => {
+module.exports.getProductRelatedController = async(req, res, next) => {
     try {
 
         let categoryID = req.query.categoryID;
@@ -107,7 +108,7 @@ module.exports.getProductRelatedController = async (req, res, next) => {
 
 }
 
-module.exports.getBrands = async (req, res,next) => {
+module.exports.getBrands = async(req, res, next) => {
     try {
         const brands = await brandService.getList();
         res.json(brands);
@@ -119,7 +120,7 @@ module.exports.getBrands = async (req, res,next) => {
 
 }
 
-module.exports.saveCommentController = async (req, res) => {
+module.exports.saveCommentController = async(req, res) => {
     let productid = req.body.productID;
     let commentGuest = JSON.parse(req.body.comment);
     // console.log(req.body)
@@ -136,7 +137,7 @@ module.exports.saveCommentController = async (req, res) => {
 }
 
 
-module.exports.getComments = async (req, res) => {
+module.exports.getComments = async(req, res) => {
 
     try {
         const prodID = req.params.product_id;
@@ -148,24 +149,24 @@ module.exports.getComments = async (req, res) => {
     }
 }
 
-module.exports.saveRatingController = async (req,res)=>{
+module.exports.saveRatingController = async(req, res) => {
     const rating = JSON.parse(req.body.rating);
     const user_id = req.user._id;
     // console.log(rating)
-    try{
+    try {
         await ratingService.saveRating(user_id, rating);
         res.status(201).send("Rating successfully")
-    }catch (e) {
+    } catch (e) {
         // console.log(e)
         res.status(500).send("Rating fail");
     }
 }
-module.exports.getReview = async (req, res) => {
+module.exports.getReview = async(req, res) => {
 
     try {
         const prodID = req.params.product_id;
-        const page = req.query.page?req.query.page:1;
-        let reviews = await ratingService.getReviews(prodID,page);
+        const page = req.query.page ? req.query.page : 1;
+        let reviews = await ratingService.getReviews(prodID, page);
 
         res.json(reviews);
     } catch (e) {
@@ -174,19 +175,17 @@ module.exports.getReview = async (req, res) => {
     }
 }
 
-module.exports.updateQtyController = async (req, res)=>{
-    try{
+module.exports.updateQtyController = async(req, res) => {
+    try {
         const productID = req.query.product_id;
         const size_id = req.query.size_id;
         const qty = req.query.qty;
-        await productService.decreaseProductRemain(productID,size_id,qty);
+        await productService.decreaseProductRemain(productID, size_id, qty);
 
         res.status(203).send()
-    }
-    catch (e) {
+    } catch (e) {
         // console.log(e)
         res.status(500).send()
     }
 
 }
-
