@@ -116,7 +116,7 @@ $(window).ready(function () {
             data,
             success: function () {
                 showMessage('Added an address', false);
-                addresses.renderOptionsAddress();
+                addresses.updateData();
             },
             error: function () {
                 showMessage('Added address fail', true)
