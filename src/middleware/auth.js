@@ -32,6 +32,6 @@ module.exports.checkBuyProduct = async (req,res,next)=>{
 
         return res.status(500).send({message:'Please buy product before!!!'});
     }
-    return res.status(500).send({message:'Please buy sign before!!!'});
+    return res.status(500).send({message:'Please sign-in before!!!'});
 }
 

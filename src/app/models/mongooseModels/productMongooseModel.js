@@ -10,18 +10,23 @@ const Product = new Schema({
         price_value: {type: Number},
         price_currency: {type: String},
     },
-    flash_sell: {type: Boolean},
-    discount: {type: Number},
-    images_detail_url: {type: Array},
-    image_show_url: {type: String},
-    color: {type: String},
-    description: {type: String},
-    product_detail: {type: Object},
-    brand_id: {type: Schema.Types.ObjectId, ref: "Brand"},
-    category_id: {type: Schema.Types.ObjectId, ref: "Category"}
+    flash_sell: { type: Boolean },
+    discount: { type: Number },
+    images_detail_url: { type: Array },
+    image_show_url: { type: String },
+    color: { type: String },
+    description: { type: String },
+    product_detail: { type: Object },
+    brand_id: { type: Schema.Types.ObjectId, ref: "Brand" },
+    category_id: { type: Schema.Types.ObjectId, ref: "Category" },
+    views: {type: Number, default:0},
+    purchase_count:{type: Number, default:0},
+    rating_avg:{type: Number, default:0}
+
+
 }, {
     timestamps: true,
 });
 
-Product.index({name: 'text'});
-module.exports = mongoose.model('Product', Product);
+Product.index({ name: 'text' });
+module.exports = mongoose.model('Shoes', Product);

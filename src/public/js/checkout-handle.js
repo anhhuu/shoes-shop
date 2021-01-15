@@ -3,7 +3,7 @@ $(document).ready(function () {
     const carts = JSON.parse(window.localStorage.getItem("cart"));
     let totalCost = 0;
     carts.map((cartItem, index) => {
-        totalCost += cartItem.product.price.price_value * cartItem.qty;
+        totalCost += cartItem.product.price.price_value * cartItem.qty*(1-cartItem.product.discount);
         html += `<tr class="rem1">
                         <td class="invert">${+index + +1}</td>
                         <td class="invert-image"><a href="#"><img style="width: 50px; height: 50px" src=${cartItem.product.image_show_url} alt="${cartItem.product.name}" class="img-responsive"></a></td>
@@ -20,8 +20,7 @@ $(document).ready(function () {
                         <td class="invert">${Intl.NumberFormat('vi-VN', {
             style: 'currency',
             currency: 'VND'
-        })
-            .format(cartItem.product.price.price_value * cartItem.qty).slice(1)}&#x20ab;</td>
+        }).format(cartItem.product.price.price_value * cartItem.qty*(1-cartItem.product.discount))}</td>
                     </tr>`
     })
     html += `<tr class="rem1">
@@ -56,7 +55,7 @@ $('#order').click(function () {
         itemInfo.product_id = item.product._id;
         itemInfo.qty = item.qty;
         itemInfo.size_id = item.size._id;
-        itemInfo.cost = item.qty * (+item.product.price.price_value);
+        itemInfo.cost = item.qty * (+item.product.price.price_value)*(1-item.product.discount);
         totalFee += itemInfo.cost;
         items.push(itemInfo);
     })
@@ -74,8 +73,16 @@ $('#order').click(function () {
         }).done(function () {
 
             window.localStorage.setItem("cart", JSON.stringify([]));
-            window.alert("Successfully Order");
+            //window.alert("Successfully Order");
+            $('#message').html(
+                ' <div class="alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                '        Đặt hàng thành công!' +
+                '        <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                '            <span aria-hidden="true">&times;</span>\n' +
+                '        </button>\n' +
+                '    </div>');
             window.location.replace("/products")
+
 
         })
     }

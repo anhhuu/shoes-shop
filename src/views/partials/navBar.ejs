@@ -58,7 +58,58 @@
 
 
 </div>
+<div class="modal" id="my-cart" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-end" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cart</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive tableFixHead">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Option</th>
+                                    <th scope="col">Available</th>
+                                    <th scope="col" class="text-center">Quantity</th>
+                                    <th scope="col" class="text-right">Price</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody id="cart-table">
 
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col mb-2">
+                        <div class="modal-footer">
+
+                            <div class="d-flex justify-content-start">
+                                <button class="btn btn-block btn-danger" id="continue"
+                                        data-dismiss="modal">Continue Shopping
+                                </button>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <a class="btn btn-block btn-success text-uppercase"
+                                   href="/checkout" id="btn-checkout">Checkout</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $('#user-avatar').click(function (e) {
         window.location.replace('/users/login')

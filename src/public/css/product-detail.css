@@ -1,4 +1,37 @@
 p span {
     text-decoration: line-through;
     color: #dc143c;
+    font-size: 14px;
+    font-weight: bold;
+
+}
+
+.price-detail{
+    font-weight: bold;
+    font-size: 20px !important;
+    color: #00B7FF;
+    font-family: Verdana, Arial, sans-serif;
+}
+
+p h4{
+    display: inline;
+}
+
+.add-cart{
+    display:inline;
+    padding: 5px;
+    margin-bottom: 3px;
+}
+
+.img-detail{
+    display: grid !important;
+    grid-template-columns: repeat(2,1fr);
+    grid-gap: 5px;
+    margin: 0 auto !important;
+}
+
+.img-detail img{
+    width: 100%;
+    height: 700px;
+    object-fit: cover;
 }

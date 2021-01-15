@@ -22,10 +22,9 @@ module.exports.getByID = async (id) => {
 module.exports.getByURL = async (product_url) => {
     try {
         let product = await productMongooseModel.findOne({product_url: product_url});
-        if (product) {
-            product = mongooseToObject(product);
-        }
 
+        product.views += 1;
+        await product.save();
         return product;
     } catch (error) {
         throw error;

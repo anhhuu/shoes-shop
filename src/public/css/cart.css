@@ -16,39 +16,68 @@
     transform: translateX(120%);
 }
 .qty .count {
-    color: #000;
     display: inline-block;
     vertical-align: top;
-    font-size: 25px;
+    font-size: 19px;
     font-weight: 700;
-    line-height: 30px;
-    padding: 0 2px
-;min-width: 35px;
+    padding: 0 2px;
+    min-width: 32px;
+    max-width: 50px;
     text-align: center;
+    border-radius: 10%;
 }
 .qty .plus {
     cursor: pointer;
     display: inline-block;
     vertical-align: top;
     color: white;
+    background-color: green !important;
     width: 30px;
     height: 30px;
     font: 30px/1 Arial,sans-serif;
     text-align: center;
-    border-radius: 50%;
+    border-radius: 15%;
+
 }
 .qty .minus {
     cursor: pointer;
     display: inline-block;
     vertical-align: top;
     color: white;
+    background-color: crimson !important;
     width: 30px;
     height: 30px;
     font: 30px/1 Arial,sans-serif;
     text-align: center;
-    border-radius: 50%;
     background-clip: padding-box;
+    border-radius: 15%;
 }
+.btn-add {
+    box-shadow:inset 0px 1px 0px 0px #bbdaf7;
+    background:linear-gradient(to bottom, #79bbff 5%, #378de5 100%);
+    background-color:#79bbff;
+    border-radius:6px;
+    border:1px solid #84bbf3;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:15px;
+    font-weight:bold;
+    padding:6px 24px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #528ecc;
+}
+.btn-add:hover {
+    background:linear-gradient(to bottom, #378de5 5%, #79bbff 100%);
+    background-color:#378de5;
+}
+.btn-add:active {
+    position:relative;
+    top:1px;
+}
+
+
 
 /*Prevent text selection*/
 span{
@@ -78,10 +107,12 @@ input:disabled{
 
 .cart-show{
     transform: translateX(0%);
+    transition: 2s;
 }
 
 .cart-hidden{
     transform: translateX(100%);
+    transition: 2s;
 }
 
 
