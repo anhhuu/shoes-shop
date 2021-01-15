@@ -21,19 +21,42 @@
 
 <% if(user){ %>
     <% if(options.load_cart){ %>
+
         <input type="hidden" id="user-cart" value="<%= JSON.stringify(cart) %>">
         <script>
             const cart = JSON.parse($('#user-cart').val()).cart.cart_detail;
             $('#user-cart').remove();
             let existedCart = window.localStorage.getItem("cart");
             existedCart = JSON.parse(existedCart) || [];
+            console.log("existedCart")
+            console.log(existedCart)
+            console.log("cart");
+            console.log(cart);
 
-            if (existedCart.length !== 0) {
-                existedCart = [...existedCart, ...cart]
-            } else {
-                existedCart = cart;
-            }
-            window.localStorage.setItem("cart", JSON.stringify(existedCart));
+
+            let result = []
+            cart.map((dataCart) => {
+                let isHas = false;
+                existedCart.map(cartItems=>{
+
+                    if (dataCart.product._id === cartItems.product._id && dataCart.size._id === cartItems.size._id) {
+                        cartItems.qty += +dataCart.qty;
+                        isHas = true
+                        result.push(cartItems)
+                    }
+                    console.log("dataCart at")
+                    console.log(dataCart)
+
+                })
+
+                if (!isHas) {
+                    result.push({product: dataCart.product, size: dataCart.size, qty: +dataCart.qty});
+                }
+
+            })
+
+
+            window.localStorage.setItem("cart", JSON.stringify(result));
             window.history.pushState("","Home ",'/');
         </script>
     <% } %>

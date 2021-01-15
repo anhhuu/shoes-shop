@@ -8,18 +8,38 @@ const showDetailInvoice = function (invoiceID){
         data.invoice_items.map((item,index)=>{
             html+=`    <tr>
                             <th scope="row">${index+1}</th>
-                            <td class="text-center"><a href="/products/${item.product.product_url}" target="_blank"><img src="${item.product.image_show_url}" alt="" width="100" height="100"></a></td>
-                            <td class="text-center"><a href="/products/${item.product.product_url}" target="_blank">${item.product.name}</a></td>
+                            <td class="text-center"><a href="/products/${item.product.product_url}" 
+                                target="_blank"><img src="${item.product.image_show_url}" 
+                                alt="" width="100" height="100"></a></td>
+                            <td class="text-center"><a href="/products/${item.product.product_url}" 
+                            target="_blank">${item.product.name}</a></td>
+                            
                             <td class="text-center">${item.size}</td>
                             <td class="text-center">${item.qty}</td>
-                            <td class="text-center">${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.product.price.price_value*(1-item.product.discount))}</td>
-                            <td class="text-center"><p>${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.qty*item.product.price.price_value*(1-item.product.discount))}</p></td>
+                            <td class="text-center">${new Intl.NumberFormat('vi-VN', 
+                                                                { style: 'currency', currency: 'VND' })
+                                .format(item.product.price.price_value*(1-item.product.discount))}
+                            </td>
+                            <td class="text-center"><p>${new Intl.NumberFormat('vi-VN', 
+                                                                        { style: 'currency', currency: 'VND' })
+                                .format(item.qty*item.product.price.price_value*(1-item.product.discount))}</p>
+                            </td>
                         </tr>
                         `
         })
         console.log(html)
         $('#body-invoice-detail').html(html).animate({height:'show'},"slow")
     })
+}
+
+const showDeleteNotif = function (invoiceID, pageCur){
+    let page = $('#page-cur').text()? $('#page-cur').text(): 1;
+    $('#body-invoice-notif').html(`<h4>IS YOU MAKE SURE CANCEL THIS INVOICE?</h4>`)
+    $('#footer-invoice-notif').html(`<button type="button" data-dismiss="modal" 
+            onclick="deleteInvoice('${invoiceID}','${page}')" class="btn btn-secondary">Cancel invoice</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+`)
+
 }
 
 const deleteInvoice = function(invoiceID, pageCur){
@@ -45,7 +65,8 @@ const pagination = function (page){
         let pages = data.pages
         console.log(data)
         data.invoices.map((invoice,index)=>{
-            const priceFormat = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(invoice.totalFee)
+            const priceFormat = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
+                .format(invoice.totalFee)
             const dateFormat = (new Date(invoice.createdAt)).toLocaleString();
             html+=`<tr>
                             <th scope="row">${index+1}</th>
@@ -57,13 +78,15 @@ const pagination = function (page){
                             <td>${dateFormat}</td>`
 
             if(invoice.status==='UNVERIFIED'){
-                html+= `<td><button class=" btn btn-danger fa-trash fa w-100 h-100" onclick="deleteInvoice('${invoice._id}','${+page}')"></button></td>`}
+                html+= `<td><button class=" btn btn-danger fa-trash fa w-100 h-100" data-toggle="modal"
+ data-target="#isDeleteInvoiceNotif" onclick="showDeleteNotif('${invoice._id}','${+page}')"></button></td>`}
             else{
                 html+=` <td><button class=" btn btn-danger fa-trash fa w-100 h-100 " disabled></button></td>`
             }
 
-            html+= `<td><button class="btn btn-primary" data-toggle="modal" data-target="#idCenter" onclick="showDetailInvoice('${invoice._id}')">Detail </button></td>
-                        </tr>`
+            html+= `<td><button class="btn btn-primary" data-toggle="modal" data-target="#idCenter"
+                        onclick="showDetailInvoice('${invoice._id}')">Detail </button></td>
+                    </tr>`
         })
         $('#body-invoices').html(html);
 

@@ -12,56 +12,77 @@ $('#logout').click(function (){
 
 })
 
-const showCart = function() {
-    (window.localStorage.getItem("cart")?JSON.parse(window.localStorage.getItem("cart")):window.localStorage.setItem("cart",JSON.stringify([])));
-    const cart=JSON.parse(window.localStorage.getItem("cart"));
-    convertHTML(cart)
-    console.log("Show");
-}
+
 //jQuery use to update and show cart
 $('#add-to-cart').submit(function (event) {
     event.preventDefault();
     let URL = '/api/products/'
     const productID = $('[name="idProduct"]').val();
     const sizeID = $('[name = "size"]:checked').val();
-    const color = $('[name = "color"]:checked').val();
     const qty = $('[name = "qty"]').val();
 
     URL += productID + '?size=' + sizeID;
 
     (window.localStorage.getItem("cart") ? JSON.parse(window.localStorage.getItem("cart")) : window.localStorage.setItem("cart", JSON.stringify([])));
-    const cart = JSON.parse(window.localStorage.getItem("cart"));
+    let cart = JSON.parse(window.localStorage.getItem("cart"));
 
     $.get(URL, function (data) {
         let isHas = false;
-        cart.map((dataCart) => {
+        let isSuccess = true;
+        cart = cart.map((dataCart) => {
             if (dataCart.product._id === data.product._id && dataCart.size._id === data.size._id) {
-                dataCart.qty += +qty;
+                const remain = $('#remain').text();
                 isHas = true
+                if (+remain>=+dataCart.qty+ +qty){
+                    dataCart.qty += +qty;
+                    isSuccess = true
+                }
+                else {
+                    isSuccess = false
+                }
+
             }
-            console.log(typeof dataCart.product._id)
+            return dataCart
         })
         if (!isHas) {
             cart.push({product: data.product, size: data.size, qty: +qty});
         }
-
-        window.localStorage.setItem("cart",JSON.stringify(cart))
-        //window.alert("Successfully add item!")
-
+        console.log(cart)
         convertHTML(cart);
-        $('#message').html(
-            ' <div class="alert alert-danger alert-dismissible fade show" role="alert">\n' +
-            '        Thêm vào giỏ hàng thành công!' +
-            '        <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
-            '            <span aria-hidden="true">&times;</span>\n' +
-            '        </button>\n' +
-            '    </div>').animate({opacity: '1'}, "slow");
+        if (isSuccess){
+            window.localStorage.setItem("cart",JSON.stringify(cart))
+            //window.alert("Successfully add item!")
+            $('#message').html(
+                ' <div class="alert alert-success alert-dismissible fade show" role="alert">\n' +
+                '        Add cart successfully!' +
+                '        <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                '            <span aria-hidden="true">&times;</span>\n' +
+                '        </button>\n' +
+                '    </div>').animate({opacity: '1'}, "slow");
 
-        setTimeout( function (){$('#message').animate({opacity: '0.1'}, "slow").html('')},1000)
+            setTimeout( function (){$('#message').animate({opacity: '0.1'}, "slow").html('')},1000)
+        }
+        else{
+            $('#message').html(
+                ' <div class="alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                '        No enough amount to add cart!' +
+                '        <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                '            <span aria-hidden="true">&times;</span>\n' +
+                '        </button>\n' +
+                '    </div>').animate({opacity: '1'}, "slow");
+
+            setTimeout( function (){$('#message').animate({opacity: '0.1'}, "slow").html('')},1000)
+
+        }
 
     })
 })
-
+const showCart = function() {
+    (window.localStorage.getItem("cart")?JSON.parse(window.localStorage.getItem("cart")):window.localStorage.setItem("cart",JSON.stringify([])));
+    const cart=JSON.parse(window.localStorage.getItem("cart"));
+    convertHTML(cart)
+    console.log("Show");
+}
 const removeCartItem = function (idProd, idSize) {
 
     const cart = JSON.parse(window.localStorage.getItem("cart"));
@@ -70,10 +91,96 @@ const removeCartItem = function (idProd, idSize) {
     cart.splice(index, 1)
     console.log(cart)
     window.localStorage.setItem("cart", JSON.stringify(cart))
-
     convertHTML(cart);
 
 }
+const plusItemCart = function (idProd, idSize) {
+    console.log("ggg")
+    const cart = JSON.parse(window.localStorage.getItem("cart"));
+    const index = cart.findIndex(x => x.product._id === idProd && x.size._id === idSize)
+    console.log(idSize)
+    console.log(index)
+
+    $.get('/api/products/'+idProd, function (data){
+        let success = false;
+        data.product.product_detail.map((sizedata) => {
+            if (sizedata.size_id === idSize) {
+                if (sizedata.remaining_amount>cart[index].qty){
+                    cart[index].qty += 1;
+                    window.localStorage.setItem("cart", JSON.stringify(cart))
+                    let id  = 'qty-cart-'+ cart[index].product._id+cart[index].size._id;
+                    console.log("Hello")
+                    // $(`input[id="${id}"]`).val(cart[index].qty)
+                    convertHTML(cart)
+                    success = true;
+                    $('#message-cart').html(
+                        ' <div class="alert alert-success alert-dismissible fade show" role="alert">\n' +
+                        '        Successfully!' +
+                        '        <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                        '            <span aria-hidden="true">&times;</span>\n' +
+                        '        </button>\n' +
+                        '    </div>').animate({opacity: '1'}, "slow");
+
+                    setTimeout( function (){$('#message-cart').animate({opacity: '0.1'}, "slow").html('')},1000)
+
+                }
+            }
+        })
+        if (!success){
+            $('#message-cart').html(
+                ' <div class="alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                '        Add fail!' +
+                '        <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                '            <span aria-hidden="true">&times;</span>\n' +
+                '        </button>\n' +
+                '    </div>').animate({opacity: '1'}, "slow");
+
+            setTimeout( function (){$('#message-cart').animate({opacity: '0.1'}, "slow").html('')},1000)
+
+        }
+
+
+    })
+
+
+}
+const minusItemCart = function (idProd, idSize) {
+
+    const cart = JSON.parse(window.localStorage.getItem("cart"));
+    const index = cart.findIndex(x => x.product._id === idProd && x.size._id === idSize)
+    let isIncrease = false;
+    if (cart[index].qty>1){
+        cart[index].qty -= 1;
+        window.localStorage.setItem("cart", JSON.stringify(cart))
+        $('#message-cart').html(
+            ' <div class="alert alert-success alert-dismissible fade show" role="alert">\n' +
+            '        Successfully!' +
+            '        <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+            '            <span aria-hidden="true">&times;</span>\n' +
+            '        </button>\n' +
+            '    </div>').animate({opacity: '1'}, "slow");
+
+        setTimeout( function (){$('#message-cart').animate({opacity: '0.1'}, "slow").html('')},1000)
+        isIncrease=true;
+    }
+
+
+    convertHTML(cart);
+    if (!isIncrease){
+        $('#message-cart').html(
+            ' <div class="alert alert-danger alert-dismissible fade show" role="alert">\n' +
+            '        Minus fail!' +
+            '        <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+            '            <span aria-hidden="true">&times;</span>\n' +
+            '        </button>\n' +
+            '    </div>').animate({opacity: '1'}, "slow");
+
+        setTimeout( function (){$('#message-cart').animate({opacity: '0.1'}, "slow").html('')},1000)
+    }
+
+}
+
+
 
 
 const convertHTML = function (cart) {
@@ -86,7 +193,15 @@ const convertHTML = function (cart) {
                                         <td>${dataCart.product.name}</td>
                                         <td>${dataCart.size.text}</td>
                                         <td>In stock</td>
-                                        <td><input class="form-control" type="text" value="${dataCart.qty}" width="50px" /></td>
+                                        <td>
+                                            <div class="qty d-flex justify-content-center">
+                                                <span class="minus bg-dark" href="#" onclick="minusItemCart('${dataCart.product._id}','${dataCart.size._id}')">-</span>
+                                                <input class="form-control count" type="text" name="cart-qty" readonly 
+                                                        id="qty-cart-${dataCart.product._id + dataCart.size._id }" value="${dataCart.qty}"  />
+                                                <span class="plus bg-dark " href="#" onclick="plusItemCart('${dataCart.product._id}','${dataCart.size._id}')">+</span>
+                                            </div>
+                                         </div>
+                                        </td>
                                         <td class="text-right">${Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(dataCart.product.price.price_value*(1-dataCart.product.discount))}</td>
                                         <td class="text-right"><button class="btn btn-sm btn-danger" onclick="removeCartItem('${dataCart.product._id}','${dataCart.size._id}')"><i class="fa fa-trash"></i> </button> </td>
                                     </tr>`

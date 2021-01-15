@@ -20,7 +20,7 @@ const getCache = require('../../../config/redis');
  */
 module.exports.getProducts = async (req, res, next) => {
     try{
-        let limit = 12;
+        let limit = 24;
         let page = req.query.page ? +req.query.page : 1;
 
 

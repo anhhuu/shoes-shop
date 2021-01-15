@@ -258,31 +258,40 @@ module.exports.getProductRelated = async (categoryID, brandID, price) => {
 
 module.exports.decreaseProductRemain = async (productID, sizes) => {
     try {
-
-
+        let isSuccessfully = true
         const updateRemain = await productMongooseModel.findOne({_id: productID}).lean();
 
         let product_detail = updateRemain.product_detail;
-
 
         product_detail = product_detail.map(size => {
             const index = sizes.findIndex(item => size.size_id.toString() === item.size_id);
 
             if (index >= 0) {
                 size.remaining_amount -= +sizes[index].qty;
+                if (size.remaining_amount<0){
+                    isSuccessfully= false;
+                }
+
             }
             console.log(size)
             return size;
         });
 
-        const result = await productMongooseModel.findOneAndUpdate({_id: productID}, {
-            product_detail
-        })
+        if (isSuccessfully){
+            const result = await productMongooseModel.findOneAndUpdate({_id: productID}, {
+                product_detail
+            })
+            return result
+        }
+        else{
+            const result = {message: "Not enough product in stock"};
+            return result
+        }
 
 
         //     }
         // })
-        return result
+
 
 
     } catch (e) {
