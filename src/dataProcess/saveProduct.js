@@ -61,8 +61,9 @@ saveData = async() => {
             product.price = product.price.old_price;
         }
         product.discount = discount;
-        console.log('discount: ' + discount);
-        console.log('price: ' + product.price.price_value);
+        products.rating_avg = 0;
+        products.views = 0;
+        products.purchase_count = 0;
         product.product_detail = product_detail;
         product.description = "";
 

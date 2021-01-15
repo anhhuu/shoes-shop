@@ -17,6 +17,9 @@ const Product = new Schema({
     color: { type: String },
     description: { type: String },
     product_detail: { type: Object },
+    rating_avg: { type: Number },
+    views: { type: Number },
+    purchase_count: { type: Number },
     brand_id: { type: Schema.Types.ObjectId, ref: "Brand" },
     category_id: { type: Schema.Types.ObjectId, ref: "Category" }
 }, {
@@ -24,4 +27,4 @@ const Product = new Schema({
 });
 
 Product.index({ name: 'text' });
-module.exports = mongoose.model('Product', Product);
+module.exports = mongoose.model('Shoes', Product);
