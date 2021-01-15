@@ -15,7 +15,7 @@ module.exports.checkout = async(req, res) => {
     res.render('checkout/checkout', {
         title: 'Checkout - HDH Shoes',
         pageName: 'Shop',
-        user: userInfo,
+        account: userInfo,
         provinces: province
     });
 }
