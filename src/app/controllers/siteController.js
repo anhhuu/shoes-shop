@@ -50,6 +50,8 @@ module.exports.index = async (req, res, next) => {
             });
 
         }
+
+
         res.render('index', {
             layout: 'layouts/homePage',
             title: 'Home',
