@@ -30,27 +30,54 @@
     existedCart = JSON.parse(existedCart) || [];
 
     let result = []
-    cart.map((dataCart) => {
-        let isHas = false;
+    if (cart.length>0){
+        cart.map((dataCart) => {
+            let isHas = false;
+            existedCart.map(cartItems => {
+
+                if (dataCart.product._id === cartItems.product._id && dataCart.size._id === cartItems.size
+                    ._id) {
+                    cartItems.qty += +dataCart.qty;
+                    isHas = true
+                    result.push(cartItems)
+                }
+            })
+
+            if (!isHas) {
+                result.push({
+                    product: dataCart.product,
+                    size: dataCart.size,
+                    qty: +dataCart.qty
+                });
+            }
+
+        })
+    }else
+    {
         existedCart.map(cartItems => {
 
-            if (dataCart.product._id === cartItems.product._id && dataCart.size._id === cartItems.size
-                ._id) {
-                cartItems.qty += +dataCart.qty;
-                isHas = true
-                result.push(cartItems)
+            let isHas = false;
+            cart.map((dataCart) => {
+
+                if (dataCart.product._id === cartItems.product._id && dataCart.size._id === cartItems.size
+                    ._id) {
+                    dataCart.qty += +cartItems.qty;
+                    isHas = true
+                    result.push(dataCart)
+                }
+            })
+
+            if (!isHas) {
+                result.push({
+                    product: cartItems.product,
+                    size: cartItems.size,
+                    qty: +cartItems.qty
+                });
             }
+
         })
+    }
 
-        if (!isHas) {
-            result.push({
-                product: dataCart.product,
-                size: dataCart.size,
-                qty: +dataCart.qty
-            });
-        }
-
-    })
 
     window.localStorage.setItem("cart", JSON.stringify(result));
     window.history.pushState("", "Home ", '/');

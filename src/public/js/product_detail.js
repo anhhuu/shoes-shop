@@ -47,7 +47,7 @@ $('#comment-form').submit(function (event) {
         comment.createdAt = new Date();
 
         $.post('/api/products/comment', {productID: productID, comment: JSON.stringify(comment)}).done(function (data) {
-            commentSocket($("#guestname").val(), $("#content-comment").val(), comment.createdAt)
+            commentSocket($("#guestname").val(), $("#content-comment").val(), comment.createdAt,comment.img)
         })
     }).fail(function (){
         let comment = {};
@@ -454,6 +454,7 @@ $('#minus-qty').click(function () {
 socket.emit("join-room", `comments/${$('[name="idProduct"]').val()}`);
 
 socket.on(`comments/${$('[name="idProduct"]').val()}`, ({name, message, date}) => {
+
     const SeenComment = $('#show-comments');
     if (SeenComment.text()==='View comment'){
         loadComment($('[name="idProduct"]').val(),1);
