@@ -40,93 +40,90 @@
             <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 <span style="color: white"><i aria-hidden="true">
-                        <img src="<%=!user.avatar_image_url?'/image/b1.png':user.avatar_image_url%>"
+                        <img src="<%=!user.avatar_image_url?'/images/avatar.png':user.avatar_image_url%>"
                             style="width:36px; height: 36px" alt="">
-                        <%if(!user.avatar_image_url){%>
-                        <span class="fa fas-user" />
-                        <%}%>
-                        </i></span>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="/users/invoices">Invoice Management</a></li>
-                    <li><a class="dropdown-item" href="/users/profile">Profile</a></li>
-                    <li><a class="dropdown-item" href="/users/logout" id="logout">Logout</a></li>
-                </ul>
-            </div>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-                    integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-                    crossorigin="anonymous"></script>
-        <% } else{ %>
-                        <div id="user-avatar">
-                            <a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
-                        </div>
-                        <% } %>
+                    </i></span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item" href="/users/invoices">Invoice Management</a></li>
+                <li><a class="dropdown-item" href="/users/profile">Profile</a></li>
+                <li><a class="dropdown-item" href="/users/logout" id="logout">Logout</a></li>
+            </ul>
         </div>
-
-
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
+        </script>
+        <% } else{ %>
+        <div id="user-avatar">
+            <a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
+        </div>
+        <% } %>
     </div>
-    <div class="modal" id="my-cart" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-end" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Cart</h5>
-                    <button type="button" id="btn-close-cart" class="close" data-dismiss="modal" aria-label="Close">
-                        &times;
-                    </button>
 
-                </div>
 
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="table-responsive tableFixHead">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col"></th>
-                                            <th scope="col">Product</th>
-                                            <th scope="col">Option</th>
-                                            <th scope="col">Available</th>
-                                            <th scope="col" class="text-center">Quantity</th>
-                                            <th scope="col" class="text-right">Price</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="cart-table"></tbody>
-                                </table>
-                            </div>
+</div>
+<div class="modal" id="my-cart" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-end" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cart</h5>
+                <button type="button" id="btn-close-cart" class="close" data-dismiss="modal" aria-label="Close">
+                    &times;
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive tableFixHead">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col">Product</th>
+                                        <th scope="col">Option</th>
+                                        <th scope="col">Available</th>
+                                        <th scope="col" class="text-center">Quantity</th>
+                                        <th scope="col" class="text-right">Price</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cart-table"></tbody>
+                            </table>
                         </div>
+                    </div>
 
-                        <div class="col mb-2">
-                            <div class="modal-footer">
+                    <div class="col mb-2">
+                        <div class="modal-footer">
 
-                                <div class="d-flex justify-content-start">
-                                    <button class="btn btn-block btn-danger" id="continue" data-dismiss="modal">Continue
-                                        Shopping
-                                    </button>
-                                </div>
-                                <div class="d-flex justify-content-end">
-                                    <a class="btn btn-block btn-success text-uppercase" href="/checkout"
-                                        id="btn-checkout">Checkout</a>
-                                </div>
-
+                            <div class="d-flex justify-content-start">
+                                <button class="btn btn-block btn-danger" id="continue" data-dismiss="modal">Continue
+                                    Shopping
+                                </button>
                             </div>
+                            <div class="d-flex justify-content-end">
+                                <a class="btn btn-block btn-success text-uppercase" href="/checkout"
+                                    id="btn-checkout">Checkout</a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
-                <div id="message-cart">
+            </div>
+            <div id="message-cart">
 
-                </div>
             </div>
         </div>
     </div>
-    <script>
-        $('#user-avatar').click(function (e) {
-            window.location.replace('/users/login')
-        })
-        $('#btn-close-cart').click(function () {
-            $('#my-cart').modal('hide');
-        })
-    </script>
-    <!-- //nav bar -->
-    <script src="/js/nav_bar_script.js"></script>
+</div>
+<script>
+    $('#user-avatar').click(function (e) {
+        window.location.replace('/users/login')
+    })
+    $('#btn-close-cart').click(function () {
+        $('#my-cart').modal('hide');
+    })
+</script>
+<!-- //nav bar -->
+<script src="/js/nav_bar_script.js"></script>
