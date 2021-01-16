@@ -32,10 +32,9 @@ $(window).ready(function () {
             if (pass2.length < MIN_LENGTH) {
                 canSubmit = false;
                 showError('Password must have at least ' + MIN_LENGTH + ' characters', '#password2-err');
-
             }
 
-            if(pass2 === pass1 && pass1 && pass2 && pass1>=MIN_LENGTH){
+            if (pass2 === pass1 && pass1 && pass2 && pass1 >= MIN_LENGTH) {
                 canSubmit = true;
             }
 
@@ -50,6 +49,17 @@ $(window).ready(function () {
             showError('Cannot submit the form please check for validation', 'form-error')
         }
     });
+
+    setTimeout(() => {
+
+        const pass1 = $('#password').val()
+        const pass2 = $('#retypePassword').val();
+
+        if (pass2 === pass1 && pass1 && pass2 && pass1 >= MIN_LENGTH) {
+            canSubmit = true;
+        }
+
+    }, 300)
 });
 
 
